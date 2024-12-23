@@ -18,6 +18,7 @@
       min-height: 100vh;
       flex-direction: column;
     }
+
     .box {
       background-color: rgba(0, 0, 0, 0.7);
       border-radius: 10px;
@@ -28,6 +29,7 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
       position: relative;
     }
+
     .icon {
       position: absolute;
       top: -20px;
@@ -36,94 +38,152 @@
       width: 40px;
       height: 40px;
     }
+
     .score {
       font-size: 1.5em;
       margin: 10px 0;
     }
+
     .date-ended {
       margin-top: 10px;
       font-size: 1em;
     }
+
     .live-countdown {
       font-size: 1em;
       color: lightgreen;
+    }
+
+    /* Loading animation */
+    .loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2em;
+      color: white;
+      display: none;
     }
   </style>
 </head>
 <body>
 
+  <div id="loading" class="loading">Loading...</div>
   <div id="game-results"></div>
 
   <script>
     const iconUrl = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/favicon.ico';
     const apiUrl = 'https://storage.googleapis.com/hades-star-public-xq8f-d4rg-v0d9';
+    const corsProxy = 'https://cors-anywhere.herokuapp.com/';
+    const loadingElement = document.getElementById('loading');
 
-    async function fetchData() {
+    let gameResults = [];
+
+    async function fetchData(isFirstLoad = false) {
       try {
-        const response = await fetch(apiUrl);
+        console.log('Fetching data from the server...');
+        
+        // Show loading animation only for the first load
+        if (isFirstLoad) {
+          loadingElement.style.display = 'block';
+        }
+        
+        const response = await fetch(corsProxy + apiUrl, {
+          method: 'GET',
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+        });
+
         const xmlText = await response.text();
+        console.log('Raw XML response:', xmlText);
+
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlText, "application/xml");
-        
+
         const contents = xmlDoc.getElementsByTagName('Contents');
-        
-        const gameResults = [];
-        
+        console.log(`Found ${contents.length} game results.`);
+
+        // Fetching the results and displaying them immediately
+        const resultsContainer = document.getElementById('game-results');
         for (const content of contents) {
           const key = content.getElementsByTagName('Key')[0].textContent;
-          const jsonResponse = await fetch(`${apiUrl}/${key}`);
+          console.log(`Fetching details for game: ${key}`);
+
+          const jsonResponse = await fetch(corsProxy + apiUrl + '/' + key, {
+            method: 'GET',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+            },
+          });
           const jsonData = await jsonResponse.json();
+          console.log('Fetched game data:', jsonData);
 
           gameResults.push(jsonData);
+
+          // Display the result immediately
+          displayResult(jsonData);
         }
 
-        displayResults(gameResults);
+        // Once the initial data is displayed, sort the results
+        sortAndUpdateDisplay();
       } catch (error) {
         console.error('Error fetching or processing data:', error);
+      } finally {
+        // Hide loading animation after data is fetched
+        loadingElement.style.display = 'none';
       }
     }
 
-    function displayResults(results) {
+    function displayResult(result) {
+      const box = document.createElement('div');
+      box.classList.add('box');
+
+      const icon = document.createElement('img');
+      icon.src = iconUrl;
+      icon.alt = 'Icon';
+      icon.classList.add('icon');
+      box.appendChild(icon);
+
+      const score = document.createElement('div');
+      score.classList.add('score');
+      score.textContent = `${result.Corporation1Name} ${result.Corporation1Score} - ${result.Corporation2Name} ${result.Corporation2Score}`;
+      box.appendChild(score);
+
+      const dateEnded = document.createElement('div');
+      dateEnded.classList.add('date-ended');
+      const endedDate = new Date(result.DateEnded);
+      dateEnded.textContent = `Ended on: ${endedDate.toLocaleString()}`;
+      box.appendChild(dateEnded);
+
+      const liveCountdown = document.createElement('div');
+      liveCountdown.classList.add('live-countdown');
+      box.appendChild(liveCountdown);
+
+      document.getElementById('game-results').appendChild(box);
+
+      // Update countdown every second
+      setInterval(() => updateCountdown(endedDate, liveCountdown), 1000);
+    }
+
+    function sortAndUpdateDisplay() {
+      console.log('Sorting the results...');
+      // Sort the results by DateEnded (latest first)
+      gameResults.sort((a, b) => new Date(b.DateEnded) - new Date(a.DateEnded));
+      console.log('Sorted game results by DateEnded (latest to oldest):', gameResults);
+
+      // Clear the container and redisplay the sorted results
       const resultsContainer = document.getElementById('game-results');
       resultsContainer.innerHTML = '';
 
-      results.forEach(result => {
-        const box = document.createElement('div');
-        box.classList.add('box');
-
-        const icon = document.createElement('img');
-        icon.src = iconUrl;
-        icon.alt = 'Icon';
-        icon.classList.add('icon');
-        box.appendChild(icon);
-
-        const score = document.createElement('div');
-        score.classList.add('score');
-        score.textContent = `${result.Corporation1Name} ${result.Corporation1Score} - ${result.Corporation2Name} ${result.Corporation2Score}`;
-        box.appendChild(score);
-
-        const dateEnded = document.createElement('div');
-        dateEnded.classList.add('date-ended');
-        const endedDate = new Date(result.DateEnded);
-        dateEnded.textContent = `Ended on: ${endedDate.toLocaleString()}`;
-        box.appendChild(dateEnded);
-
-        const liveCountdown = document.createElement('div');
-        liveCountdown.classList.add('live-countdown');
-        box.appendChild(liveCountdown);
-
-        resultsContainer.appendChild(box);
-
-        // Update countdown every second
-        setInterval(() => updateCountdown(endedDate, liveCountdown), 1000);
-      });
+      gameResults.forEach(result => displayResult(result));
     }
 
     function updateCountdown(endedDate, countdownElement) {
       const now = new Date();
       const timeDifference = now - endedDate;
       const timeRemaining = Math.max(0, timeDifference);
-      
+
       const seconds = Math.floor((timeRemaining / 1000) % 60);
       const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
       const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
@@ -133,11 +193,11 @@
     }
 
     // Fetch data every 16 minutes or manually with refresh command
-    setInterval(fetchData, 16 * 60 * 1000);
-    fetchData();
+    setInterval(() => fetchData(false), 16 * 60 * 1000);
+    fetchData(true);
 
     // Allow manual refresh with console command
-    window.refresh = fetchData;
+    window.refresh = () => fetchData(false);
   </script>
 
 </body>
