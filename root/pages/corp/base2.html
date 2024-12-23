@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Game Results</title>
+  <style>
+    body {
+      background-image: url('https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/BlackCitadel.jpg');
+      background-size: cover;
+      background-position: center;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    .box {
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px;
+      width: 300px;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+      position: relative;
+    }
+    .icon {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+    }
+    .score {
+      font-size: 1.5em;
+      margin: 10px 0;
+    }
+    .date-ended {
+      margin-top: 10px;
+      font-size: 1em;
+    }
+    .live-countdown {
+      font-size: 1em;
+      color: lightgreen;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="game-results"></div>
+
+  <script>
+    const iconUrl = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/favicon.ico';
+    const apiUrl = 'https://storage.googleapis.com/hades-star-public-xq8f-d4rg-v0d9';
+
+    async function fetchData() {
+      try {
+        const response = await fetch(apiUrl);
+        const xmlText = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+        
+        const contents = xmlDoc.getElementsByTagName('Contents');
+        
+        const gameResults = [];
+        
+        for (const content of contents) {
+          const key = content.getElementsByTagName('Key')[0].textContent;
+          const jsonResponse = await fetch(`${apiUrl}/${key}`);
+          const jsonData = await jsonResponse.json();
+
+          gameResults.push(jsonData);
+        }
+
+        displayResults(gameResults);
+      } catch (error) {
+        console.error('Error fetching or processing data:', error);
+      }
+    }
+
+    function displayResults(results) {
+      const resultsContainer = document.getElementById('game-results');
+      resultsContainer.innerHTML = '';
+
+      results.forEach(result => {
+        const box = document.createElement('div');
+        box.classList.add('box');
+
+        const icon = document.createElement('img');
+        icon.src = iconUrl;
+        icon.alt = 'Icon';
+        icon.classList.add('icon');
+        box.appendChild(icon);
+
+        const score = document.createElement('div');
+        score.classList.add('score');
+        score.textContent = `${result.Corporation1Name} ${result.Corporation1Score} - ${result.Corporation2Name} ${result.Corporation2Score}`;
+        box.appendChild(score);
+
+        const dateEnded = document.createElement('div');
+        dateEnded.classList.add('date-ended');
+        const endedDate = new Date(result.DateEnded);
+        dateEnded.textContent = `Ended on: ${endedDate.toLocaleString()}`;
+        box.appendChild(dateEnded);
+
+        const liveCountdown = document.createElement('div');
+        liveCountdown.classList.add('live-countdown');
+        box.appendChild(liveCountdown);
+
+        resultsContainer.appendChild(box);
+
+        // Update countdown every second
+        setInterval(() => updateCountdown(endedDate, liveCountdown), 1000);
+      });
+    }
+
+    function updateCountdown(endedDate, countdownElement) {
+      const now = new Date();
+      const timeDifference = now - endedDate;
+      const timeRemaining = Math.max(0, timeDifference);
+      
+      const seconds = Math.floor((timeRemaining / 1000) % 60);
+      const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
+      const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
+      const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+
+      countdownElement.textContent = `Live for: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    // Fetch data every 16 minutes or manually with refresh command
+    setInterval(fetchData, 16 * 60 * 1000);
+    fetchData();
+
+    // Allow manual refresh with console command
+    window.refresh = fetchData;
+  </script>
+
+</body>
+</html>
