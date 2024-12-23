@@ -1,0 +1,22 @@
+[
+    {
+        "name": "CapricanDRJ \"Hades' Star Community Data\"",
+        "redirectUrl": "https://ws.tsl.rocks/",
+        "iconUrl": "https://cdn.discordapp.com/avatars/454459089720967168/a_473b9e16d64a9a03f1d6449bed118e3f.gif?size=4096"
+    },
+    {
+        "name": "WS Community Leaderboard",
+        "redirectUrl": "https://discord.gg/p588eHaFqh",
+        "iconUrl": "https://cdn.discordapp.com/icons/800598168906760202/bf522862eab686114b70b618561b50e1.webp?size=640"
+    },
+    {
+        "name": "mentalisit \"API\"",
+        "redirectUrl": "https://ws.mentalisit.myds.me/",
+        "iconUrl": "https://cdn.discordapp.com/avatars/582882137842122773/c41d183fba78b9f49bb590a1fc8e33a9.png?size=4096"
+    },
+    {
+        "name": "R.T.S. Bot",
+        "redirectUrl": "https://discord.com/oauth2/authorize?client_id=1045060846654603305&permissions=563465416997952&response_type=code&redirect_uri=https%3A%2F%2Fx8ki-letl-twmt.n7.xano.io%2Fapi%3ACSSYcyUF%2Fauth_join%3Fkey%3D9e0279b8-d925-41c8-aeb0-d5a088f7609c&integration_type=0&scope=identify+bot",
+        "iconUrl": "https://cdn.discordapp.com/avatars/1045060846654603305/22f6600332c594ca796daf8ab12e92af.png?size=4096"
+    }
+]
