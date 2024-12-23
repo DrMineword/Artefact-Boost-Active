@@ -1,0 +1,361 @@
+console.log("Hello! The script is executing successfully.");
+
+// Check if the notification container exists, if not, create it dynamically
+const notificationContainerId = 'notification-container';
+if (!document.getElementById(notificationContainerId)) {
+    const container = document.createElement('div');
+    container.id = notificationContainerId;
+    document.body.appendChild(container);
+    console.log('Notification container created dynamically.');
+}
+
+const NOTIFICATION_URL = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/openmessage.json';
+
+async function loadNotifications() {
+    try {
+        console.log("Attempting to fetch notifications from:", NOTIFICATION_URL);
+        const response = await fetch(NOTIFICATION_URL);
+        console.log('Response Status:', response.status);
+
+        if (!response.ok) {
+            console.error(`Error fetching JSON: ${response.status} ${response.statusText}`);
+            return;
+        }
+
+        const rawText = await response.text();
+        console.log('Raw JSON Text:', rawText);
+
+        let data;
+        try {
+            data = JSON.parse(rawText);
+            console.log("Parsed JSON data successfully:", data);
+        } catch (parseError) {
+            console.warn("JSON parsing failed. Attempting to fix JSON...", parseError);
+            data = attemptFixJSON(rawText);
+            if (!data) {
+                console.error("Failed to parse and fix JSON:", parseError);
+                return;
+            }
+        }
+
+        console.log("Current UNIX Time:", Math.floor(Date.now() / 1000));
+        console.log("Fetched Notifications JSON:", data);
+
+        if (!data.data || !Array.isArray(data.data)) {
+            console.error("Invalid JSON structure: 'data' property missing or not an array.", data);
+            return;
+        }
+
+        handleNotifications(data.data);
+    } catch (error) {
+        console.error('Error fetching notifications:', error);
+    }
+}
+
+function attemptFixJSON(jsonString) {
+    try {
+        console.log("Attempting to fix malformed JSON...");
+        const fixedString = jsonString
+            .replace(/(['"])?([a-zA-Z0-9_\-]+)(['"])?\s*:/g, '"$2":')
+            .replace(/,\s*}/g, '}')
+            .replace(/,\s*]/g, ']')
+            .replace(/\s*=\s*/g, ':');
+
+        console.log("Fixed JSON string:", fixedString);
+
+        return JSON.parse(fixedString);
+    } catch (fixError) {
+        console.error("Failed to fix JSON string:", fixError);
+        return null;
+    }
+}
+
+function handleNotifications(notifications) {
+    const currentTime = Math.floor(Date.now() / 1000);
+    console.log("Current Time (UNIX):", currentTime);
+
+    const dismissedNotifications = JSON.parse(localStorage.getItem('dismissedNotifications')) || [];
+    console.log("Dismissed Notifications:", dismissedNotifications);
+
+    const cookieNotifications = notifications.filter(notification => notification.type === 'cookie');
+    const nonCookieNotifications = notifications.filter(notification => notification.type !== 'cookie');
+
+    // Check if there are any active cookie notifications that need to be shown
+    const activeCookieNotifications = cookieNotifications.filter(notification => 
+        !dismissedNotifications.includes(notification.id) && 
+        currentTime >= parseInt(notification["start-show-unix"]) && 
+        currentTime <= parseInt(notification["end-show-unix"])
+    );
+
+    console.log("Active Cookie Notifications:", activeCookieNotifications);
+
+    // If there are active cookie notifications, don't show any other notifications until dismissed
+    if (activeCookieNotifications.length > 0) {
+        console.log("Displaying cookie notifications. No other notifications will be shown until dismissed.");
+        activeCookieNotifications.forEach(notification => createNotif(notification, 'cookie', true));
+        return; // Skip showing any other notifications until cookie notifications are dismissed
+    }
+
+    // Handle the rest of the notifications (non-cookie notifications)
+    nonCookieNotifications.forEach(notification => {
+        // Skip notifications that are disabled until the specified UNIX time
+        if (notification.DisableUntil && currentTime < notification.DisableUntil) {
+            console.log(`Skipping notification (disabled until ${new Date(notification.DisableUntil * 1000).toLocaleString()}):`, notification);
+            return;
+        }
+
+        // Default type to "normal" if type is null or missing
+        const type = notification.type || "normal";
+
+        if (!notification.id || !notification["start-show-unix"] || !notification["end-show-unix"] || !notification.colors) {
+            console.warn("Skipping invalid notification object:", notification);
+            return;
+        }
+
+        const startTime = parseInt(notification["start-show-unix"]);
+        const endTime = parseInt(notification["end-show-unix"]);
+
+        if (isNaN(startTime) || isNaN(endTime)) {
+            console.warn("Skipping notification with invalid time range:", notification);
+            return;
+        }
+
+        if (
+            currentTime >= startTime &&
+            currentTime <= endTime &&
+            !dismissedNotifications.includes(notification.id)
+        ) {
+            console.log("Displaying notification:", notification);
+            createNotif(notification, type);
+        } else {
+            console.log("Skipping notification (outside valid time range or dismissed):", notification);
+        }
+    });
+}
+
+
+function createNotif(notification, type) {
+    const container = document.getElementById(notificationContainerId);
+
+    // Create a unique div for each notification
+    const notificationDiv = document.createElement('div');
+    notificationDiv.className = 'notification';
+    notificationDiv.style.backgroundColor = notification.colors[0];
+    notificationDiv.style.color = notification.colors[1];
+    notificationDiv.style.border = '1px solid #ccc';
+    notificationDiv.style.borderRadius = '10px';
+    notificationDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+    notificationDiv.style.padding = '10px';
+    notificationDiv.style.margin = '10px 0';
+    notificationDiv.style.position = 'absolute'; // Use absolute positioning for more control
+    notificationDiv.style.zIndex = '9999'; // Ensure it stays on top
+
+    // Set size for notifications with 'auto' width and restrict to 90% of screen width
+    notificationDiv.style.width = '1000px';
+    notificationDiv.style.maxWidth = '90%'; // Ensure it does not go beyond 90% of the screen width
+    notificationDiv.style.whiteSpace = 'normal'; // Allow wrapping of text
+    
+    notificationDiv.style.margin = '10px'; // Add a margin around the notification to avoid touching edges
+
+    // Check if 'html-msg' exists and is valid
+    if (notification["html-msg"]) {
+        console.log("Notification HTML Message:", notification["html-msg"]);
+    } else {
+        console.warn("No html-msg found for notification:", notification);
+    }
+
+    // Add content to the notification div only once
+    const htmlMessageDiv = document.createElement('div');
+    htmlMessageDiv.innerHTML = notification["html-msg"] || "No message available";
+
+    // Plan A: Prevent duplication by comparing innerHTML content
+    const existingText = notificationDiv.innerHTML.trim();
+    if (!existingText || existingText !== htmlMessageDiv.innerHTML.trim()) {
+        notificationDiv.appendChild(htmlMessageDiv);
+        console.log("Message added to notification:", notification["html-msg"]);
+    } else {
+        console.log("Duplicate message detected. Skipping addition.");
+    }
+
+    // Plan B: If somehow duplicates still appear, recheck by matching text content only (as a fallback)
+    const existingTextContent = notificationDiv.textContent.trim();
+    if (existingTextContent && existingTextContent === htmlMessageDiv.textContent.trim()) {
+        console.log("Plan B: Duplicate message detected by content. Skipping.");
+    } else {
+        console.log("Plan B: Message added to notification.");
+        notificationDiv.appendChild(htmlMessageDiv);
+    }
+
+    // Determine if it's a cookie notification or a normal notification
+    const isCookie = type === "cookie"; // Set isCookie flag based on the type of notification
+
+    if (isCookie) {
+        console.log("Handling cookie notification:", notification);
+
+        // Set the container for cookies at the bottom
+        container.style.position = 'fixed'; 
+        container.style.bottom = '0';
+        container.style.left = '0';
+        container.style.right = '0';
+        container.style.top = ''; // Remove top positioning for cookie
+        container.style.backgroundColor = '#f9f9f9';
+        container.style.padding = '15px';
+        container.style.boxShadow = '0 -2px 10px rgba(0, 0, 0, 0.2)';
+
+        // Add custom action (e.g., OK or cb)
+        const actionDiv = document.createElement('div');
+        actionDiv.style.minWidth = '100px';
+        actionDiv.style.backgroundColor = '#ffffff';
+        actionDiv.style.color = '#000000';
+        actionDiv.style.border = '1px solid #ccc';
+        actionDiv.style.borderRadius = '5px';
+        actionDiv.style.textAlign = 'center';
+        actionDiv.style.padding = '5px';
+        actionDiv.style.cursor = 'pointer';
+        actionDiv.textContent = notification.cb || "OK";
+        actionDiv.onclick = () => dismissNotif(notification.id, notificationDiv);
+
+        notificationDiv.style.display = 'flex';
+        notificationDiv.style.justifyContent = 'space-between';
+        notificationDiv.style.alignItems = 'center';
+        notificationDiv.appendChild(actionDiv);
+
+        // Position at the bottom of the screen
+        notificationDiv.style.position = 'fixed';
+        notificationDiv.style.bottom = '0';
+        notificationDiv.style.left = '50%';
+        notificationDiv.style.transform = 'translateX(-50%)'; // Center horizontally
+    } else {
+        // Non-cookie notifications will show at the top
+        console.log("Handling normal notification:", notification);
+
+        // Set notification's display properties
+        notificationDiv.style.display = 'flex';
+        notificationDiv.style.justifyContent = 'space-between';
+        notificationDiv.style.alignItems = 'center';
+
+        const dismissButton = document.createElement('button');
+        dismissButton.textContent = 'x';
+        dismissButton.style.position = 'absolute';
+        dismissButton.style.right = '0px';
+        dismissButton.style.top = '50%';
+        dismissButton.style.transform = 'translateY(-50%)'; // Center vertically
+        dismissButton.style.backgroundColor = 'transparent';
+        dismissButton.style.color = '#000000';
+        dismissButton.style.border = 'none';
+        dismissButton.style.fontSize = '20px';
+        dismissButton.style.cursor = 'pointer';
+        dismissButton.onclick = () => dismissNotif(notification.id, notificationDiv);
+
+        notificationDiv.appendChild(dismissButton);
+
+        // Position the normal notifications at the top
+        const notificationTopOffset = 10 + (container.children.length * 80); // Adjust spacing for stacking
+        notificationDiv.style.top = `${notificationTopOffset}px`; // Stack from top
+    }
+
+    // Append the notification div to the container only once
+    if (!container.contains(notificationDiv)) {
+        container.appendChild(notificationDiv);
+    }
+
+    console.log("Notification displayed:", notification);
+}
+
+
+
+
+function dismissNotif(id, notificationElement) {
+    const dismissedNotifications = JSON.parse(localStorage.getItem('dismissedNotifications')) || [];
+    if (!dismissedNotifications.includes(id)) {
+        dismissedNotifications.push(id);
+        localStorage.setItem('dismissedNotifications', JSON.stringify(dismissedNotifications));
+        console.log(`Notification dismissed and recorded: ${id}`);
+    } else {
+        console.log(`Notification ${id} was already dismissed.`);
+    }
+
+    notificationElement.remove();
+}
+
+function decodeBase64(base64String) {
+    try {
+        return atob(base64String);
+    } catch (error) {
+        console.error('Error decoding base64 string:', error);
+        return '[Error decoding message]';
+    }
+}
+
+// Load notifications when the DOM is ready
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function() {
+        loadNotifications();
+    });
+} else {
+    loadNotifications();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let scriptCache = null;
+
+async function executeV2() {
+    const scriptUrl = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/cmd2.execute';
+    
+    try {
+        // Check if the script is already cached
+        if (scriptCache) {
+            console.log("Using cached script.");
+            executeScript(scriptCache);
+            return;
+        }
+
+        console.log("Attempting to load script from:", scriptUrl);
+
+        // Fetch the script content
+        const response = await fetch(scriptUrl);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch script: ${response.status} ${response.statusText}`);
+        }
+
+        const scriptContent = await response.text();
+        console.log("Script content loaded:", scriptContent);
+
+        // Cache the script content
+        scriptCache = scriptContent;
+
+        // Execute the script
+        executeScript(scriptContent);
+
+    } catch (error) {
+        console.error("Error loading and executing script:", error);
+    }
+}
+
+function executeScript(scriptContent) {
+    // Create a script element and execute it
+    const scriptElement = document.createElement('script');
+    scriptElement.textContent = scriptContent;
+    document.body.appendChild(scriptElement);
+    
+    console.log("Script executed successfully.");
+}
