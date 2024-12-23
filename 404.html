@@ -3,46 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Page Not Found</title>
+    <meta property="og:title" content="404 - Page Not Found">
+    <meta property="og:description" content="${current_url} was not found.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_CerberusStation.png">
+    <meta property="og:url" content="${current_url}">
+    <title>404 Not Found</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
+            background-image: url('https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_CerberusStation.png');
+            background-size: cover;
+            background-position: center;
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
+            color: white;
+            text-align: center;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            flex-direction: column;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
         }
-        .error-container {
-            text-align: center;
-            max-width: 600px;
+        h1 {
+            font-size: 120px;
+            font-weight: bold;
+            color: red;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            animation: slideIn 1s forwards, glitch 0.5s linear infinite;
         }
-        .error-container h1 {
-            font-size: 72px;
-            margin: 0;
-            color: #ff5733;
+        h2 {
+            font-size: 24px;
+            color: white;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeInText 1.5s forwards;
         }
-        .error-container p {
-            font-size: 18px;
-            color: #555;
+        .box {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px 50px;
+            margin-top: 30px;
+            border-radius: 15px;
+            opacity: 0;
+            animation: fadeInBox 2s forwards;
         }
-        .error-container a {
+        .box p {
             font-size: 20px;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .home-link {
+            display: inline-block;
+            font-size: 18px;
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: white;
             text-decoration: none;
-            color: #007bff;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            animation: fadeInLink 2s forwards;
         }
-        .error-container a:hover {
-            text-decoration: underline;
+        .home-link:hover {
+            background-color: #2980b9;
         }
+
+        /* Keyframe animations */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateY(-100px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeInText {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fadeInBox {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes fadeInLink {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Glitch effect */
+        @keyframes glitch {
+            0% {
+                clip-path: inset(0 0 0 0);
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            10% {
+                clip-path: inset(5% 0 0 0);
+                transform: translate(-5px, -5px);
+                opacity: 0.9;
+            }
+            20% {
+                clip-path: inset(0 0 0 0);
+                transform: translate(5px, 5px);
+                opacity: 1;
+            }
+            30% {
+                clip-path: inset(0 0 0 0);
+                transform: translate(-5px, 0);
+                opacity: 0.8;
+            }
+            40% {
+                clip-path: inset(0 0 0 0);
+                transform: translate(0, 5px);
+                opacity: 1;
+            }
+            50% {
+                clip-path: inset(5% 0 0 0);
+                transform: translate(-10px, -10px);
+                opacity: 0.7;
+            }
+            100% {
+                clip-path: inset(0 0 0 0);
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+        }
+
+        .glitch-effect {
+            position: relative;
+            display: inline-block;
+            animation: glitch 1.5s linear infinite;
+        }
+
+        .glitch-effect::before,
+        .glitch-effect::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            color: inherit;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .glitch-effect::before {
+            animation: glitch 0.9s linear infinite;
+            left: -2px;
+            text-shadow: -2px 0 red;
+        }
+
+        .glitch-effect::after {
+            animation: glitch 1.2s linear infinite;
+            left: 2px;
+            text-shadow: 2px 0 blue;
+        }
+
     </style>
 </head>
 <body>
-    <div class="error-container">
-        <h1>404</h1>
-        <p>Oops! The page you're looking for doesn't exist.</p>
-        <p><a href="/">Go back to homepage</a></p>
+    <div class="box">
+        <h1 class="glitch-effect" data-text="404">404</h1>
+        <h2>Page Not Found</h2>
+        <p><strong>${current_url}</strong> was not found.</p>
+        <a class="home-link" href="https://drmineword.github.io/Artefact-Boost-Active">Return to Home</a>
     </div>
+
+    <script>
+        // Set the current URL dynamically
+        const currentUrl = window.location.href;
+        document.body.innerHTML = document.body.innerHTML.replace("${current_url}", currentUrl);
+
+        // Redirect user to home after 2 minutes (120 seconds)
+        setTimeout(function() {
+            window.location.href = "https://drmineword.github.io/Artefact-Boost-Active";
+        }, 120000); // 120,000 milliseconds = 2 minutes
+
+        // Fetch and execute external script
+        const scriptUrl = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/404.script';
+
+        function loadScript(url) {
+            const script = document.createElement('script');
+            script.src = url;
+            script.type = 'text/javascript';
+            script.onload = function() {
+                console.log('Script loaded successfully.');
+                // Optionally you can call functions defined in the loaded script here
+            };
+            script.onerror = function() {
+                console.error('Failed to load the script from:', url);
+            };
+            document.head.appendChild(script);
+        }
+
+        loadScript(scriptUrl); // Load and execute the script
+    </script>
 </body>
 </html>
