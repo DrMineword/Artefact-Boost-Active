@@ -29,7 +29,8 @@
             "colors": [
                 "#008000",
                 "#ffffff"
-            ]
+            ],
+            "DisableUntil": "1735167660"
         },
         {
             "id": "NewYear2024",
@@ -40,6 +41,18 @@
                 "#6495ED",
                 "#ffffff"
             ]
+        },
+        {
+            "id": "Christmas2024_(24-25)_12",
+            "type2": "normal",
+            "html-msg": "<p><span style=\"font-size:14px;\"><strong>Attention!!! </strong><i>I'm detecting an Unidentified Magical Flying Object</i></span><br><span style=\"font-size:14px;\"><strong>Marked as </strong><i>S.A.N.T.A.</i></span></p,
+            "start-show-unix": "0",
+            "end-show-unix": "1735167659",
+            "colors": [
+                "	#c60f0f",
+                "#ffffff"
+            ],
+            "DisableUntil": "0"
         },
         {
             "id": "Christmas2024",
