@@ -1,28 +1,14 @@
 {
-  "websiteTitle": "WSCD Main Page",
-  "backgroundColor": "#FFFFFF",
-  "backgroundImage": "https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/BlackCitadel.jpg",
-  "textColor": "#333333",
-  "linkColor": "#0066cc",
-  "fontSize": "16px",
+  "websiteTitle": "Christmas Wishes to @everyone",
+  "backgroundColor": "#F0F8FF",
+  "backgroundImage": "https://static.vecteezy.com/system/resources/previews/034/805/960/non_2x/merry-christmas-background-with-christmas-elements-for-social-media-posts-banners-greeting-cards-and-web-banners-free-photo.jpg",
+  "textColor": "#2F4F4F",
+  "linkColor": "#FF4500",
+  "fontSize": "18px",
   "data": [
     {
-      "header": "<div style=\"text-align:center; font-size:24px; font-weight:bold; line-height:1.5;\">Welcome to <span style='color:#004080;'>W</span><span style='color:#0059b3;'>h</span><span style='color:#0073e6;'>i</span><span style='color:#3399ff;'>t</span><span style='color:#4da6ff;'>e</span> <span style='color:#4da6ff;'>S</span><span style='color:#3399ff;'>t</span><span style='color:#0073e6;'>a</span><span style='color:#0059b3;'>r</span> <span style='color:#004080;'>C</span><span style='color:#0059b3;'>o</span><span style='color:#0073e6;'>r</span><span style='color:#3399ff;'>p</span><span style='color:#4da6ff;'>o</span><span style='color:#4da6ff;'>r</span><span style='color:#3399ff;'>a</span><span style='color:#0073e6;'>t</span><span style='color:#0059b3;'>i</span><span style='color:#004080;'>o</span><span style='color:#0059b3;'>n</span><span style='color:#0073e6;'>s</span> <span style='color:#3399ff;'>D</span><span style='color:#4da6ff;'>a</span><span style='color:#4da6ff;'>t</span><span style='color:#3399ff;'>a</span></div>",
-      "desc": "<div style=\"text-align:center;\"><a href=\"https://discord.gg/7CKxPNEE7a\" target=\"_blank\" rel=\"noopener noreferrer\">Join The <span style=\"color:#7289da;\">Discord</span></a><br><a href=\"https://discord.gg/7CKxPNEE7a\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://discordapp.com/api/guilds/1228678846023335936/embed.png?style=banner3\" alt=\"Discord Server Banner\" style=\"max-width:100%;height:auto;\"></a><br><img src=\"https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_YellowStar.png\" alt=\"Yellow Star Portrait\" style=\"display:block;margin:0 auto;max-width:100%;height:auto;\"></div>",
-      "imgurl": [ 
-        "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/root/pages/1/files/1x1.png"
-      ]
-    },
-    {
-      "header": "<color=#99aab5>Page List: </color>",
-      "desc": "<color=#4e5d94><b>1)</b> <a href='https://drmineword.github.io/Artefact-Boost-Active/root/index.html'>List Of Active Artefacts Boost</a></color><br><color=#4e5d94><b>2)</b> <a href='https://drmineword.github.io/Artefact-Boost-Active/root/pages/stats.html'>Hades Star White Star Statistics</a></color><br><color=#4e5d94><b>3)</b> <a href='https://drmineword.github.io/Artefact-Boost-Active/root/pages/corp/base.html'>White Stars Results</a></color>",
-      "imgurl": [
-        "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/root/pages/1/files/1x1.png"
-      ]
-    },
-    {
-      "header": "<div style='text-align:center; font-size:24px; font-weight:bold; color:#99aab5;'>Special Thanks</div>",
-"desc": "<div style='display:flex; flex-direction:column; gap:20px; text-align:center; font-size:16px; color:#ffffff;'> \n  <div> \n    <a href='https://ws.tsl.rocks/' target='_blank' style='text-decoration:none; color:#00b0f4;'> \n      <img src='https://cdn.discordapp.com/avatars/454459089720967168/a_473b9e16d64a9a03f1d6449bed118e3f.gif?size=4096' alt='Hades Star Community Data' style='width:60px; height:60px; border-radius:50%;'> \n      <div>CapricanDRJ \"Hades' Star Community Data\"</div> \n    </a> \n  </div> \n  <div> \n    <a href='https://discord.gg/p588eHaFqh' target='_blank' style='text-decoration:none; color:#00b0f4;'> \n      <img src='https://cdn.discordapp.com/icons/800598168906760202/bf522862eab686114b70b618561b50e1.webp?size=640' alt='WS Community Leaderboard' style='width:60px; height:60px; border-radius:50%;'> \n      <div>WS Community Leaderboard</div> \n    </a> \n  </div> \n  <div> \n    <a href='https://ws.mentalisit.myds.me/' target='_blank' style='text-decoration:none; color:#00b0f4;'> \n      <img src='https://cdn.discordapp.com/avatars/582882137842122773/c41d183fba78b9f49bb590a1fc8e33a9.png?size=4096' alt='mentalisit API' style='width:60px; height:60px; border-radius:50%;'> \n      <div>mentalisit \"API\"</div> \n    </a> \n  </div> \n</div>",
+      "header": "<div style=\"text-align:center; font-size:28px; font-weight:bold; color:#FF6347;\">🎄🎅 Hello @everyone 🎅🎄</div>",
+      "desc": "<div style=\"text-align:center; font-size:20px; color:#228B22;\">Today is an important day!</div><br>\n<div style=\"text-align:center; font-size:18px; color:#FF4500;\"><b>On behalf of the entire <span style='color:#008080;'>White Star Corporations Data</span> administration, I wish you well. 🎉</b></div><br>\n<div style=\"text-align:center; font-size:16px; color:#00008B;\">May you all spend Christmas happily and peacefully with your family and friends. ❤️🎄</div><br>\n<div style=\"text-align:center; font-size:16px; color:#2F4F4F;\">I wish you not to lose your way even in the darkest night. 🌙✨</div><br>\n<div style=\"text-align:center; font-size:16px; color:#FFD700;\">May Santa Claus bring you a heavy sack of gifts! 🎁🎅</div><br>\n<div style=\"text-align:center; font-size:16px; color:#008000;\">And for those in America or other countries with paid medical care, I wish you especially good health. 💪💉</div>",
       "imgurl": [
         "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/root/pages/1/files/1x1.png"
       ]
