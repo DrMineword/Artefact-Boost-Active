@@ -1,1 +1,12 @@
-{}
+{
+    "background_image": "https://example.com/background.jpg",
+    "header": "Access Restricted",
+    "description": "You were redirected here due to a policy violation or access restriction.",
+    "incident_not_found_message": "Incident ID not found in local storage. Unable to process further.",
+    "incident_found_message": "Incident Details:",
+    "discord_invite": "https://discord.gg/example",
+    "additional_scripts": [
+        "console.log('Current URI:', window.location.href);",
+        "console.log('Data passed:', new URLSearchParams(window.location.search));"
+    ]
+}
