@@ -90,11 +90,11 @@
             }
         }
 
-        function updateLocalStorage(geoData, authValid, reason) {
+        function updateLocalStorage(authValid, reason, geoData) {
             const now = Date.now();
             const authData = {
                 auth_valid: authValid,
-                auth_invalid_reason: reason || geoData.data.response.result.country,
+                auth_invalid_reason: reason || geoData?.data?.response?.result?.country,
                 expire_at: now + 30 * 24 * 60 * 60 * 1000, // 30 days from now
             };
             localStorage.setItem('auth', JSON.stringify(authData));
@@ -119,22 +119,29 @@
                 await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for 2 seconds before retrying
             }
 
-            // Check if the geo location is banned (based on your logic)
+            // Check if the geo location is banned
             const config = await fetchConfig(); // Fetch the configuration for the geo ban check
             const bannedGeo = config.banned_geo_data.find((geo) => {
                 return geo.data.country_code === geoData.data.response.result.country_code;
             });
 
+            const gobackUrl = new URLSearchParams(window.location.search).get('goback') || "https://example.com"; // Default redirect URL if no goback parameter exists
+
             if (bannedGeo) {
                 console.warn("User is located in a banned region:", bannedGeo.ID);
                 const reason = bannedGeo.ID;  // Store the reason for banning
-                updateLocalStorage(geoData, false, reason); // Update local storage with auth invalid data
+                updateLocalStorage(false, reason, geoData); // Update local storage with auth invalid data
                 document.getElementById('authStatus').textContent = 'Your access has been blocked due to location restrictions.';
+                
+                // Redirect to goback URL
+                setTimeout(() => {
+                    window.location.href = gobackUrl;
+                }, 2000); // Delay for 2 seconds for user feedback
                 return;
             }
 
-            updateLocalStorage(geoData, true); // User is not banned, update with valid status
-            const gobackUrl = new URLSearchParams(window.location.search).get('goback') || "https://example.com"; // Default redirect URL if no goback parameter exists
+            // Update local storage with valid status and redirect
+            updateLocalStorage(true, null, geoData);
             window.location.href = gobackUrl;
         }
 
