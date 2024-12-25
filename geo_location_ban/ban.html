@@ -7,13 +7,18 @@
     <style>
         /* Default styles */
         body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            color: #ffffff;
-            text-align: center;
             background-size: cover;
             background-position: center;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
         }
 
         .container {
@@ -81,10 +86,15 @@
                 header.textContent = config.header || "Incident Report";
                 description.textContent = config.description || "Details about the incident are shown below.";
 
-                if (!incidentId || !localStorage.getItem(incidentId)) {
-                    incidentInfo.innerHTML = `<span class="error">${config.incident_not_found_message || "Incident not found in local storage!"}</span>`;
+                let incidentDetails;
+                if (!incidentId || !(incidentDetails = localStorage.getItem(incidentId))) {
+                    incidentInfo.innerHTML = `
+                        <span class="error">${config.incident_not_found_message || "Incident not found in local storage!"}</span>
+                        <br><strong>Reason: </strong>${data || "Unknown reason"}
+                        <br><strong>IP: </strong>${ip || "Unknown IP"}
+                    `;
                 } else {
-                    const incidentDetails = JSON.parse(localStorage.getItem(incidentId));
+                    incidentDetails = JSON.parse(incidentDetails);
                     localStorage.removeItem(incidentId); // Remove the incident from local storage
 
                     incidentInfo.innerHTML = `
