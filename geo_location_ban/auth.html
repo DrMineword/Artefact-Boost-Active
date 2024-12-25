@@ -90,11 +90,11 @@
             }
         }
 
-        function updateLocalStorage(geoData) {
+        function updateLocalStorage(geoData, authValid, reason) {
             const now = Date.now();
             const authData = {
-                auth_valid: true,
-                auth_invalid_reason: geoData.data.response.result.country,
+                auth_valid: authValid,
+                auth_invalid_reason: reason || geoData.data.response.result.country,
                 expire_at: now + 30 * 24 * 60 * 60 * 1000, // 30 days from now
             };
             localStorage.setItem('auth', JSON.stringify(authData));
@@ -127,20 +127,13 @@
 
             if (bannedGeo) {
                 console.warn("User is located in a banned region:", bannedGeo.ID);
-                const incidentID = `incident_${Date.now()}`;
-                const payload = {
-                    data: bannedGeo.ID,
-                    ip: ip,
-                    pageaccesurl: window.location.href,
-                    incidentid: incidentID
-                };
-                const banUrl = `${config.redirect_url.normal}?${new URLSearchParams(payload).toString()}`;
-                console.warn("Redirecting to ban URL:", banUrl);
-                window.location.href = banUrl;
+                const reason = bannedGeo.ID;  // Store the reason for banning
+                updateLocalStorage(geoData, false, reason); // Update local storage with auth invalid data
+                document.getElementById('authStatus').textContent = 'Your access has been blocked due to location restrictions.';
                 return;
             }
 
-            updateLocalStorage(geoData);
+            updateLocalStorage(geoData, true); // User is not banned, update with valid status
             const gobackUrl = new URLSearchParams(window.location.search).get('goback') || "https://example.com"; // Default redirect URL if no goback parameter exists
             window.location.href = gobackUrl;
         }
