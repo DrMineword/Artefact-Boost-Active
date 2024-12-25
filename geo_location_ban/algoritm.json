@@ -3,8 +3,8 @@
     "allow_vpn": "true",
     "save_to_local_storage": "false",
     "redirect_url": {
-        "normal": "https://www.example.com/ban",
-        "error": "https://www.example.com/error"
+        "normal": "https://drmineword.github.io/Artefact-Boost-Active/geo_location_ban/ban.html",
+        "error": "https://drmineword.github.io/Artefact-Boost-Active/geo_location_ban/ban.html"
     },
     "banned_geo_data": [
         {
