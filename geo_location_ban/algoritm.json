@@ -1,9 +1,10 @@
 {
   "after_script_execute": "b",
 "allow_vpn": "true",
+"save_to_local_storage" "false",
   "redirect_url": {
-    "normal": "X",
-    "error": "Y"
+    "normal": "https://www.example.com/ban",
+    "error": "https://www.example.com/error"
   },
   "banned_geo_data": [
     {
