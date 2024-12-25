@@ -42,7 +42,7 @@
         }
 
         .glitch::before, .glitch::after {
-            content: "Access Restricted";
+            content: attr(data-header);
             position: absolute;
             left: 0;
             top: 0;
@@ -112,7 +112,7 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="glitch">Access Restricted</h1>
+        <h1 class="glitch" data-header="Access Restricted">Access Restricted</h1>
         <p id="description"></p>
         <p id="incident-info"></p>
         <a id="discord-link" target="_blank">Join our Discord</a>
@@ -131,14 +131,17 @@
             const incidentInfo = document.getElementById('incident-info');
             const discordLink = document.getElementById('discord-link');
             const additionalScripts = document.getElementById('additional-scripts');
+            const headerElement = document.querySelector('.glitch');
 
             try {
                 // Fetch JSON configuration
                 const response = await fetch("https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/geo_location_ban/support_file.json");
                 const config = await response.json();
 
-                // Set page title
+                // Set page title and header
                 document.title = config.header || "Access Restricted";
+                headerElement.setAttribute('data-header', config.header || "Access Restricted");
+                headerElement.textContent = config.header || "Access Restricted";
 
                 // Apply background image
                 document.body.style.backgroundImage = `url('${config.background_image}')`;
@@ -148,7 +151,7 @@
 
                 incidentInfo.innerHTML = `
                     <strong>${config.incident_found_message || "Incident Details:"}</strong>
-                    <br>Reason: ${data || "Unknown"}
+                    <br>Reason: ${data || "BANNED_REGION_123"}
                     <br>IP: ${ip || "Unknown"}
                     <br>Accessed URL: <a href="${pageAccessUrl}" target="_blank">${pageAccessUrl || "Unknown"}</a>
                 `;
