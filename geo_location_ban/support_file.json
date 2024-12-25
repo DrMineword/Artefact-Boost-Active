@@ -1,6 +1,6 @@
 {
     "background_image": "https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_CerberusStation.png",
-    "header": "Access Restricted\nThe session has been terminated",
+    "header": "Access Restricted<br>The session has been terminated",
     "description": "You were redirected here due to a policy violation or access restriction.",
     "incident_not_found_message": "Incident ID not found in local storage. Unable to process further.",
     "incident_found_message": "Incident Details:",
