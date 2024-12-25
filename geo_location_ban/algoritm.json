@@ -9,40 +9,83 @@
         "error": "https://drmineword.github.io/Artefact-Boost-Active/geo_location_ban/ban.html"
     },
     "banned_geo_data": [
-        {
-            "ID": "#Russia_GeoLocation_Ban",
-            "data": {
-                "country": "Russia",
-                "country_code": "RU",
-                "regions": [
-                    "Central",
-                    "Northwestern",
-                    "Southern",
-                    "North Caucasian",
-                    "Volga",
-                    "Ural",
-                    "Siberian",
-                    "Far Eastern"
-                ],
-                "latitude_range": [
-                    41.1851,
-                    81.8576
-                ],
-                "longitude_range": [
-                    19.25,
-                    180
-                ],
-                "ip_ranges": [
-                    "5.44.0.0/14",
-                    "37.144.0.0/12",
-                    "46.0.0.0/8",
-                    "77.88.0.0/13",
-                    "95.24.0.0/13",
-                    "178.64.0.0/11",
-                    "185.4.0.0/14",
-                    "212.24.0.0/13"
-                ]
-            }
+    {
+        "ID": "#Russia_GeoLocation_Ban",
+        "data": {
+            "country": "Russia",
+            "country_code": "RU",
+            "regions": [
+                "Central",
+                "Northwestern",
+                "Southern",
+                "North Caucasian",
+                "Volga",
+                "Ural",
+                "Siberian",
+                "Far Eastern"
+            ],
+            "latitude_range": [
+                41.1851,
+                81.8576
+            ],
+            "longitude_range": [
+                19.25,
+                180
+            ],
+            "ip_ranges": [
+                "5.44.0.0/14",
+                "37.144.0.0/12",
+                "46.0.0.0/8",
+                "77.88.0.0/13",
+                "95.24.0.0/13",
+                "178.64.0.0/11",
+                "185.4.0.0/14",
+                "212.24.0.0/13"
+            ]
         }
-    ]
+    },
+    {
+        "ID": "test_1",
+        "data": {
+            "country": "France",
+            "country_code": "FR",
+            "regions": [
+                "Île-de-France",
+                "Provence-Alpes-Côte d'Azur",
+                "Auvergne-Rhône-Alpes",
+                "Nouvelle-Aquitaine",
+                "Occitanie",
+                "Hauts-de-France",
+                "Grand Est",
+                "Bretagne",
+                "Normandie",
+                "Centre-Val de Loire",
+                "Bourgogne-Franche-Comté",
+                "Pays de la Loire",
+                "Corse"
+            ],
+            "latitude_range": [
+                41.3143,
+                51.1242
+            ],
+            "longitude_range": [
+                -5.1422,
+                9.5616
+            ],
+            "ip_ranges": [
+                "2.0.0.0/8",
+                "5.48.0.0/12",
+                "37.160.0.0/13",
+                "62.34.0.0/12",
+                "80.10.0.0/12",
+                "88.160.0.0/11",
+                "109.0.0.0/12",
+                "185.0.0.0/14",
+                "193.0.0.0/10",
+                "212.0.0.0/12"
+            ]
+        }
+    }
+]
+
 }
