@@ -94,7 +94,7 @@
             const now = Date.now();
             const authData = {
                 auth_valid: authValid,
-                auth_invalid_reason: reason || geoData?.data?.response?.result?.country,
+                auth_invalid_reason: reason, // Store the rule ID here if the user is banned
                 expire_at: now + 30 * 24 * 60 * 60 * 1000, // 30 days from now
             };
             localStorage.setItem('auth', JSON.stringify(authData));
@@ -129,8 +129,8 @@
 
             if (bannedGeo) {
                 console.warn("User is located in a banned region:", bannedGeo.ID);
-                const reason = bannedGeo.ID;  // Store the reason for banning
-                updateLocalStorage(false, reason, geoData); // Update local storage with auth invalid data
+                const ruleID = bannedGeo.ID;  // Use the rule ID as the reason
+                updateLocalStorage(false, ruleID, geoData); // Update local storage with auth invalid data
                 document.getElementById('authStatus').textContent = 'Your access has been blocked due to location restrictions.';
                 
                 // Redirect to goback URL
