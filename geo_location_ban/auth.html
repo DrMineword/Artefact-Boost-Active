@@ -36,6 +36,13 @@
             font-weight: bold;
         }
 
+        #authStatus {
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: normal;
+            color: yellow;
+        }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -50,8 +57,8 @@
 <body>
     <div>
         <div class="spinner"></div>
-        <div class="status">Trwa Autoryzacja Połączenia, Proszę czekaj</div>
-        <div id="statusMessage"></div>
+        <div class="status">Authorization in progress, please wait</div>
+        <div id="authStatus">Fetching your data...</div>
     </div>
 
     <script>
@@ -96,7 +103,7 @@
         async function checkGeoDataAndUpdate() {
             const ip = await fetchPublicIP();
             if (!ip) {
-                document.getElementById('statusMessage').textContent = 'Błąd podczas pobierania IP. Próba ponownie...';
+                document.getElementById('authStatus').textContent = 'Error fetching IP. Retrying...';
                 return;
             }
 
@@ -108,7 +115,7 @@
                     break;
                 }
                 attempts++;
-                document.getElementById('statusMessage').textContent = `Retrying geodata collection... Attempt: ${attempts}`;
+                document.getElementById('authStatus').textContent = `Retrying geodata collection... Attempt: ${attempts}`;
                 await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for 2 seconds before retrying
             }
 
@@ -134,7 +141,7 @@
             }
 
             updateLocalStorage(geoData);
-            const gobackUrl = new URLSearchParams(window.location.search).get('goback') || window.location.href;
+            const gobackUrl = new URLSearchParams(window.location.search).get('goback') || "https://example.com"; // Default redirect URL if no goback parameter exists
             window.location.href = gobackUrl;
         }
 
