@@ -1,0 +1,38 @@
+{
+  "after_script_execute": "b",
+  "redirect_url": {
+    "normal": "X",
+    "error": "Y"
+  },
+  "banned_geo_data": [
+    {
+      "ID": "#Russia_GeoLocation_Ban",
+      "data": {
+        "country": "Russia",
+        "country_code": "RU",
+        "regions": [
+          "Central",
+          "Northwestern",
+          "Southern",
+          "North Caucasian",
+          "Volga",
+          "Ural",
+          "Siberian",
+          "Far Eastern"
+        ],
+        "latitude_range": [41.1851, 81.8576],
+        "longitude_range": [19.25, 180],
+        "ip_ranges": [
+          "5.44.0.0/14",
+          "37.144.0.0/12",
+          "46.0.0.0/8",
+          "77.88.0.0/13",
+          "95.24.0.0/13",
+          "178.64.0.0/11",
+          "185.4.0.0/14",
+          "212.24.0.0/13"
+        ]
+      }
+    }
+  ]
+}
