@@ -41,6 +41,52 @@
                     "212.24.0.0/13"
                 ]
             }
-        }
+        },
+        {
+    "ID": "This Is A Test",
+    "data": {
+        "country": "France",
+        "country_code": "FR",
+        "regions": [
+            "Île-de-France",
+            "Provence-Alpes-Côte d'Azur",
+            "Auvergne-Rhône-Alpes",
+            "Occitanie",
+            "Nouvelle-Aquitaine",
+            "Grand Est",
+            "Hauts-de-France",
+            "Brittany",
+            "Normandy",
+            "Bourgogne-Franche-Comté",
+            "Pays de la Loire",
+            "Centre-Val de Loire",
+            "Corsica"
+        ],
+        "latitude_range": [
+            41.3242,
+            51.1242
+        ],
+        "longitude_range": [
+            -5.1422,
+            9.5616
+        ],
+        "ip_ranges": [
+            "2.0.0.0/8",
+            "5.48.0.0/13",
+            "31.0.0.0/12",
+            "37.0.0.0/12",
+            "46.246.0.0/15",
+            "62.35.0.0/16",
+            "82.224.0.0/11",
+            "90.0.0.0/10",
+            "109.0.0.0/11",
+            "176.128.0.0/10",
+            "185.0.0.0/12",
+            "193.248.0.0/13",
+            "212.0.0.0/11"
+        ]
+    }
+}
+
     ]
 }
