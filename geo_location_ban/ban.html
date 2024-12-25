@@ -3,41 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Incident Details</title>
+    <title>Access Restricted</title>
     <style>
-        /* Default styles */
+        /* General Styles */
         body {
-            background-size: cover;
-            background-position: center;
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
-            color: white;
+            color: #ffffff;
             text-align: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            overflow: hidden;
-            animation: fadeIn 1s ease-out;
         }
 
         .container {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6);
             padding: 20px;
-            background: rgba(0, 0, 0, 0.5);
             border-radius: 10px;
-            margin: 50px auto;
             max-width: 600px;
+            margin: auto;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
-        .error {
-            color: #ff6b6b;
+        /* Glitch Animation */
+        .glitch {
+            font-size: 2em;
+            color: red;
             font-weight: bold;
+            position: relative;
+            display: inline-block;
+            animation: glitch-animation 2s infinite;
         }
 
-        .success {
-            color: #6bff6b;
-            font-weight: bold;
+        .glitch::before, .glitch::after {
+            content: "Access Restricted";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+            clip: rect(0, 0, 0, 0);
+        }
+
+        .glitch::before {
+            animation: glitch-before 2s infinite;
+            color: lime;
+        }
+
+        .glitch::after {
+            animation: glitch-after 2s infinite;
+            color: blue;
+        }
+
+        @keyframes glitch-animation {
+            0% { transform: none; }
+            10% { transform: translate(-2px, 2px); }
+            20% { transform: translate(2px, -2px); }
+            30% { transform: translate(-2px, -2px); }
+            40% { transform: translate(2px, 2px); }
+            50% { transform: none; }
+        }
+
+        @keyframes glitch-before {
+            0%, 100% { clip: rect(0, 0, 0, 0); }
+            10% { clip: rect(10px, 9999px, 40px, 0); }
+            30% { clip: rect(50px, 9999px, 80px, 0); }
+            50% { clip: rect(20px, 9999px, 60px, 0); }
+            70% { clip: rect(30px, 9999px, 70px, 0); }
+        }
+
+        @keyframes glitch-after {
+            0%, 100% { clip: rect(0, 0, 0, 0); }
+            10% { clip: rect(20px, 9999px, 50px, 0); }
+            30% { clip: rect(40px, 9999px, 90px, 0); }
+            50% { clip: rect(10px, 9999px, 40px, 0); }
+            70% { clip: rect(60px, 9999px, 100px, 0); }
+        }
+
+        /* Loading Animation */
+        .loading {
+            margin-top: 20px;
+            font-size: 1em;
+            color: #ffffff;
+            animation: fadeIn 1.5s infinite;
+        }
+
+        @keyframes fadeIn {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
 
         a {
@@ -52,10 +112,11 @@
 </head>
 <body>
     <div class="container">
-        <h1 id="header"></h1>
+        <h1 class="glitch">Access Restricted</h1>
         <p id="description"></p>
         <p id="incident-info"></p>
         <a id="discord-link" target="_blank">Join our Discord</a>
+        <div class="loading">Loading details...</div>
         <div id="additional-scripts"></div>
     </div>
 
@@ -64,11 +125,8 @@
             const params = new URLSearchParams(window.location.search);
             const data = params.get("data");
             const ip = params.get("ip");
-            const incidentId = params.get("incidentid");
             const pageAccessUrl = params.get("pageaccesurl");
 
-            const container = document.querySelector('.container');
-            const header = document.getElementById('header');
             const description = document.getElementById('description');
             const incidentInfo = document.getElementById('incident-info');
             const discordLink = document.getElementById('discord-link');
@@ -79,32 +137,21 @@
                 const response = await fetch("https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/geo_location_ban/support_file.json");
                 const config = await response.json();
 
+                // Set page title
+                document.title = config.header || "Access Restricted";
+
                 // Apply background image
                 document.body.style.backgroundImage = `url('${config.background_image}')`;
 
                 // Set the content based on the fetched JSON
-                header.textContent = config.header || "Incident Report";
                 description.textContent = config.description || "Details about the incident are shown below.";
 
-                let incidentDetails;
-                if (!incidentId || !(incidentDetails = localStorage.getItem(incidentId))) {
-                    incidentInfo.innerHTML = `
-                        <span class="error">${config.incident_not_found_message || "Incident not found in local storage!"}</span>
-                        <br><strong>Reason: </strong>${data || "Unknown reason"}
-                        <br><strong>IP: </strong>${ip || "Unknown IP"}
-                    `;
-                } else {
-                    incidentDetails = JSON.parse(incidentDetails);
-                    localStorage.removeItem(incidentId); // Remove the incident from local storage
-
-                    incidentInfo.innerHTML = `
-                        <strong>${config.incident_found_message || "Incident Details:"}</strong>
-                        <br>Reason: ${data}
-                        <br>IP: ${ip}
-                        <br>Accessed URL: <a href="${pageAccessUrl}" target="_blank">${pageAccessUrl}</a>
-                        <br>Incident ID: ${incidentId}
-                    `;
-                }
+                incidentInfo.innerHTML = `
+                    <strong>${config.incident_found_message || "Incident Details:"}</strong>
+                    <br>Reason: ${data || "Unknown"}
+                    <br>IP: ${ip || "Unknown"}
+                    <br>Accessed URL: <a href="${pageAccessUrl}" target="_blank">${pageAccessUrl || "Unknown"}</a>
+                `;
 
                 // Set Discord link
                 discordLink.href = config.discord_invite;
@@ -124,7 +171,8 @@
                 }
             } catch (error) {
                 console.error("Error loading configuration or processing the incident:", error);
-                container.innerHTML = `<span class="error">An error occurred while loading the page. Please try again later.</span>`;
+                description.textContent = "An error occurred while loading the page. Please try again later.";
+                incidentInfo.innerHTML = `<span class="error">Error: Unable to load details.</span>`;
             }
         })();
     </script>
