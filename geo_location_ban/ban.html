@@ -146,21 +146,21 @@
                 // Apply background image
                 document.body.style.backgroundImage = `url('${config.background_image}')`;
 
-                // Set the content based on the fetched JSON
+                // Safely set the content based on the fetched JSON
                 description.textContent = config.description || "Details about the incident are shown below.";
 
-                incidentInfo.innerHTML = `
-                    <strong>${config.incident_found_message || "Incident Details:"}</strong>
-                    <br>Reason: ${data || "BANNED_REGION_123"}
-                    <br>IP: ${ip || "Unknown"}
-                    <br>Accessed URL: <a href="${pageAccessUrl}" target="_blank">${pageAccessUrl || "Unknown"}</a>
+                incidentInfo.textContent = `
+                    ${config.incident_found_message || "Incident Details:"}
+                    \nReason: ${data || "BANNED_REGION_123"}
+                    \nIP: ${ip || "Unknown"}
+                    \nAccessed URL: ${pageAccessUrl || "Unknown"}
                 `;
 
                 // Set Discord link
                 discordLink.href = config.discord_invite;
                 discordLink.textContent = "Join our Discord";
 
-                // Execute additional scripts
+                // Safely execute additional scripts
                 if (Array.isArray(config.additional_scripts)) {
                     for (const scriptCode of config.additional_scripts) {
                         try {
@@ -175,7 +175,7 @@
             } catch (error) {
                 console.error("Error loading configuration or processing the incident:", error);
                 description.textContent = "An error occurred while loading the page. Please try again later.";
-                incidentInfo.innerHTML = `<span class="error">Error: Unable to load details.</span>`;
+                incidentInfo.textContent = `Error: Unable to load details.`;
             }
         })();
     </script>
