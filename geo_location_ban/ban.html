@@ -116,7 +116,6 @@
         <p id="description"></p>
         <p id="incident-info"></p>
         <a id="discord-link" target="_blank">Join our Discord</a>
-        <div class="loading">Loading details...</div>
         <div id="additional-scripts"></div>
     </div>
 
@@ -146,21 +145,21 @@
                 // Apply background image
                 document.body.style.backgroundImage = `url('${config.background_image}')`;
 
-                // Safely set the content based on the fetched JSON
+                // Set the content based on the fetched JSON
                 description.textContent = config.description || "Details about the incident are shown below.";
 
-                incidentInfo.textContent = `
-                    ${config.incident_found_message || "Incident Details:"}
-                    \nReason: ${data || "BANNED_REGION_123"}
-                    \nIP: ${ip || "Unknown"}
-                    \nAccessed URL: ${pageAccessUrl || "Unknown"}
+                incidentInfo.innerHTML = `
+                    <strong>${config.incident_found_message || "Incident Details:"}</strong>
+                    <br>Reason: ${data || "BANNED_REGION_123"}
+                    <br>IP: ${ip || "Unknown"}
+                    <br>Accessed URL: <a href="${pageAccessUrl}" target="_blank">${pageAccessUrl || "Unknown"}</a>
                 `;
 
                 // Set Discord link
                 discordLink.href = config.discord_invite;
                 discordLink.textContent = "Join our Discord";
 
-                // Safely execute additional scripts
+                // Execute additional scripts
                 if (Array.isArray(config.additional_scripts)) {
                     for (const scriptCode of config.additional_scripts) {
                         try {
@@ -175,7 +174,7 @@
             } catch (error) {
                 console.error("Error loading configuration or processing the incident:", error);
                 description.textContent = "An error occurred while loading the page. Please try again later.";
-                incidentInfo.textContent = `Error: Unable to load details.`;
+                incidentInfo.innerHTML = `<span class="error">Error: Unable to load details.</span>`;
             }
         })();
     </script>
