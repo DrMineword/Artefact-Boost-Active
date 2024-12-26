@@ -1,15 +1,17 @@
 {
   "json": [
     "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/json/2024/12/24/adxy38ce/data.json",
-    "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/json/2024/12/24/i1ykltol/data.json"
+    "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/json/2024/12/24/i1ykltol/data.json",
+    "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/json/2024/12/26/9fojbm01/data.json"
   ],
   "csv": [
     "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/csv/2024/12/24/adxy38ce/data.csv",
-    "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/csv/2024/12/24/i1ykltol/data.csv"
+    "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/csv/2024/12/24/i1ykltol/data.csv",
+    "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/csv/2024/12/26/9fojbm01/data.csv"
   ],
   "last": {
-    "json": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/json/2024/12/24/i1ykltol/data.json",
-    "csv": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/csv/2024/12/24/i1ykltol/data.csv"
+    "json": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/json/2024/12/26/9fojbm01/data.json",
+    "csv": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/csv/2024/12/26/9fojbm01/data.csv"
   },
-  "last_unix": 1735071568
+  "last_unix": 1735225820
 }
