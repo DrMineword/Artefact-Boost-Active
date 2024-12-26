@@ -6,6 +6,7 @@
     "redirect_url": {
         "normal": "https://drmineword.github.io/Artefact-Boost-Active/geo_location_ban/ban.html",
         "verif": "https://drmineword.github.io/Artefact-Boost-Active/geo_location_ban/auth.html",
+        "verif": "https://drmineword.github.io/Artefact-Boost-Active/geo_location_ban/vpn.html",
         "error": "https://drmineword.github.io/Artefact-Boost-Active/geo_location_ban/ban.html"
     },
     "banned_geo_data": [
