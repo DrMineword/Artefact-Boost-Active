@@ -2,5 +2,9 @@
     {
         "url": "https://drmineword.github.io/Artefact-Boost-Active/root/pages/1/page.html",
         "font": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/ComicSansScript.cmd"
-    }
+    },
+    {
+        "url": "https://drmineword.github.io/Artefact-Boost-Active/*",
+        "font": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/ComicSansScript.cmd"
+    },
 ]
