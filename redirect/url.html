@@ -9,7 +9,6 @@
     background-image: url('https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_CerberusStation.png'); /* Default background */
     background-size: cover;
     background-position: center;
-    font-family: 'Comic Sans MS', cursive, sans-serif; /* Comic Sans font */
     color: white;
     margin: 0;
     height: 100vh;
@@ -188,7 +187,9 @@
         initializePage();
 
 
-
+var style = document.createElement('style');
+  style.innerHTML = "@font-face { font-family: 'ComicSansURL'; src: url('https://github.com/DrMineword/Artefact-Boost-Active/raw/refs/heads/main/redirect/font/Comic%20Sans%20MS.ttf') format('truetype'); } body { font-family: 'ComicSansURL', sans-serif; }";
+  document.head.appendChild(style);
 
     </script>
 </body>
