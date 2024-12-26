@@ -44,53 +44,6 @@
                 "212.24.0.0/13"
             ]
         }
-    },
-    {
-        "ID": "#France_GeoLocation_Ban",
-        "data": {
-            "country": "France",
-            "country_code": "FR",
-            "regions": [
-                "Île-de-France",
-                "Provence-Alpes-Côte d'Azur",
-                "Nouvelle-Aquitaine",
-                "Auvergne-Rhône-Alpes",
-                "Occitanie",
-                "Hauts-de-France",
-                "Grand Est",
-                "Bretagne",
-                "Normandie",
-                "Centre-Val de Loire",
-                "Pays de la Loire",
-                "Bourgogne-Franche-Comté",
-                "Corse"
-            ],
-            "latitude_range": [
-                41.3034,
-                51.1242
-            ],
-            "longitude_range": [
-                -5.1437,
-                9.6625
-            ],
-            "ip_ranges": [
-                "2.0.0.0/8",
-                "5.0.0.0/8",
-                "31.0.0.0/8",
-                "37.0.0.0/8",
-                "46.0.0.0/8",
-                "51.0.0.0/8",
-                "62.0.0.0/8",
-                "77.0.0.0/8",
-                "80.0.0.0/8",
-                "81.0.0.0/8",
-                "83.0.0.0/8",
-                "84.0.0.0/8",
-                "185.0.0.0/8",
-                "213.0.0.0/8",
-                "217.0.0.0/8"
-            ]
-        }
     }
 ]
 
