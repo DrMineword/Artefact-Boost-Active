@@ -65,8 +65,8 @@
 <body>
     <div class="content">
 		<center>
-        <div class="status"><p style="color: #000000; font-size: 30px;">You are on your way to:</p><br>
-		<p style="color: #000000; font-size: 27px;"><a id="destinationName" href="#" target="_blank">Example URL</a></p></div>
+        <div class="status"><p style="color: #000000; font-size: 24px;">You are on your way to:<br>
+			<a id="destinationName" href="#" target="_blank">Example URL</a></div></p>
         <div id="countdown">You will be deployed in <span id="countdownTime">...</span></div>
 		</center>
     </div>
@@ -105,7 +105,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const name = urlParams.get('name') || 'Unknown';
             const url = urlParams.get('url') || 'https://example.com';
-            const time = parseInt(urlParams.get('time')) || 120;  // Default time set to 60 seconds
+            const time = parseInt(urlParams.get('time')) || 25;  // Default time set to 60 seconds
             const background = urlParams.get('background') || ''; // Default empty background
             const boxColor = urlParams.get('box') || 'blue'; // Default box color is white
 
