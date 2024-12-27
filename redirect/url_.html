@@ -5,66 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting...</title> <!-- Default title -->
     <style>
-        body {
-    background-image: url('https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_CerberusStation.png'); /* Default background */
-    background-size: cover;
-    background-position: center;
-    color: white;
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: flex-end; /* Align to the right */
-    align-items: center; /* Vertically center */
-    padding: 20px;
-}
+    body {
+        background-image: url('https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_CerberusStation.png'); /* Default background */
+        background-size: cover;
+        background-position: center;
+        color: white;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: flex-end; /* Align to the right */
+        align-items: center; /* Vertically center */
+        padding: 20px;
+        font-size: 16px; /* Root font size for scaling */
+    }
 
-        /* Container for the text and countdown */
-        .content {
-            text-align: right;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
-            border-radius: 10px;
-            width: auto;
-            max-width: 700px;
+    /* Container for the text and countdown */
+    .content {
+        text-align: right;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
+        border-radius: 10px;
+        width: auto;
+        max-width: 700px;
+        min-width: 300px; /* Ensures a minimum width */
+        display: flex;
+        flex-direction: column; /* Stack content vertically */
+        align-items: center; /* Center align content */
+    }
+
+    .status {
+        font-size: clamp(1rem, 2vw, 1.5rem); /* Responsive font size */
+        font-weight: bold;
+        color: black; /* Set color of "You are on your way to" text to black */
+        text-align: center;
+    }
+
+    #countdown {
+        margin-top: 15px;
+        font-size: clamp(0.8rem, 2vw, 1.2rem); /* Responsive font size */
+        font-weight: normal;
+        color: yellow;
+        width: 100%; /* Full width within the container */
+        text-align: center; /* Center align text */
+        white-space: nowrap; /* Prevent wrapping */
+        overflow: hidden; /* Prevent overflow issues */
+    }
+
+    #countdownTime {
+        display: inline-block;
+    }
+
+    /* Responsive Design for Smaller Screens */
+    @media (max-width: 600px) {
+        body {
+            padding: 10px;
         }
 
-        status {
-    font-size: 24px;
-    font-weight: bold;
-    color: black; /* Set color of "You are on your way to" text to black */
-}
+        .content {
+            max-width: 90%;
+        }
+
+        .status {
+            font-size: clamp(0.9rem, 4vw, 1.2rem);
+        }
 
         #countdown {
-            margin-top: 15px;
-            font-size: 20px;
-            font-weight: normal;
-            color: yellow;
+            font-size: clamp(0.7rem, 3vw, 1rem);
         }
-
-        /* Responsive Design for Smaller Screens */
-        @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-
-            .content {
-                max-width: 90%;
-            }
-
-            .status {
-                font-size: 20px;
-            }
-
-            #countdown {
-                font-size: 18px;
-		     width: 200px; /* Set a fixed width that works for your text */
-  text-align: center; /* Optional: Align text to the center */
-  white-space: nowrap; /* Prevent wrapping if needed */
-  overflow: hidden; /* Ensure no overflow issues */
-  display: inline-block; /* Ensure it doesn't expand unnecessarily */
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
     <div class="content">
