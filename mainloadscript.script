@@ -1,0 +1,299 @@
+
+  // Function to find and load fonts for pages based on the current page URL
+  function findAndLoadFontsForPages() {
+    // Get the current page URL
+    const currentPageURL = window.location.href;
+
+    // Fetch the JSON data
+    fetch('https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/use_font.json')
+      .then(response => response.json())  // Parse the JSON data
+      .then(data => {
+        console.log('Fetched JSON data:', data);
+
+        // Check if the current page URL matches any entry in the JSON data
+        const matchingEntry = data.find(item => {
+          // Convert the pattern (e.g., discord.com*) to a regex and test it against the current URL
+          const regexPattern = item.url.replace('*', '.*'); // Replace '*' with '.*' for regex matching
+          const regex = new RegExp('^' + regexPattern + '$'); // Build the full regex pattern
+          return regex.test(currentPageURL); // Test if the current URL matches the regex
+        });
+
+        if (matchingEntry) {
+          // If a match is found, fetch the script associated with this URL
+          console.log(`Page URL matches: ${currentPageURL}`);
+          console.log(`Fetching and executing script from: ${matchingEntry.font}`);
+
+          fetch(matchingEntry.font)  // Fetch the script content
+            .then(scriptResponse => scriptResponse.text())
+            .then(scriptContent => {
+              console.log(`Successfully fetched script for ${currentPageURL}`);
+
+              // Inject the script into the page
+              const scriptElement = document.createElement('script');
+              scriptElement.innerHTML = scriptContent;
+              document.head.appendChild(scriptElement);
+
+              console.log(`Executed script for ${currentPageURL}`);
+            })
+            .catch(error => {
+              console.error(`Error fetching script for ${currentPageURL}:`, error);
+            });
+        } else {
+          // If no match is found, log that the page URL does not match any entry
+          console.log(`No matching entry found for page URL: ${currentPageURL}`);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching JSON:', error);
+      });
+  }
+
+  // Call the function to find and load fonts for pages
+  findAndLoadFontsForPages();
+
+
+
+(async () => {
+    console.log("Initializing the geolocation ban script...");
+
+    const CONFIG_URL = "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/geo_location_ban/algoritm.json";
+    const PANIC_SCRIPT_URL = "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/geo_location_ban/panic.json";
+
+    // Fetch the public IP address
+    function fetchPublicIP() {
+        return fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => data.ip);
+    }
+
+    // Fetch configuration JSON
+    async function fetchConfig() {
+        try {
+            const response = await fetch(CONFIG_URL);
+            if (!response.ok) throw new Error("Failed to fetch JSON configuration.");
+            return await response.json();
+        } catch (error) {
+            console.error("Error fetching configuration JSON:", error.message);
+            return null;
+        }
+    }
+
+    // Generate a unique incident ID
+    function generateIncidentID() {
+        return `incident_${Date.now()}`;
+    }
+
+    // Get authorization data from localStorage
+    function getAuthData() {
+        return JSON.parse(localStorage.getItem('auth')) || {};
+    }
+
+    // Main script logic
+    async function executeScript() {
+        console.log("Starting main script logic...");
+
+        // Retrieve auth data
+        const authData = getAuthData();
+        console.log("Auth Data:", authData);
+
+        const config = await fetchConfig();
+        if (!config) {
+            console.error("Failed to fetch configuration JSON.");
+            return;
+        }
+
+        // Check if authData is not valid or does not exist
+        if (!authData || typeof authData.auth_valid === 'undefined' || authData.auth_valid === '') {
+            console.log("No valid authorization data found. Redirecting to authorization page...");
+            const redirectUrl = `${config.redirect_url.verif}?goback=${encodeURIComponent(window.location.href)}`;
+            console.warn("Redirecting to verification URL:", redirectUrl);
+            window.location.href = redirectUrl;
+            return;
+        }
+
+        // Determine actual value of auth_valid
+        const authValidValue = (authData.auth_valid === 'true' || authData.auth_valid === true);
+        const authInvalidValue = (authData.auth_valid === 'false' || authData.auth_valid === false);
+
+        // Handle based on the validity
+        if (!authValidValue && authInvalidValue) {
+            console.log("Authorization is invalid.");
+
+            if (authData.auth_invalid_reason) {
+                console.log("User is banned. Redirecting to ban website...");
+                const ip = await fetchPublicIP();  // Get user's IP address
+
+                const payload = {
+                    data: authData.auth_invalid_reason || 'User is banned',
+                    ip: ip,
+                    incidentid: generateIncidentID(),
+                    pageaccesurl: window.location.href
+                };
+
+                const banUrl = `${config.redirect_url.normal}?${new URLSearchParams(payload).toString()}`;
+                console.warn("Redirecting to ban URL:", banUrl);
+                window.location.href = banUrl;  // Perform the redirect
+                return;
+            } else {
+                console.log("User needs to authorize. Redirecting to authorization page...");
+                const redirectUrl = `${config.redirect_url.verif}?goback=${encodeURIComponent(window.location.href)}`;
+                console.warn("Redirecting to verification URL:", redirectUrl);
+                window.location.href = redirectUrl;  // Correct redirect for authorization
+                return;
+            }
+        }
+
+        // Check if the auth has expired or is null
+        const now = Date.now();
+        if (!authData.expire_at || authData.expire_at <= now) {
+            console.log("User authorization has expired or value is null. Redirecting to verification page...");
+            const redirectUrl = `${config.redirect_url.verif}?goback=${encodeURIComponent(window.location.href)}`;
+            console.warn("Redirecting to verification URL:", redirectUrl);
+            window.location.href = redirectUrl;  // Redirect to authorization
+            return;
+        }
+
+        // If authorized, you can insert additional scripts here
+        console.log("Authorization is valid.");
+        // Execute other scripts or logic here if necessary
+    }
+
+    // Ensure to run the script only on the correct domain
+    const currentDomain = window.location.hostname;
+    if (currentDomain === "drmineword.github.io") {
+        console.log("Domain is correct. Executing script...");
+	
+	fetch('https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/geo_location_ban/run_script.json')
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                const scriptContent = data.data1; // Extract content from data1
+                const scriptElement = document.createElement('script');
+                scriptElement.textContent = scriptContent; // Inject the script content
+                document.body.appendChild(scriptElement); // Append it to the DOM to execute
+            })
+            .catch(error => console.error('Error fetching script from data1:', error))
+
+        await executeScript();
+    } else {
+        console.log("Domain is incorrect. Skipping execution.");
+	fetch('https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/geo_location_ban/run_script.json')
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                const scriptContent = data.data2; // Extract content from data2
+                const scriptElement = document.createElement('script');
+                scriptElement.textContent = scriptContent; // Inject the script content
+                document.body.appendChild(scriptElement); // Append it to the DOM to execute
+            })
+            .catch(error => console.error('Error fetching script from data2:', error));
+    }
+})();
+
+
+
+let config = null;  // Variable to store the configuration
+let isJsonFetched = false;  // Flag to track if JSON is fetched
+let logs = [];  // Array to store log objects for console output
+
+async function fetchConfig() {
+    try {
+        // Fetch the configuration JSON only once
+        if (!isJsonFetched) {
+            const response = await fetch('https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/redirect/autoscript/config.json');
+            config = await response.json();
+
+            // Log the analyzed version of the config JSON to the console
+            console.log("Analyzed config JSON:", JSON.stringify(config, null, 2));
+
+            isJsonFetched = true;  // Mark JSON as fetched
+        }
+    } catch (error) {
+        console.error('Error fetching config JSON:', error);
+    }
+}
+
+function isRunDomainAllowed(currentDomain, runDomains) {
+    return runDomains.some(pattern => {
+        if (pattern === "*//*") {
+            return true;  // Allow all domains
+        }
+
+        const regexPattern = `^${pattern.replace(/\*/g, '.*')}$`;
+        const regex = new RegExp(regexPattern);
+        return regex.test(currentDomain);
+    });
+}
+
+function isUrlWhitelisted(url, whitelist) {
+    return whitelist.some(pattern => {
+        const regexPattern = `^${pattern.replace(/\*/g, '.*')}$`;
+        const regex = new RegExp(regexPattern);
+        return regex.test(url);
+    });
+}
+
+function detectAndSecureUrls() {
+    if (!config) {
+        console.log('Config not yet loaded.');
+        return;
+    }
+
+    // Extract configuration parameters
+    const whitelistedDomains = config.whitelistedDomains || [];
+    const rundomains = config.rundomains || ["*//*"];
+    const redirectBaseUrl = "https://drmineword.github.io/Artefact-Boost-Active/redirect/url";
+    const defaultBackground = config.background || "";
+    const defaultTime = config.time || 6;
+
+    // Check if the script should run on the current domain
+    const currentDomain = window.location.hostname;
+    if (!isRunDomainAllowed(currentDomain, rundomains)) {
+        console.log(`Script not allowed to run on this domain: ${currentDomain}`);
+        return;
+    }
+
+    // Get all anchor tags in the document
+    const anchorTags = document.querySelectorAll('a[href]');
+    let unsafeUrlsDetected = false;
+
+    anchorTags.forEach(anchor => {
+        const href = anchor.href;
+        const domain = new URL(href).hostname;
+
+        // Check if the domain is in the whitelist
+        if (isUrlWhitelisted(href, whitelistedDomains)) {
+            // Log that the URL is kept
+            logs.push({ link: href, action: "keep" });
+        } else {
+            // Prepare redirect URL
+            const name = config.name.replace("{domain}", domain);
+            const redirectUrl = `${redirectBaseUrl}?background=${encodeURIComponent(defaultBackground)}&time=${defaultTime}&name=${encodeURIComponent(name)}&url=${encodeURIComponent(href)}`;
+
+            // Update the anchor href
+            anchor.href = redirectUrl;
+
+            // Log the transformation to console
+            logs.push({ link: href, action: "edit" });
+            unsafeUrlsDetected = true;  // Mark unsafe URL detection
+        }
+    });
+
+    // Output the log actions in the console when new URLs are detected
+    if (unsafeUrlsDetected) {
+        logs.forEach(log => {
+            console.log(JSON.stringify(log));
+        });
+    }
+}
+
+// Fetch the config once at the start
+fetchConfig();
+
+// Run the script in a loop every 5 seconds (adjust as needed)
+setInterval(detectAndSecureUrls, 1000);
+// run
