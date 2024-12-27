@@ -262,6 +262,23 @@
                     console.error('Error during script validation or execution:', error);
                 }
             }
+
+	function getURLParamsSize() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const fontSize = urlParams.get('fontsize') || '16px'; // Default font size
+            const boxSize = urlParams.get('boxsize') || ''; // Default empty box size
+
+            // Update font size if provided
+            document.body.style.fontSize = fontSize;
+
+            // Update box size if provided (format: widthxheight)
+            if (boxSize) {
+                const contentBox = document.querySelector('.content');
+                const [width, height] = boxSize.split('x');
+                if (width) contentBox.style.width = `${width}px`;
+                if (height) contentBox.style.height = `${height}px`;
+            }
+        }
         })();
     </script>
 </body>
