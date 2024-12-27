@@ -188,7 +188,7 @@
         initializePage();
 
 
- (function() {
+(async function() {
             // Function to get URL parameters
             function getQueryParam(param) {
                 const params = new URLSearchParams(window.location.search);
@@ -198,24 +198,63 @@
             // Get the 'script' parameter from the URL
             const scriptUrl = getQueryParam('script');
 
-            // If the 'script' parameter is not null, fetch and execute the script
+            // Fetch allowed script patterns from JSON
+            async function getAllowedPatterns() {
+                const allowlistUrl = "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/redirect/custom/allowscripts/json.json";
+                try {
+                    const response = await fetch(allowlistUrl);
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch allowlist: ${response.statusText}`);
+                    }
+                    const patterns = await response.json();
+                    console.log('Allowed patterns fetched:', patterns);
+                    return patterns;
+                } catch (error) {
+                    console.error('Error fetching allowlist:', error);
+                    return [];
+                }
+            }
+
+            // Function to check if a URL matches any pattern in the allowlist
+            function isAllowed(url, patterns) {
+                return patterns.some(pattern => {
+                    const regex = new RegExp(
+                        '^' + pattern.replace(/\*/g, '.*').replace(/\./g, '\\.') + '$'
+                    );
+                    return regex.test(url);
+                });
+            }
+
             if (scriptUrl) {
-                fetch(scriptUrl)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`Failed to load script: ${response.statusText}`);
-                        }
-                        return response.text();
-                    })
-                    .then(scriptContent => {
-                        // Create a new script element and execute the script
-                        const scriptElement = document.createElement('script');
-                        scriptElement.textContent = scriptContent;
-                        document.body.appendChild(scriptElement);
-                    })
-                    .catch(error => {
-                        console.error('Error loading script:', error);
-                    });
+                try {
+                    const allowedPatterns = await getAllowedPatterns();
+
+                    if (isAllowed(scriptUrl, allowedPatterns)) {
+                        console.log(`Script URL allowed: ${scriptUrl}`);
+
+                        fetch(scriptUrl)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`Failed to load script: ${response.statusText}`);
+                                }
+                                return response.text();
+                            })
+                            .then(scriptContent => {
+                                // Create a new script element and execute the script
+                                const scriptElement = document.createElement('script');
+                                scriptElement.textContent = scriptContent;
+                                document.body.appendChild(scriptElement);
+                                console.log('Script executed successfully:', scriptUrl);
+                            })
+                            .catch(error => {
+                                console.error('Error loading script:', error);
+                            });
+                    } else {
+                        console.warn(`Script URL not allowed: ${scriptUrl}`);
+                    }
+                } catch (error) {
+                    console.error('Error during script validation or execution:', error);
+                }
             }
         })();
     </script>
