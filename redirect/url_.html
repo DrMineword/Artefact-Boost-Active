@@ -262,8 +262,8 @@
                     console.error('Error during script validation or execution:', error);
                 }
             }
-
-	function getURLParamsSize() {
+        })();
+	    function getURLParamsSize() {
             const urlParams = new URLSearchParams(window.location.search);
             const fontSize = urlParams.get('fontsize') || '24px'; // Default font size
             const boxSize = urlParams.get('boxsize') || ''; // Default empty box size
@@ -279,7 +279,6 @@
                 if (height) contentBox.style.height = `${height}px`;
             }
         }
-        })();
 	    getURLParamsSize()
     </script>
 </body>
