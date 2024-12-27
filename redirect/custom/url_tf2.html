@@ -65,7 +65,7 @@
     <div class="content">
 		<center>
         <div class="status"><p style="color: #000000; font-size: 24px;">You are on your way to:<br>
-			<a id="destinationName" href="#" target="_blank">Example URL</a></div></p>
+			<a id="destinationName" href="#" target="_self">Example URL</a></div></p>
         <div id="countdown">You will be deployed in <span id="countdownTime">...</span></div>
 		</center>
     </div>
@@ -167,6 +167,7 @@
             const destinationName = document.getElementById('destinationName');
             destinationName.textContent = name;
             destinationName.href = url;  // Set the hyperlink to the destination URL
+		destinationName.target = "_self"; // Ensure it opens in the same window
 
             // Set the page title dynamically based on the 'name' parameter
             document.title = name || "Redirecting...";  // Default to "Redirecting..." if no name is provided
