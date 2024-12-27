@@ -10,5 +10,9 @@
     {
         "url": "https://botghost.com/market/*",
         "font": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/TeamFortressFont1.cmd"
+    },
+    {
+        "url": "https://dashboard.botghost.com/*",
+        "font": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/TeamFortressFont1.cmd"
     }
 ]
