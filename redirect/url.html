@@ -25,7 +25,7 @@
             background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
             border-radius: 10px;
             width: auto;
-            max-width: 300px;
+            max-width: 700px;
         }
 
         status {
@@ -208,6 +208,24 @@
   // Append the style to the document's head
   document.head.appendChild(style);
 
+
+	    function getURLParamsSize() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const fontSize = urlParams.get('fontsize') || '24px'; // Default font size
+            const boxSize = urlParams.get('boxsize') || ''; // Default empty box size
+
+            // Update font size if provided
+            document.body.style.fontSize = fontSize;
+
+            // Update box size if provided (format: widthxheight)
+            if (boxSize) {
+                const contentBox = document.querySelector('.content');
+                const [width, height] = boxSize.split('x');
+                if (width) contentBox.style.width = `${width}px`;
+                if (height) contentBox.style.height = `${height}px`;
+            }
+        }
+	    getURLParamsSize()
     </script>
 </body>
 </html>
