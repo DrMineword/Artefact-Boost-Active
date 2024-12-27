@@ -1,5 +1,5 @@
 {
-  "whitelistedDomains": ["https://drmineword.github.io/Artefact-Boost-Active/*", "https://base64.guru/*"],
+  "whitelistedDomains": ["https://drmineword.github.io/Artefact-Boost-Active*", "https://base64.guru/*"],
   "rundomains": ["drmineword.github.io", "ws.tsl.rocks"],
   "background": "https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_CerberusPhoenix.jpg",
   "time": 6,
