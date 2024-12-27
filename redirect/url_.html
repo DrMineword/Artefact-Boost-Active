@@ -218,11 +218,17 @@
             // Function to check if a URL matches any pattern in the allowlist
             function isAllowed(url, patterns) {
                 return patterns.some(pattern => {
+                    // Convert wildcard (*) to a proper regex
                     const regex = new RegExp(
-                        '^' + pattern.replace(/\*/g, '.*').replace(/\./g, '\\.') + '$'
+                        '^' + pattern.split('*').map(escapeRegex).join('.*') + '$'
                     );
                     return regex.test(url);
                 });
+            }
+
+            // Escape special regex characters
+            function escapeRegex(string) {
+                return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             }
 
             if (scriptUrl) {
