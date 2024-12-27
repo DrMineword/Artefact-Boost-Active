@@ -57,6 +57,11 @@
 
             #countdown {
                 font-size: 18px;
+		     width: 200px; /* Set a fixed width that works for your text */
+  text-align: center; /* Optional: Align text to the center */
+  white-space: nowrap; /* Prevent wrapping if needed */
+  overflow: hidden; /* Ensure no overflow issues */
+  display: inline-block; /* Ensure it doesn't expand unnecessarily */
             }
         }
     </style>
@@ -158,7 +163,7 @@
                     clearInterval(countdownInterval);
                     window.location.href = destinationUrl;
                 }
-            }, 10);  // Update every 10 milliseconds
+            }, 1);  // Update every 10 milliseconds
         }
 
         // Initialize the page based on URL parameters
