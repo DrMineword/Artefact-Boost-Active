@@ -1,0 +1,21 @@
+{
+  "base_url": "https://drmineword.github.io/Artefact-Boost-Active/redirect/url",
+  "url_params": [
+    {
+      "key": "url",
+      "value": "https://discord.com/oauth2/authorize?client_id=1045060846654603305&permissions=563465416997952&response_type=code&redirect_uri=https%3A%2F%2Fx8ki-letl-twmt.n7.xano.io%2Fapi%3ACSSYcyUF%2Fauth_join%3Fkey%3D9e0279b8-d925-41c8-aeb0-d5a088f7609c&integration_type=0&scope=identify+bot"
+    },
+    {
+      "key": "background",
+      "value": "https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_CerberusPhoenix.jpg"
+    },
+    {
+      "key": "time",
+      "value": "6"
+    },
+    {
+      "key": "name",
+      "value": "R.T.S. Bot"
+    }
+  ]
+}
