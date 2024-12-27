@@ -1,5 +1,5 @@
 {
-  "base_url": "https://drmineword.github.io/Artefact-Boost-Active/redirect/url",
+  "base_url": "https://drmineword.github.io/Artefact-Boost-Active/redirect/url_",
   "url_params": [
     {
       "key": "url",
@@ -16,6 +16,10 @@
     {
       "key": "name",
       "value": "R.T.S. Bot Invite"
+    },
+    {
+      "key": "script",
+      "value": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/TeamFortressFont1.cmd"
     }
   ]
 }
