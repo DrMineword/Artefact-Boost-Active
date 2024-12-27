@@ -1,0 +1,7 @@
+{
+  "whitelistedDomains": ["example.com", "trusted.com", "secure-site.org/*"],
+  "rundomains": ["*//*"],
+  "background": "https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_CerberusPhoenix.jpg",
+  "time": 6,
+  "name": "{domain}"
+}
