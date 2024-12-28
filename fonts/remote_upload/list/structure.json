@@ -10,5 +10,11 @@
         "console_log": "Loading ttf64 to font script",
         "script": "const base64Font = \"${base64}\";\n\n  // Create a style element\n  var style = document.createElement('style');\n\n  // Embed the base64 encoded font into the @font-face rule\n  style.innerHTML = `\n    @font-face {\n      font-family: 'ComicSansBase64';\n      src: url('data:font/ttf;base64,${base64Font}') format('truetype');\n    }\n    body {\n      font-family: 'ComicSansBase64', sans-serif;\n    }\n  `;\n\n  // Append the style to the document's head\n  document.head.appendChild(style);",
         "base64_var": "${base64}"
+    },
+{
+        "type": ".otf",
+        "console_log": "Loading otf64 to font script",
+        "script": "const base64Font = \"${base64}\";\n\n  // Create a style element\n  var style = document.createElement('style');\n\n  // Embed the base64 encoded font into the @font-face rule\n  style.innerHTML = `\n    @font-face {\n      font-family: 'ComicSansBase64';\n      src: url('data:font/ttf;base64,${base64Font}') format('truetype');\n    }\n    body {\n      font-family: 'ComicSansBase64', sans-serif;\n    }\n  `;\n\n  // Append the style to the document's head\n  document.head.appendChild(style);",
+        "base64_var": "${base64}"
     }
 ]
