@@ -107,6 +107,18 @@
         "title": "Libre_Barcode_39",
         "description": "https://fonts.google.com/specimen/Libre+Barcode+39"
       }
+    },
+    {
+      "id": "UPLOAD_1735421549_f60j4p85p",
+      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/Inkling_v2.otf_encoded.json",
+      "data": {
+        "id": "UPLOAD_1735421549_f60j4p85p",
+        "type": "application/octet-stream",
+        "original_file_format": ".otf",
+        "timestamp": "2024-12-28T21:32:29.800Z",
+        "title": "Inkling_v2",
+        "description": "A Splatoon Language/Font"
+      }
     }
   ],
   "script_array": [
