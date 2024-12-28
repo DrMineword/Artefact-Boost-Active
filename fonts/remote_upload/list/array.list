@@ -23,7 +23,26 @@
         "title": "Poppins",
         "description": "https://fonts.google.com/specimen/Poppins"
       }
+    },
+    {
+      "id": "UPLOAD_1735412796_811orxhx9",
+      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/Tinos.zip",
+      "data": {
+        "id": "UPLOAD_1735412796_811orxhx9",
+        "type": "application/x-zip-compressed",
+        "original_file_format": ".zip",
+        "timestamp": "2024-12-28T19:06:36.902Z",
+        "title": "Tinos",
+        "description": "https://fonts.google.com/specimen/Tinos"
+      }
     }
   ],
-  "script_array": []
+  "script_array": [
+    {
+      "type": "zip",
+      "console_log": "Loading zip64 to font script",
+      "script": "const base64Zip = \"${base64}\"; // Replace with your actual base64 string\r\n\r\n    // Function to load JSZip dynamically\r\n    function loadJSZip() {\r\n      return new Promise((resolve, reject) => {\r\n        const script = document.createElement('script');\r\n        script.src = \"https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js\";\r\n        script.onload = resolve;\r\n        script.onerror = reject;\r\n        document.head.appendChild(script);\r\n      });\r\n    }\r\n\r\n    // Decode and extract the ZIP\r\n    async function processZip(base64Data) {\r\n      // Convert base64 to binary\r\n      const binaryString = atob(base64Data);\r\n      const byteArray = new Uint8Array(binaryString.length);\r\n      for (let i = 0; i < binaryString.length; i++) {\r\n        byteArray[i] = binaryString.charCodeAt(i);\r\n      }\r\n\r\n      // Use JSZip to unzip\r\n      const zip = await JSZip.loadAsync(byteArray);\r\n\r\n      // Extract font and .txt file\r\n      let fontBlob, txtContent;\r\n      await Promise.all(\r\n        Object.keys(zip.files).map(async (fileName) => {\r\n          if (fileName.endsWith('.ttf') || fileName.endsWith('.woff') || fileName.endsWith('.woff2')) {\r\n            fontBlob = await zip.files[fileName].async('blob');\r\n          } else if (fileName.endsWith('.txt')) {\r\n            txtContent = await zip.files[fileName].async('string');\r\n          }\r\n        })\r\n      );\r\n\r\n      // Print .txt file content\r\n      if (txtContent) {\r\n        console.log('TXT Content:', txtContent);\r\n      } else {\r\n        console.error('No .txt file found in the ZIP.');\r\n      }\r\n\r\n      // Load the font\r\n      if (fontBlob) {\r\n        const fontUrl = URL.createObjectURL(fontBlob);\r\n        const fontFace = new FontFace('DynamicFont', `url(${fontUrl})`);\r\n        document.fonts.add(fontFace);\r\n\r\n        // Apply the font to the body\r\n        fontFace.load().then(() => {\r\n          document.body.style.fontFamily = 'DynamicFont, sans-serif';\r\n          console.log('Font loaded and applied successfully.');\r\n        });\r\n      } else {\r\n        console.error('No font file found in the ZIP.');\r\n      }\r\n    }\r\n\r\n    // Load JSZip and process the ZIP\r\n    loadJSZip()\r\n      .then(() => {\r\n        console.log('JSZip loaded successfully.');\r\n        processZip(base64Zip);\r\n      })\r\n      .catch((err) => {\r\n        console.error('Failed to load JSZip:', err);\r\n      });",
+      "base64_var": "${base64}"
+    }
+  ]
 }
