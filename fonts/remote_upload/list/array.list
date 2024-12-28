@@ -59,6 +59,18 @@
         "title": "Build",
         "description": "https://www.dafont.com/tf2-build.font"
       }
+    },
+    {
+      "id": "UPLOAD_1735413903_lyrpxneiv",
+      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/Comic_Sans_MS.ttf_encoded.json",
+      "data": {
+        "id": "UPLOAD_1735413903_lyrpxneiv",
+        "type": "application/octet-stream",
+        "original_file_format": ".ttf",
+        "timestamp": "2024-12-28T19:25:03.499Z",
+        "title": "Comic Sans MS",
+        "description": "Best font ever"
+      }
     }
   ],
   "script_array": [
