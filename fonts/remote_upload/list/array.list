@@ -47,6 +47,18 @@
         "title": "Orbiton",
         "description": "https://fonts.google.com/specimen/Orbitron"
       }
+    },
+    {
+      "id": "UPLOAD_1735412962_y588i4jlr",
+      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/tf2build.ttf",
+      "data": {
+        "id": "UPLOAD_1735412962_y588i4jlr",
+        "type": "application/octet-stream",
+        "original_file_format": ".ttf",
+        "timestamp": "2024-12-28T19:09:22.474Z",
+        "title": "Build",
+        "description": "https://www.dafont.com/tf2-build.font"
+      }
     }
   ],
   "script_array": [
