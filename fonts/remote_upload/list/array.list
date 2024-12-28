@@ -2,7 +2,7 @@
   "list": [
     {
       "id": "UPLOAD_1735412450_ftrottvw2",
-      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/wingding.ttf",
+      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/wingding.ttf_encoded.json",
       "data": {
         "id": "UPLOAD_1735412450_ftrottvw2",
         "type": "application/octet-stream",
@@ -14,7 +14,7 @@
     },
     {
       "id": "UPLOAD_1735412499_x8fv2i4tr",
-      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/Poppins.zip",
+      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/Poppins.zip_encoded.json",
       "data": {
         "id": "UPLOAD_1735412499_x8fv2i4tr",
         "type": "application/x-zip-compressed",
@@ -26,7 +26,7 @@
     },
     {
       "id": "UPLOAD_1735412796_811orxhx9",
-      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/Tinos.zip",
+      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/Tinos.zip_encoded.json",
       "data": {
         "id": "UPLOAD_1735412796_811orxhx9",
         "type": "application/x-zip-compressed",
@@ -38,7 +38,7 @@
     },
     {
       "id": "UPLOAD_1735412845_hayw8q61p",
-      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/Orbitron.zip",
+      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/Orbitron.zip_encoded.json",
       "data": {
         "id": "UPLOAD_1735412845_hayw8q61p",
         "type": "application/x-zip-compressed",
@@ -50,7 +50,7 @@
     },
     {
       "id": "UPLOAD_1735412962_y588i4jlr",
-      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/tf2build.ttf",
+      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/tf2build.ttf_encoded.json",
       "data": {
         "id": "UPLOAD_1735412962_y588i4jlr",
         "type": "application/octet-stream",
