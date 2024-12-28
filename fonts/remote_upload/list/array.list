@@ -35,6 +35,18 @@
         "title": "Tinos",
         "description": "https://fonts.google.com/specimen/Tinos"
       }
+    },
+    {
+      "id": "UPLOAD_1735412845_hayw8q61p",
+      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/Orbitron.zip",
+      "data": {
+        "id": "UPLOAD_1735412845_hayw8q61p",
+        "type": "application/x-zip-compressed",
+        "original_file_format": ".zip",
+        "timestamp": "2024-12-28T19:07:25.141Z",
+        "title": "Orbiton",
+        "description": "https://fonts.google.com/specimen/Orbitron"
+      }
     }
   ],
   "script_array": [
