@@ -71,6 +71,18 @@
         "title": "Comic Sans MS",
         "description": "Best font ever"
       }
+    },
+    {
+      "id": "UPLOAD_1735414094_65dk7yrr2",
+      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/Wallpoet.zip_encoded.json",
+      "data": {
+        "id": "UPLOAD_1735414094_65dk7yrr2",
+        "type": "application/x-zip-compressed",
+        "original_file_format": ".zip",
+        "timestamp": "2024-12-28T19:28:14.609Z",
+        "title": "Wallpoet",
+        "description": "https://fonts.google.com/specimen/Wallpoet"
+      }
     }
   ],
   "script_array": [
