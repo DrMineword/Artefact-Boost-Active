@@ -57,66 +57,76 @@
 
 const ARRAY_LIST_URL = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/list/array.list';
 
-// Background: Load array list
-let fontArray = null;
+// Define a list of URLs where the script should not run
+const BLOCKED_URLS = [
+    "https://drmineword.github.io/Artefact-Boost-Active/root/index.html"
+];
 
-(async function loadFontArray() {
-    try {
-        const response = await fetch(ARRAY_LIST_URL);
-        if (!response.ok) throw new Error('Failed to load font array list.');
-        fontArray = await response.json();
-        console.log('Font array list loaded successfully:', fontArray);
-    } catch (error) {
-        console.error('Error loading font array list:', error);
-    }
-})();
+// Check if the current URL is in the blocked list
+if (!BLOCKED_URLS.includes(window.location.href)) {
+    // Background: Load array list
+    let fontArray = null;
 
-// Function to load font by ID
-async function loadfont(fontId) {
-    if (!fontArray) {
-        console.error('Font array not loaded yet. Please wait or check for errors.');
-        return;
-    }
+    (async function loadFontArray() {
+        try {
+            const response = await fetch(ARRAY_LIST_URL);
+            if (!response.ok) throw new Error('Failed to load font array list.');
+            fontArray = await response.json();
+            console.log('Font array list loaded successfully:', fontArray);
+        } catch (error) {
+            console.error('Error loading font array list:', error);
+        }
+    })();
 
-    try {
-        // Find the font entry by ID
-        const fontEntry = fontArray.list.find(font => font.id === fontId);
-        if (!fontEntry) {
-            console.error(`Font with ID "${fontId}" not found.`);
+    // Function to load font by ID
+    async function loadfont(fontId) {
+        if (!fontArray) {
+            console.error('Font array not loaded yet. Please wait or check for errors.');
             return;
         }
 
-        console.log(`Loading font: ${fontEntry.data.title}`);
+        try {
+            // Find the font entry by ID
+            const fontEntry = fontArray.list.find(font => font.id === fontId);
+            if (!fontEntry) {
+                console.error(`Font with ID "${fontId}" not found.`);
+                return;
+            }
 
-        // Fetch the raw_url to get the font data
-        const fontResponse = await fetch(fontEntry.raw_url);
-        if (!fontResponse.ok) throw new Error('Failed to fetch font data.');
-        const fontData = await fontResponse.json();
+            console.log(`Loading font: ${fontEntry.data.title}`);
 
-        // Find the appropriate script template based on type
-        const scriptTemplate = fontArray.script_array.find(script => {
-            if (fontEntry.data.original_file_format === '.zip') return script.type === 'zip';
-            if (fontEntry.data.original_file_format === '.ttf' || fontEntry.data.original_file_format === '.woff' || fontEntry.data.original_file_format === '.woff2') return script.type === 'ttf';
-            return false;
-        });
+            // Fetch the raw_url to get the font data
+            const fontResponse = await fetch(fontEntry.raw_url);
+            if (!fontResponse.ok) throw new Error('Failed to fetch font data.');
+            const fontData = await fontResponse.json();
 
-        if (!scriptTemplate) {
-            console.error(`No script template found for type: ${fontEntry.data.original_file_format}`);
-            return;
+            // Find the appropriate script template based on type
+            const scriptTemplate = fontArray.script_array.find(script => {
+                if (fontEntry.data.original_file_format === '.zip') return script.type === 'zip';
+                if (fontEntry.data.original_file_format === '.ttf' || fontEntry.data.original_file_format === '.woff' || fontEntry.data.original_file_format === '.woff2') return script.type === 'ttf';
+                return false;
+            });
+
+            if (!scriptTemplate) {
+                console.error(`No script template found for type: ${fontEntry.data.original_file_format}`);
+                return;
+            }
+
+            // Replace ${base64} in the script with the actual base64 content
+            const scriptContent = scriptTemplate.script.replace('${base64}', fontData.base64);
+
+            // Create and execute the script dynamically
+            const scriptElement = document.createElement('script');
+            scriptElement.textContent = scriptContent;
+            document.body.appendChild(scriptElement);
+
+            console.log(`Font "${fontEntry.data.title}" loaded successfully.`);
+        } catch (error) {
+            console.error('Error loading font:', error);
         }
-
-        // Replace ${base64} in the script with the actual base64 content
-        const scriptContent = scriptTemplate.script.replace('${base64}', fontData.base64);
-
-        // Create and execute the script dynamically
-        const scriptElement = document.createElement('script');
-        scriptElement.textContent = scriptContent;
-        document.body.appendChild(scriptElement);
-
-        console.log(`Font "${fontEntry.data.title}" loaded successfully.`);
-    } catch (error) {
-        console.error('Error loading font:', error);
     }
+} else {
+    console.log('Script execution blocked on this page:', window.location.href);
 }
 
 
