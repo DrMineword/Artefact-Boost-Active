@@ -8,7 +8,7 @@
         {
           "id": "UPLOAD_1735412450_ftrottvw2",
           "title": "Windings",
-          "timestamp": "2024-12-29T14:51:56.769Z",
+          "timestamp": "2024-12-29T15:08:56.231Z",
           "description": "windings font (Gaster Font From Undertale)",
           "original_format": ".ttf"
         }
@@ -22,7 +22,7 @@
         {
           "id": "UPLOAD_1735412499_x8fv2i4tr",
           "title": "Poppins",
-          "timestamp": "2024-12-29T14:52:03.313Z",
+          "timestamp": "2024-12-29T15:09:01.704Z",
           "description": "https://fonts.google.com/specimen/Poppins",
           "original_format": ".zip"
         }
@@ -36,7 +36,7 @@
         {
           "id": "UPLOAD_1735412796_811orxhx9",
           "title": "Tinos",
-          "timestamp": "2024-12-29T14:52:08.305Z",
+          "timestamp": "2024-12-29T15:09:06.247Z",
           "description": "https://fonts.google.com/specimen/Tinos",
           "original_format": ".zip"
         }
@@ -50,7 +50,7 @@
         {
           "id": "UPLOAD_1735412845_hayw8q61p",
           "title": "Orbiton",
-          "timestamp": "2024-12-29T14:52:11.565Z",
+          "timestamp": "2024-12-29T15:09:10.013Z",
           "description": "https://fonts.google.com/specimen/Orbitron",
           "original_format": ".zip"
         }
@@ -64,7 +64,7 @@
         {
           "id": "UPLOAD_1735412962_y588i4jlr",
           "title": "Build",
-          "timestamp": "2024-12-29T14:52:14.839Z",
+          "timestamp": "2024-12-29T15:09:13.151Z",
           "description": "https://www.dafont.com/tf2-build.font",
           "original_format": ".ttf"
         }
@@ -78,7 +78,7 @@
         {
           "id": "UPLOAD_1735413903_lyrpxneiv",
           "title": "Comic Sans MS",
-          "timestamp": "2024-12-29T14:52:18.069Z",
+          "timestamp": "2024-12-29T15:09:16.633Z",
           "description": "Best font ever",
           "original_format": ".ttf"
         }
@@ -92,7 +92,7 @@
         {
           "id": "UPLOAD_1735414094_65dk7yrr2",
           "title": "Wallpoet",
-          "timestamp": "2024-12-29T14:52:20.824Z",
+          "timestamp": "2024-12-29T15:09:19.514Z",
           "description": "https://fonts.google.com/specimen/Wallpoet",
           "original_format": ".zip"
         }
@@ -106,7 +106,7 @@
         {
           "id": "UPLOAD_1735414617_puu8grglx",
           "title": "Playwrite_AU_VIC_Guides",
-          "timestamp": "2024-12-29T14:52:25.034Z",
+          "timestamp": "2024-12-29T15:09:23.372Z",
           "description": "https://fonts.google.com/specimen/Playwrite+AU+VIC+Guides",
           "original_format": ".zip"
         }
@@ -120,7 +120,7 @@
         {
           "id": "UPLOAD_1735415208_sbi9u5h7l",
           "title": "Libre_Barcode_39",
-          "timestamp": "2024-12-29T14:52:27.770Z",
+          "timestamp": "2024-12-29T15:09:27.413Z",
           "description": "https://fonts.google.com/specimen/Libre+Barcode+39",
           "original_format": ".zip"
         }
@@ -134,23 +134,23 @@
         {
           "id": "UPLOAD_1735421549_f60j4p85p",
           "title": "Inkling_v2",
-          "timestamp": "2024-12-29T14:52:30.619Z",
+          "timestamp": "2024-12-29T15:09:31.052Z",
           "description": "A Splatoon Language/Font",
           "original_format": ".otf"
         }
       ]
     },
     {
-      "id_name": "minecraft-standard-galactic-alphabet.otf",
-      "script_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/standalonerun/files/minecraft-standard-galactic-alphabet.otf/script.execute",
-      "id": "UPLOAD_1735480371_2yzd8qtc7",
+      "id_name": "Standard%20Galactic%20Alphabet",
+      "script_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/standalonerun/files/Standard%20Galactic%20Alphabet/script.execute",
+      "id": "UPLOAD_1735484919_em4zt1546",
       "data": [
         {
-          "id": "UPLOAD_1735480371_2yzd8qtc7",
-          "title": "minecraft-standard-galactic-alphabet.otf",
-          "timestamp": "2024-12-29T14:52:33.570Z",
+          "id": "UPLOAD_1735484919_em4zt1546",
+          "title": "Standard Galactic Alphabet",
+          "timestamp": "2024-12-29T15:09:34.332Z",
           "description": "The FontStruction âMinecraft - Standard Galactic Alphabetâ (https://fontstruct.com/fontstructions/show/590785) by Robin Van der Vliet is licensed under a Creative Commons Attribution Non-commercial Share Alike license (http://creativecommons.org/licenses/by-nc-sa/3.0/).\n",
-          "original_format": ".zip"
+          "original_format": ".ttf"
         }
       ]
     }
