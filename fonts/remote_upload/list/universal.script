@@ -1,4 +1,3 @@
-// IIFE to encapsulate the script and prevent global scope pollution
 (() => {
   const base64Zip = "${base64}"; // Replace with your actual base64 string
 
