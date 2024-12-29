@@ -1,0 +1,85 @@
+(async () => {
+    const dataListUrl = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/standalonerun/data_full.list';
+    const delay = 1000; // Delay in milliseconds
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // Shuffle function to randomize font order
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    try {
+        console.log('Fetching the font data list...');
+        const response = await fetch(dataListUrl);
+        if (!response.ok) {
+            throw new Error('Failed to fetch data_full.list');
+        }
+        const dataList = await response.json();
+        console.log(`Successfully fetched ${dataList.data.length} fonts.`);
+
+        // Shuffle the fonts to make the selection random
+        const shuffledFonts = shuffleArray(dataList.data);
+
+        // Process fonts in random order
+        for (const [index, entry] of shuffledFonts.entries()) {
+            const { id_name, rawbase64, rawscript } = entry;
+
+            if (!id_name || !rawbase64 || !rawscript) {
+                console.warn(`Skipping invalid font entry at index ${index}:`, entry);
+                continue;
+            }
+
+            console.log(`Loading font ${index + 1}/${shuffledFonts.length}: ${id_name}...`);
+
+            try {
+                // Convert Base64 to Blob
+                const binaryString = atob(rawbase64);
+                const byteArray = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    byteArray[i] = binaryString.charCodeAt(i);
+                }
+
+                const fontBlob = new Blob([byteArray]);
+                const fontUrl = URL.createObjectURL(fontBlob);
+
+                // Load the font
+                const fontFace = new FontFace(`DynamicFont-${id_name}`, `url(${fontUrl})`);
+                await fontFace.load();
+                document.fonts.add(fontFace);
+                document.body.style.fontFamily = `DynamicFont-${id_name}, sans-serif`;
+
+                // Revoke the blob URL
+                URL.revokeObjectURL(fontUrl);
+                console.log(`Font applied: ${id_name}`);
+            } catch (loadError) {
+                console.warn(`Failed to load font ${id_name}:`, loadError);
+                continue; // Skip to the next font
+            }
+
+            // Execute the raw script
+            try {
+                const script = JSON.parse(rawscript).script;
+                console.log(`Executing script for ${id_name}...`);
+                eval(script);
+                console.log(`Script executed for ${id_name}.`);
+            } catch (scriptError) {
+                console.error(`Failed to execute script for ${id_name}:`, scriptError);
+            }
+
+            // Wait before loading the next font
+            console.log(`Waiting for ${delay / 1000} seconds before loading the next font...\n`);
+            await sleep(delay);
+        }
+
+        console.log('All fonts processed.');
+    } catch (error) {
+        console.error('Error during font processing:', error);
+    }
+})();
