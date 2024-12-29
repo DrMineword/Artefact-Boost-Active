@@ -1,0 +1,25 @@
+{
+  "base_url": "https://drmineword.github.io/Artefact-Boost-Active/redirect/url_",
+  "url_params": [
+    {
+      "key": "url",
+      "value": "https://www.youtube.com/watch?v=tzD9OxAHtzU&list=PL-ZXraMeHBPLZWTMFc3n43JdBgZ95mVNo"
+    },
+    {
+      "key": "background",
+      "value": "https://static.wikia.nocookie.net/vocaloid/images/e/e0/Mesmerizer.jpg/revision/latest/scale-to-width-down/1200?cb=20240429113249"
+    },
+    {
+      "key": "time",
+      "value": "100"
+    },
+    {
+      "key": "name",
+      "value": "Cry About It"
+    },
+    {
+      "key": "script",
+      "value": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/standalonerun/evil.script"
+    }
+  ]
+}
