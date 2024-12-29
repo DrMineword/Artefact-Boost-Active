@@ -1,0 +1,131 @@
+// IIFE to encapsulate the script and prevent global scope pollution
+(() => {
+  const base64Zip = "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"; // Replace with your actual base64 string
+
+  // Function to dynamically load JSZip
+  function loadJSZip() {
+    return new Promise((resolve, reject) => {
+      const existingScript = document.querySelector('script[src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"]');
+      if (existingScript) {
+        console.log('JSZip is already loaded.');
+        return resolve();
+      }
+
+      const script = document.createElement('script');
+      script.src = "https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js";
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  }
+
+  // Function to check if the base64 string is a ZIP file
+  function isZipFile(base64Data) {
+    const binaryString = atob(base64Data.slice(0, 100)); // Decode a portion of the base64 string
+    const zipSignature = [80, 75, 3, 4]; // PK\x03\x04
+    return zipSignature.every((byte, index) => binaryString.charCodeAt(index) === byte);
+  }
+
+  // Function to process ZIP file
+  async function processZip(base64Data) {
+    console.log('Processing as ZIP file...');
+
+    // Convert base64 to binary
+    const binaryString = atob(base64Data);
+    const byteArray = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      byteArray[i] = binaryString.charCodeAt(i);
+    }
+
+    // Use JSZip to unzip
+    const zip = await JSZip.loadAsync(byteArray);
+
+    // Extract font and .txt file
+    let fontBlob, txtContent;
+    await Promise.all(
+      Object.keys(zip.files).map(async (fileName) => {
+        if (fileName.endsWith('.ttf') || fileName.endsWith('.woff') || fileName.endsWith('.woff2')) {
+          console.log(`Found font file: ${fileName}`);
+          fontBlob = await zip.files[fileName].async('blob');
+        } else if (fileName.endsWith('.txt')) {
+          console.log(`Found text file: ${fileName}`);
+          txtContent = await zip.files[fileName].async('string');
+        }
+      })
+    );
+
+    // Print .txt file content
+    if (txtContent) {
+      console.log('TXT Content:', txtContent);
+    } else {
+      console.warn('No .txt file found in the ZIP.');
+    }
+
+    // Load the font
+    if (fontBlob) {
+      const fontUrl = URL.createObjectURL(fontBlob);
+      const fontFace = new FontFace('DynamicFont', `url(${fontUrl})`);
+      document.fonts.add(fontFace);
+
+      // Apply the font to the body
+      fontFace.load().then(() => {
+        document.body.style.fontFamily = 'DynamicFont, sans-serif';
+        console.log('Font loaded and applied successfully.');
+      });
+    } else {
+      console.warn('No font file found in the ZIP.');
+    }
+  }
+
+  // Function to process a standalone font file
+  function processFont(base64Data) {
+    console.log('Processing as standalone font file...');
+
+    const binaryString = atob(base64Data);
+    const byteArray = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      byteArray[i] = binaryString.charCodeAt(i);
+    }
+
+    const fontBlob = new Blob([byteArray]);
+    const fontUrl = URL.createObjectURL(fontBlob);
+    const fontFace = new FontFace('DynamicFont', `url(${fontUrl})`);
+    document.fonts.add(fontFace);
+
+    // Apply the font to the body
+    fontFace.load().then(() => {
+      document.body.style.fontFamily = 'DynamicFont, sans-serif';
+      console.log('Font loaded and applied successfully.');
+    });
+  }
+
+  // Main function to determine and process the input
+  async function processBase64(base64Data) {
+    try {
+      if (isZipFile(base64Data)) {
+        console.log('Detected ZIP file format.');
+        await processZip(base64Data);
+      } else {
+        console.log('Detected standalone font file format.');
+        processFont(base64Data);
+      }
+    } catch (error) {
+      console.error('Error during processing:', error);
+    }
+  }
+
+  // Load JSZip and process the base64 data
+  loadJSZip()
+    .then(() => {
+      console.log('JSZip loaded successfully.');
+      processBase64(base64Zip);
+    })
+    .catch((err) => {
+      console.error('Failed to load JSZip:', err);
+    })
+    .finally(() => {
+      console.log('Clearing base64Zip and other variables.');
+      // Clear variables to avoid re-declaration issues
+      window.base64Zip = undefined;
+    });
+})();
