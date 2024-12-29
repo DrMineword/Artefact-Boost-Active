@@ -2,12 +2,13 @@
   "data": [
     {
       "id_name": "Windings",
+      "script_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/standalonerun/files/Windings/script.execute",
       "id": "UPLOAD_1735412450_ftrottvw2",
       "data": [
         {
           "id": "UPLOAD_1735412450_ftrottvw2",
           "title": "Windings",
-          "timestamp": "2024-12-29T12:42:42.855Z",
+          "timestamp": "2024-12-29T12:44:11.715Z",
           "description": "windings font (Gaster Font From Undertale)",
           "original_format": ".ttf"
         }
@@ -15,12 +16,13 @@
     },
     {
       "id_name": "Poppins",
+      "script_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/standalonerun/files/Poppins/script.execute",
       "id": "UPLOAD_1735412499_x8fv2i4tr",
       "data": [
         {
           "id": "UPLOAD_1735412499_x8fv2i4tr",
           "title": "Poppins",
-          "timestamp": "2024-12-29T12:42:48.026Z",
+          "timestamp": "2024-12-29T12:44:16.736Z",
           "description": "https://fonts.google.com/specimen/Poppins",
           "original_format": ".zip"
         }
@@ -28,12 +30,13 @@
     },
     {
       "id_name": "Tinos",
+      "script_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/standalonerun/files/Tinos/script.execute",
       "id": "UPLOAD_1735412796_811orxhx9",
       "data": [
         {
           "id": "UPLOAD_1735412796_811orxhx9",
           "title": "Tinos",
-          "timestamp": "2024-12-29T12:42:52.114Z",
+          "timestamp": "2024-12-29T12:44:20.804Z",
           "description": "https://fonts.google.com/specimen/Tinos",
           "original_format": ".zip"
         }
@@ -41,12 +44,13 @@
     },
     {
       "id_name": "Orbiton",
+      "script_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/standalonerun/files/Orbiton/script.execute",
       "id": "UPLOAD_1735412845_hayw8q61p",
       "data": [
         {
           "id": "UPLOAD_1735412845_hayw8q61p",
           "title": "Orbiton",
-          "timestamp": "2024-12-29T12:42:55.124Z",
+          "timestamp": "2024-12-29T12:44:25.799Z",
           "description": "https://fonts.google.com/specimen/Orbitron",
           "original_format": ".zip"
         }
@@ -54,12 +58,13 @@
     },
     {
       "id_name": "Build",
+      "script_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/standalonerun/files/Build/script.execute",
       "id": "UPLOAD_1735412962_y588i4jlr",
       "data": [
         {
           "id": "UPLOAD_1735412962_y588i4jlr",
           "title": "Build",
-          "timestamp": "2024-12-29T12:42:58.012Z",
+          "timestamp": "2024-12-29T12:44:28.836Z",
           "description": "https://www.dafont.com/tf2-build.font",
           "original_format": ".ttf"
         }
@@ -67,12 +72,13 @@
     },
     {
       "id_name": "Comic%20Sans%20MS",
+      "script_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/standalonerun/files/Comic%20Sans%20MS/script.execute",
       "id": "UPLOAD_1735413903_lyrpxneiv",
       "data": [
         {
           "id": "UPLOAD_1735413903_lyrpxneiv",
           "title": "Comic Sans MS",
-          "timestamp": "2024-12-29T12:43:00.848Z",
+          "timestamp": "2024-12-29T12:44:31.704Z",
           "description": "Best font ever",
           "original_format": ".ttf"
         }
@@ -80,12 +86,13 @@
     },
     {
       "id_name": "Wallpoet",
+      "script_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/standalonerun/files/Wallpoet/script.execute",
       "id": "UPLOAD_1735414094_65dk7yrr2",
       "data": [
         {
           "id": "UPLOAD_1735414094_65dk7yrr2",
           "title": "Wallpoet",
-          "timestamp": "2024-12-29T12:43:03.566Z",
+          "timestamp": "2024-12-29T12:44:34.514Z",
           "description": "https://fonts.google.com/specimen/Wallpoet",
           "original_format": ".zip"
         }
@@ -93,12 +100,13 @@
     },
     {
       "id_name": "Playwrite_AU_VIC_Guides",
+      "script_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/standalonerun/files/Playwrite_AU_VIC_Guides/script.execute",
       "id": "UPLOAD_1735414617_puu8grglx",
       "data": [
         {
           "id": "UPLOAD_1735414617_puu8grglx",
           "title": "Playwrite_AU_VIC_Guides",
-          "timestamp": "2024-12-29T12:43:06.675Z",
+          "timestamp": "2024-12-29T12:44:37.965Z",
           "description": "https://fonts.google.com/specimen/Playwrite+AU+VIC+Guides",
           "original_format": ".zip"
         }
@@ -106,12 +114,13 @@
     },
     {
       "id_name": "Libre_Barcode_39",
+      "script_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/standalonerun/files/Libre_Barcode_39/script.execute",
       "id": "UPLOAD_1735415208_sbi9u5h7l",
       "data": [
         {
           "id": "UPLOAD_1735415208_sbi9u5h7l",
           "title": "Libre_Barcode_39",
-          "timestamp": "2024-12-29T12:43:09.523Z",
+          "timestamp": "2024-12-29T12:44:40.458Z",
           "description": "https://fonts.google.com/specimen/Libre+Barcode+39",
           "original_format": ".zip"
         }
@@ -119,12 +128,13 @@
     },
     {
       "id_name": "Inkling_v2",
+      "script_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/standalonerun/files/Inkling_v2/script.execute",
       "id": "UPLOAD_1735421549_f60j4p85p",
       "data": [
         {
           "id": "UPLOAD_1735421549_f60j4p85p",
           "title": "Inkling_v2",
-          "timestamp": "2024-12-29T12:43:12.275Z",
+          "timestamp": "2024-12-29T12:44:43.355Z",
           "description": "A Splatoon Language/Font",
           "original_format": ".otf"
         }
