@@ -95,14 +95,20 @@ async function loadfont(fontId) {
 
         // Find the appropriate script template based on type
         const scriptTemplate = fontArray.script_array.find(script => {
-            if (fontEntry.data.original_file_format === '.zip') return script.type === 'zip';
-            if (fontEntry.data.original_file_format === '.ttf' || fontEntry.data.original_file_format === '.woff' || fontEntry.data.original_file_format === '.woff2') return script.type === 'ttf';
+            const fileFormat = fontEntry.data.original_file_format;
+            if (fileFormat === '.zip') return script.type === 'zip';
+            if (['.ttf', '.woff', '.woff2', '.otf'].includes(fileFormat)) return script.type === fileFormat || script.type === fileFormat.replace('.', '');
             return false;
         });
 
         if (!scriptTemplate) {
             console.error(`No script template found for type: ${fontEntry.data.original_file_format}`);
             return;
+        }
+
+        // Log the console_log value
+        if (scriptTemplate.console_log) {
+            console.log('Script console_log:', scriptTemplate.console_log);
         }
 
         // Replace ${base64} in the script with the actual base64 content
@@ -118,7 +124,6 @@ async function loadfont(fontId) {
         console.error('Error loading font:', error);
     }
 }
-
 
 // Example to load: loadfont('UPLOAD_1735412499_x8fv2i4tr');
 
