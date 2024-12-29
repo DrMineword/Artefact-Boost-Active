@@ -22,7 +22,7 @@ https://discord.com/invite/ghostrealm-community-coding-programming-events-bot-67
 https://discordapp.com/api/v6/entitlements/gift-codes/DIQvRNFolav1v983 - discord gift api (get)
 https://osob.de/r16.json - random string api
 https://docs.discord.sex/intro - You’ve found the Unofficial Discord User API Documentation! These pages are dedicated to showing you all the ways that you can use Discord to make cool stuff. It is not an official source of information. Automating user accounts is against the platform Terms of Service, so just a heads up: doing so unsafely might get you banned.
-
+https://quickchart.io/ - a powerfull chart api if you know how to use it
 
 
 Api list websites
