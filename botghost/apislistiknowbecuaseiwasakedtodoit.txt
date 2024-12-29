@@ -27,3 +27,6 @@ https://quickchart.io/ - a powerfull chart api if you know how to use it
 
 Api list websites
 [https://apilist.fun/] [https://github.com/public-apis/public-apis] [https://github.com/public-api-lists/public-api-lists]
+
+random cool shit
+CMD_65ded916-c4b8-4e9d-8d78-be1ed503958a - search engine test (succes)
