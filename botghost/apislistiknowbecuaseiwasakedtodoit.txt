@@ -15,3 +15,8 @@ https://ai.spin.rip/chat - CMD_b59e0a1c-839b-438c-ba7d-f802c2c72b15
 https://goqr.me/api/ - qr code api
 https://api.multi-api.xyz/docs/ - api made for botghost
 https://kings-api.xyz/docs/ - api made for botghost
+
+
+
+Api list websites
+[https://apilist.fun/] [https://github.com/public-apis/public-apis] [https://github.com/public-api-lists/public-api-lists]
