@@ -15,6 +15,10 @@ https://ai.spin.rip/chat - CMD_b59e0a1c-839b-438c-ba7d-f802c2c72b15
 https://goqr.me/api/ - qr code api
 https://api.multi-api.xyz/docs/ - api made for botghost
 https://kings-api.xyz/docs/ - api made for botghost
+https://www.thecolorapi.com/id?format=json&hex=F34639 - the color api
+https://dashboard.botghost.com/api/public/captcha - botghost captcha api
+https://api.urlparse.com/v1/query?url=https://example.com - url parser
+https://discord.com/invite/ghostrealm-community-coding-programming-events-bot-678295162555858951 - GhostRealm Community - Coding, Programming & Events! - Bot, Web, Game & Roblox Developers!
 
 
 
