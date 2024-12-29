@@ -1,0 +1,17 @@
+https://github.com/cheatsnake/xColors-api - github docs for random hox color
+https://docs.erensko.site/docs - another api
+https://www.baymaxapi.com/ -baymax api
+https://www.cookie-api.com/ - cookie api
+https://www.xano.com/ - api builder tool
+https://palett.es/API/v1/palette/monochrome/between/0.55/0.99 - some color api i try to lear
+https://poopoo-api.vercel.app/ - better pop cat api in my opionion
+https://popcat.xyz/api - pop cat api
+https://github.com/Phineas/lanyard - anyard api for user status monitioring (user need to be on special discrod server)
+https://discord.com/api/v9/invites/7CKxPNEE7a?with_counts=true&with_expiration=true - discord invite api
+https://singlecolorimage.com/api.html - for colors
+//FULL DISCORD API DOCS HERE//
+https://getpantry.cloud/ - pantry json database (it sometimes get reset)
+https://ai.spin.rip/chat - CMD_b59e0a1c-839b-438c-ba7d-f802c2c72b15
+https://goqr.me/api/ - qr code api
+https://api.multi-api.xyz/docs/ - api made for botghost
+https://kings-api.xyz/docs/ - api made for botghost
