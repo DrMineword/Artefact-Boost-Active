@@ -29,6 +29,7 @@ https://calendar.google.com/calendar/u/0/r/eventedit?text=%3C@987284796789116949
 
 Api list websites
 [https://apilist.fun/] [https://github.com/public-apis/public-apis] [https://github.com/public-api-lists/public-api-lists]
-
+For disocrd bots
+[https://github.com/DevSpen/Discord-Bot-APIs] [https://gist.github.com/Soheab/332ba85f8989648449c71bdc8ef32368] [//There was one more devs help api things website]
 random cool shit
 CMD_65ded916-c4b8-4e9d-8d78-be1ed503958a - search engine test (succes)
