@@ -10,5 +10,9 @@
     {
         "url": "https://dashboard.botghost.com/*",
         "font": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/Libre-Franklin.zip.cmd"
+    },
+    {
+        "url": "https://drmineword.github.io/Artefact-Boost-Active/events/*",
+        "font": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/ComicSansScript.cmd"
     }
 ]
