@@ -1,0 +1,17 @@
+{
+  "websiteTitle": "Christmas Wishes to @everyone",
+  "backgroundColor": "#F0F8FF",
+  "backgroundImage": "https://static.vecteezy.com/system/resources/previews/034/805/960/non_2x/merry-christmas-background-with-christmas-elements-for-social-media-posts-banners-greeting-cards-and-web-banners-free-photo.jpg",
+  "textColor": "#2F4F4F",
+  "linkColor": "#FF4500",
+  "fontSize": "18px",
+  "data": [
+    {
+      "header": "<div style=\"text-align:center; font-size:28px; font-weight:bold; color:#FF6347;\">🎄🎅 Hello @everyone 🎅🎄</div>",
+      "desc": "<div style=\"text-align:center; font-size:20px; color:#228B22;\">Today is an important day!</div><br>\n<div style=\"text-align:center; font-size:18px; color:#FF4500;\"><b>On behalf of the entire <span style='color:#008080;'>White Star Corporations Data</span> administration, I wish you well. 🎉</b></div><br>\n<div style=\"text-align:center; font-size:16px; color:#00008B;\">May you all spend Christmas happily and peacefully with your family and friends. ❤️🎄</div><br>\n<div style=\"text-align:center; font-size:16px; color:#2F4F4F;\">I wish you not to lose your way even in the darkest night. 🌙✨</div><br>\n<div style=\"text-align:center; font-size:16px; color:#e6b519;\">May Santa Claus bring you a heavy sack of gifts! 🎁🎅</div><br>\n<div style=\"text-align:center; font-size:16px; color:#008000;\">And for those in America or other countries with paid medical care, I wish you especially good health. 💪💉</div>",
+      "imgurl": [
+        "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/root/pages/1/files/1x1.png"
+      ]
+    }
+  ]
+}
