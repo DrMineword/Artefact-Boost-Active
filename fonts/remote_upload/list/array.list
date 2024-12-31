@@ -129,7 +129,7 @@
         "original_file_format": ".ttf",
         "timestamp": "2024-12-29T15:08:39.155Z",
         "title": "Standard Galactic Alphabet",
-        "description": "The FontStruction ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂMinecraft - Standard Galactic AlphabetÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ (https://fontstruct.com/fontstructions/show/590785) by Robin Van der Vliet is licensed under a Creative Commons Attribution Non-commercial Share Alike license (http://creativecommons.org/licenses/by-nc-sa/3.0/).\n"
+        "description": "The FontStruction ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂMinecraft - Standard Galactic AlphabetÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ (https://fontstruct.com/fontstructions/show/590785) by Robin Van der Vliet is licensed under a Creative Commons Attribution Non-commercial Share Alike license (http://creativecommons.org/licenses/by-nc-sa/3.0/).\n"
       }
     },
     {
@@ -189,6 +189,18 @@
         "original_file_format": ".TTF",
         "timestamp": "2024-12-31T10:23:23.555Z",
         "title": "BSSYM7",
+        "description": "From windows font folder"
+      }
+    },
+    {
+      "id": "UPLOAD_1735640590_cp7c5su90",
+      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/ARIALUNI.TTF_encoded.json",
+      "data": {
+        "id": "UPLOAD_1735640590_cp7c5su90",
+        "type": "application/octet-stream",
+        "original_file_format": ".TTF",
+        "timestamp": "2024-12-31T10:23:10.118Z",
+        "title": "ARIALUNI",
         "description": "From windows font folder"
       }
     }
