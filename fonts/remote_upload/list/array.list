@@ -129,7 +129,7 @@
         "original_file_format": ".ttf",
         "timestamp": "2024-12-29T15:08:39.155Z",
         "title": "Standard Galactic Alphabet",
-        "description": "The FontStruction ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂMinecraft - Standard Galactic AlphabetÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ (https://fontstruct.com/fontstructions/show/590785) by Robin Van der Vliet is licensed under a Creative Commons Attribution Non-commercial Share Alike license (http://creativecommons.org/licenses/by-nc-sa/3.0/).\n"
+        "description": "The FontStruction ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂMinecraft - Standard Galactic AlphabetÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ (https://fontstruct.com/fontstructions/show/590785) by Robin Van der Vliet is licensed under a Creative Commons Attribution Non-commercial Share Alike license (http://creativecommons.org/licenses/by-nc-sa/3.0/).\n"
       }
     },
     {
@@ -214,6 +214,18 @@
         "timestamp": "2024-12-31T10:23:44.192Z",
         "title": "PAPYRUS",
         "description": "From windows font folder"
+      }
+    },
+    {
+      "id": "UPLOAD_1735640701_e9amiyn11",
+      "raw_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/bruce-forever.zip_encoded.json",
+      "data": {
+        "id": "UPLOAD_1735640701_e9amiyn11",
+        "type": "application/x-zip-compressed",
+        "original_file_format": ".zip",
+        "timestamp": "2024-12-31T10:25:01.597Z",
+        "title": "bruce-forever",
+        "description": "https://www.1001fonts.com/bruce-forever-font.html"
       }
     }
   ],
