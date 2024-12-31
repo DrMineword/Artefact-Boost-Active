@@ -18,6 +18,35 @@
         return; // No point in proceeding without the font array
     }
 
+    // Load JSZip (Fallback to Script Tag if Needed)
+    async function loadJSZip() {
+        try {
+            console.log('Attempting to dynamically import JSZip...');
+            const { default: JSZip } = await import('https://cdn.jsdelivr.net/npm/jszip');
+            if (!JSZip || !JSZip.loadAsync) {
+                throw new Error('JSZip dynamic import failed.');
+            }
+            console.log('JSZip loaded dynamically.');
+            return JSZip;
+        } catch (error) {
+            console.warn('Dynamic import of JSZip failed. Falling back to script tag...');
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/jszip';
+                script.onload = () => {
+                    if (window.JSZip) {
+                        console.log('JSZip loaded via script tag.');
+                        resolve(window.JSZip);
+                    } else {
+                        reject(new Error('Failed to load JSZip via script tag.'));
+                    }
+                };
+                script.onerror = () => reject(new Error('Failed to load JSZip script.'));
+                document.head.appendChild(script);
+            });
+        }
+    }
+
     // Fetch base64 data from raw_url
     async function fetchFontBase64(fontEntry) {
         console.log(`Fetching base64 data for font ID: ${fontEntry.id}`);
@@ -29,16 +58,29 @@
             // Handle ZIP files
             if (fontEntry.data.original_file_format === '.zip') {
                 console.log('Detected ZIP format. Extracting font file...');
-                const JSZip = (await import('https://cdn.jsdelivr.net/npm/jszip')).default;
-                const zip = await JSZip.loadAsync(atob(fontData.base64));
-                const fontFileName = Object.keys(zip.files).find(name => /\.(ttf|woff|woff2|otf)$/i.test(name));
 
+                const JSZip = await loadJSZip();
+                if (!JSZip) {
+                    throw new Error('Failed to load JSZip library or its methods.');
+                }
+
+                // Decode base64 data
+                const decodedBase64 = atob(fontData.base64);
+                if (!decodedBase64) {
+                    throw new Error('Base64 string is invalid or empty.');
+                }
+
+                const zip = await JSZip.loadAsync(decodedBase64);
+
+                const fontFileName = Object.keys(zip.files).find(name => /\.(ttf|woff|woff2|otf)$/i.test(name));
                 if (!fontFileName) {
                     throw new Error('No usable font file found in ZIP.');
                 }
 
                 console.log(`Extracting font file: ${fontFileName}`);
                 const fontBlob = await zip.files[fontFileName].async('blob');
+
+                // Convert Blob to Base64
                 const fontBase64 = await new Promise((resolve, reject) => {
                     const reader = new FileReader();
                     reader.onload = () => resolve(reader.result.split(',')[1]);
