@@ -40,7 +40,9 @@
                 const time = settings.url_params[2].value;
 
                 // Construct the final redirect URL
-                const redirectUrl = `${baseUrl}?url=${url}&background=${background}&time=${time}&name=${name}`;
+                // For `id`, ensure we don't encode `+` to `%20`
+                const idValue = id; // Use the raw value without encoding
+                const redirectUrl = `${baseUrl}?id=${idValue}&url=${url}&background=${background}&time=${time}&name=${name}`;
 
                 // Perform the redirection
                 if (idData.url && idData.name) {
@@ -52,9 +54,6 @@
                 console.error("Error loading settings or redirecting:", error);
 
                 // Fallback message if the `id` does not exist or any other error occurs
-                const params = new URLSearchParams(window.location.search);
-                const id = params.get("id");
-
                 const fallbackMessage = `
                     <h1>Redirect Failed</h1>
                     <p>The requested resource for id '<b>${id}</b>' does not exist or is unavailable.</p>
