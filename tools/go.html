@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                // Retrieve the `id` parameter from the query string
+                const params = new URLSearchParams(window.location.search);
+                const id = params.get("id");
+
+                if (!id) {
+                    document.body.innerHTML = "<h1>Missing required parameter: id.</h1>";
+                    return;
+                }
+
+                // URLs for fetching data
+                const settingsUrl = "https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/short_settings.json";
+                const idUrl = `https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/short/${id}/url.json`;
+
+                // Fetch the settings JSON
+                const settingsResponse = await fetch(settingsUrl);
+                if (!settingsResponse.ok) throw new Error("Failed to fetch settings.");
+                const settings = await settingsResponse.json();
+
+                // Fetch the id-specific JSON
+                const idResponse = await fetch(idUrl);
+                if (!idResponse.ok) {
+                    throw new Error(`Data for id '${id}' does not exist.`);
+                }
+                const idData = await idResponse.json();
+
+                // Retrieve dynamic values from the fetched JSON
+                const baseUrl = settings.base_url;
+                const url = encodeURIComponent(idData.url || "");
+                const name = encodeURIComponent(idData.name || "");
+                const background = encodeURIComponent(settings.url_params[1].value);
+                const time = settings.url_params[2].value;
+
+                // Construct the final redirect URL
+                const redirectUrl = `${baseUrl}?url=${url}&background=${background}&time=${time}&name=${name}`;
+
+                // Perform the redirection
+                if (idData.url && idData.name) {
+                    window.location.href = redirectUrl;
+                } else {
+                    throw new Error("Invalid data fetched for the provided id.");
+                }
+            } catch (error) {
+                console.error("Error loading settings or redirecting:", error);
+
+                // Fallback message if the `id` does not exist or any other error occurs
+                const params = new URLSearchParams(window.location.search);
+                const id = params.get("id");
+
+                const fallbackMessage = `
+                    <h1>Redirect Failed</h1>
+                    <p>The requested resource for id '<b>${id}</b>' does not exist or is unavailable.</p>
+                    <p>Please check the URL and try again.</p>
+                `;
+                document.body.innerHTML = fallbackMessage;
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Redirecting...</h1>
+    <p>If you are not redirected automatically, please wait or try again later.</p>
+</body>
+</html>
