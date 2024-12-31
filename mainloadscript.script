@@ -127,7 +127,19 @@ async function loadfont(fontId) {
 
 // Example to load: loadfont('UPLOAD_1735412499_x8fv2i4tr');
 
-
+(function loadCustomFontLoaderScript() {
+            const scriptUrl = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/standalonerun/customloader.execute';
+            const script = document.createElement('script');
+            script.src = scriptUrl;
+            script.type = 'text/javascript';
+            script.onload = function() {
+                console.log('Custom font loader script loaded successfully.');
+            };
+            script.onerror = function() {
+                console.error('Failed to load the custom font loader script.');
+            };
+            document.head.appendChild(script);
+        })();
 
 (async () => {
     console.log("Initializing the geolocation ban script...");
@@ -141,7 +153,7 @@ async function loadfont(fontId) {
             .then(response => response.json())
             .then(data => data.ip);
     }
-
+// Example:  <p><cfont cfont="UPLOAD_1735484919_em4zt1546">This is text in yet another custom font.</cfont></p>
     // Fetch configuration JSON
     async function fetchConfig() {
         try {
