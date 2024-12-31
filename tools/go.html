@@ -38,11 +38,12 @@
                 const name = encodeURIComponent(idData.name || "");
                 const background = encodeURIComponent(settings.url_params[1].value);
                 const time = settings.url_params[2].value;
+                const orygin = settings.url_params[4].value;
 
                 // Construct the final redirect URL
                 // For `id`, ensure we don't encode `+` to `%20`
                 const idValue = id; // Use the raw value without encoding
-                const redirectUrl = `${baseUrl}?id=${idValue}&url=${url}&background=${background}&time=${time}&name=${name}`;
+                const redirectUrl = `${baseUrl}?id=${idValue}&url=${url}&background=${background}&time=${time}&name=${name}&orygin=${orygin}`;
 
                 // Perform the redirection
                 if (idData.url && idData.name) {
