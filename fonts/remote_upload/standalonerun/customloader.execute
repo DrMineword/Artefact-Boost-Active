@@ -1,0 +1,135 @@
+(async function () {
+    const SECONDARY_LIST_URL = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/list/array.list';
+    let fontArray = null;
+    const errorLog = []; // Array to store errors
+
+    console.log('Starting Font Loader Script...');
+    console.log('Fetching font array list from:', SECONDARY_LIST_URL);
+
+    // Load the font array list
+    try {
+        const response = await fetch(SECONDARY_LIST_URL);
+        if (!response.ok) throw new Error('Failed to load font array list.');
+        fontArray = await response.json();
+        console.log('Font array list loaded successfully:', fontArray);
+    } catch (error) {
+        console.error('Error loading font array list:', error);
+        errorLog.push({ error: 'Font array list fetch error', details: error.message });
+        return; // No point in proceeding without the font array
+    }
+
+    // Fetch base64 data from raw_url
+    async function fetchFontBase64(fontEntry) {
+        console.log(`Fetching base64 data for font ID: ${fontEntry.id}`);
+        try {
+            const response = await fetch(fontEntry.raw_url);
+            if (!response.ok) throw new Error(`Failed to fetch font data from ${fontEntry.raw_url}`);
+            const fontData = await response.json();
+
+            // Handle ZIP files
+            if (fontEntry.data.original_file_format === '.zip') {
+                console.log('Detected ZIP format. Extracting font file...');
+                const JSZip = (await import('https://cdn.jsdelivr.net/npm/jszip')).default;
+                const zip = await JSZip.loadAsync(atob(fontData.base64));
+                const fontFileName = Object.keys(zip.files).find(name => /\.(ttf|woff|woff2|otf)$/i.test(name));
+
+                if (!fontFileName) {
+                    throw new Error('No usable font file found in ZIP.');
+                }
+
+                console.log(`Extracting font file: ${fontFileName}`);
+                const fontBlob = await zip.files[fontFileName].async('blob');
+                const fontBase64 = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(fontBlob);
+                });
+
+                console.log('Font successfully extracted from ZIP.');
+                return fontBase64;
+            }
+
+            // Handle non-ZIP fonts
+            console.log('Base64 font data fetched directly.');
+            return fontData.base64;
+        } catch (error) {
+            console.error(`Error fetching base64 data for ID "${fontEntry.id}":`, error);
+            throw error; // Rethrow to handle it in `applyFont`
+        }
+    }
+
+    // Apply font to <cfont> element
+    async function applyFont(cfontElement, fontId) {
+        console.log(`Processing <cfont> element with ID: ${fontId}`);
+        const fontEntry = fontArray.list.find(font => font.id === fontId);
+
+        if (!fontEntry) {
+            const errorMsg = `Font with ID "${fontId}" not found in array list.`;
+            console.warn(errorMsg);
+            errorLog.push({ fontId, error: errorMsg });
+            cfontElement.style.fontFamily = 'sans-serif';
+            return;
+        }
+
+        try {
+            const base64 = await fetchFontBase64(fontEntry);
+            if (!base64) throw new Error(`Base64 data for font ID "${fontId}" is null or undefined.`);
+
+            const fontFaceRule = `@font-face {
+                font-family: '${fontEntry.data.title}';
+                src: url(data:font/${fontEntry.data.original_file_format.split('.').pop()};base64,${base64});
+                font-display: swap;
+            }`;
+
+            console.log('Generated @font-face rule:', fontFaceRule);
+
+            const styleSheet = document.createElement('style');
+            styleSheet.textContent = fontFaceRule;
+            document.head.appendChild(styleSheet);
+
+            cfontElement.style.fontFamily = fontEntry.data.title;
+            console.log(`Applied font "${fontEntry.data.title}" to <cfont> element.`);
+        } catch (error) {
+            const errorMsg = `Failed to apply font for ID "${fontId}": ${error.message}`;
+            console.error(errorMsg, error);
+            errorLog.push({ fontId, error: error.message });
+            cfontElement.style.fontFamily = 'sans-serif'; // Fallback font
+        }
+    }
+
+    // Continuously scan for <cfont> tags and apply fonts
+    async function continuousFontApply() {
+        console.log('Starting continuous font application loop...');
+        const processedElements = new Set();
+
+        while (true) {
+            document.querySelectorAll('cfont').forEach(async cfont => {
+                const fontId = cfont.getAttribute('cfont');
+                if (!fontId) {
+                    const errorMsg = 'Skipped <cfont> tag without a valid ID.';
+                    console.warn(errorMsg, cfont);
+                    errorLog.push({ element: cfont.outerHTML, error: errorMsg });
+                    return;
+                }
+
+                if (!processedElements.has(cfont)) {
+                    console.log(`Found new <cfont> tag with ID: ${fontId}`);
+                    processedElements.add(cfont);
+                    await applyFont(cfont, fontId);
+                }
+            });
+
+            // Wait before scanning again
+            await new Promise(resolve => setTimeout(resolve, 5000)); // Check every 5 seconds
+
+            // Log accumulated errors periodically
+            if (errorLog.length > 0) {
+                console.warn('Error log:', errorLog);
+            }
+        }
+    }
+
+    // Start the continuous font application loop
+    continuousFontApply();
+})();
