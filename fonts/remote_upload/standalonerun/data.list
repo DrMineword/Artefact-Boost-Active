@@ -8,7 +8,7 @@
         {
           "id": "UPLOAD_1735412450_ftrottvw2",
           "title": "Windings",
-          "timestamp": "2024-12-31T10:04:28.904Z",
+          "timestamp": "2024-12-31T10:07:11.446Z",
           "description": "windings font (Gaster Font From Undertale)",
           "original_format": ".ttf"
         }
@@ -22,7 +22,7 @@
         {
           "id": "UPLOAD_1735412499_x8fv2i4tr",
           "title": "Poppins",
-          "timestamp": "2024-12-31T10:04:34.794Z",
+          "timestamp": "2024-12-31T10:07:17.402Z",
           "description": "https://fonts.google.com/specimen/Poppins",
           "original_format": ".zip"
         }
@@ -36,7 +36,7 @@
         {
           "id": "UPLOAD_1735412796_811orxhx9",
           "title": "Tinos",
-          "timestamp": "2024-12-31T10:04:40.184Z",
+          "timestamp": "2024-12-31T10:07:21.951Z",
           "description": "https://fonts.google.com/specimen/Tinos",
           "original_format": ".zip"
         }
@@ -50,7 +50,7 @@
         {
           "id": "UPLOAD_1735412845_hayw8q61p",
           "title": "Orbiton",
-          "timestamp": "2024-12-31T10:04:43.492Z",
+          "timestamp": "2024-12-31T10:07:25.764Z",
           "description": "https://fonts.google.com/specimen/Orbitron",
           "original_format": ".zip"
         }
@@ -64,7 +64,7 @@
         {
           "id": "UPLOAD_1735412962_y588i4jlr",
           "title": "Build",
-          "timestamp": "2024-12-31T10:04:46.542Z",
+          "timestamp": "2024-12-31T10:07:28.633Z",
           "description": "https://www.dafont.com/tf2-build.font",
           "original_format": ".ttf"
         }
@@ -78,7 +78,7 @@
         {
           "id": "UPLOAD_1735413903_lyrpxneiv",
           "title": "Comic Sans MS",
-          "timestamp": "2024-12-31T10:04:49.527Z",
+          "timestamp": "2024-12-31T10:07:31.860Z",
           "description": "Best font ever",
           "original_format": ".ttf"
         }
@@ -92,7 +92,7 @@
         {
           "id": "UPLOAD_1735414094_65dk7yrr2",
           "title": "Wallpoet",
-          "timestamp": "2024-12-31T10:04:52.428Z",
+          "timestamp": "2024-12-31T10:07:34.638Z",
           "description": "https://fonts.google.com/specimen/Wallpoet",
           "original_format": ".zip"
         }
@@ -106,7 +106,7 @@
         {
           "id": "UPLOAD_1735414617_puu8grglx",
           "title": "Playwrite_AU_VIC_Guides",
-          "timestamp": "2024-12-31T10:04:56.607Z",
+          "timestamp": "2024-12-31T10:07:38.748Z",
           "description": "https://fonts.google.com/specimen/Playwrite+AU+VIC+Guides",
           "original_format": ".zip"
         }
@@ -120,7 +120,7 @@
         {
           "id": "UPLOAD_1735415208_sbi9u5h7l",
           "title": "Libre_Barcode_39",
-          "timestamp": "2024-12-31T10:04:59.424Z",
+          "timestamp": "2024-12-31T10:07:41.965Z",
           "description": "https://fonts.google.com/specimen/Libre+Barcode+39",
           "original_format": ".zip"
         }
@@ -134,7 +134,7 @@
         {
           "id": "UPLOAD_1735421549_f60j4p85p",
           "title": "Inkling_v2",
-          "timestamp": "2024-12-31T10:05:02.283Z",
+          "timestamp": "2024-12-31T10:07:44.638Z",
           "description": "A Splatoon Language/Font",
           "original_format": ".otf"
         }
@@ -148,9 +148,23 @@
         {
           "id": "UPLOAD_1735484919_em4zt1546",
           "title": "Standard Galactic Alphabet",
-          "timestamp": "2024-12-31T10:05:05.104Z",
-          "description": "The FontStruction âMinecraft - Standard Galactic Alphabetâ (https://fontstruct.com/fontstructions/show/590785) by Robin Van der Vliet is licensed under a Creative Commons Attribution Non-commercial Share Alike license (http://creativecommons.org/licenses/by-nc-sa/3.0/).\n",
+          "timestamp": "2024-12-31T10:07:47.663Z",
+          "description": "The FontStruction Ã¢ÂÂMinecraft - Standard Galactic AlphabetÃ¢ÂÂ (https://fontstruct.com/fontstructions/show/590785) by Robin Van der Vliet is licensed under a Creative Commons Attribution Non-commercial Share Alike license (http://creativecommons.org/licenses/by-nc-sa/3.0/).\n",
           "original_format": ".ttf"
+        }
+      ]
+    },
+    {
+      "id_name": "Monoton",
+      "script_url": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/fonts/remote_upload/standalonerun/files/Monoton/script.execute",
+      "id": "UPLOAD_1735639518_q5uh8ywz3",
+      "data": [
+        {
+          "id": "UPLOAD_1735639518_q5uh8ywz3",
+          "title": "Monoton",
+          "timestamp": "2024-12-31T10:07:50.979Z",
+          "description": "https://fonts.google.com/specimen/Monoton",
+          "original_format": ".zip"
         }
       ]
     }
