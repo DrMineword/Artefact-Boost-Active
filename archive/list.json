@@ -3,17 +3,19 @@
     "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/json/2024/12/24/adxy38ce/data.json",
     "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/json/2024/12/24/i1ykltol/data.json",
     "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/json/2024/12/26/9fojbm01/data.json",
-    "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/json/2024/12/31/c4huaasb/data.json"
+    "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/json/2024/12/31/c4huaasb/data.json",
+    "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/json/2025/01/01/ke4nhk2q/data.json"
   ],
   "csv": [
     "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/csv/2024/12/24/adxy38ce/data.csv",
     "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/csv/2024/12/24/i1ykltol/data.csv",
     "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/csv/2024/12/26/9fojbm01/data.csv",
-    "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/csv/2024/12/31/c4huaasb/data.csv"
+    "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/csv/2024/12/31/c4huaasb/data.csv",
+    "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/csv/2025/01/01/ke4nhk2q/data.csv"
   ],
   "last": {
-    "json": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/json/2024/12/31/c4huaasb/data.json",
-    "csv": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/csv/2024/12/31/c4huaasb/data.csv"
+    "json": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/json/2025/01/01/ke4nhk2q/data.json",
+    "csv": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/main/archive/csv/2025/01/01/ke4nhk2q/data.csv"
   },
-  "last_unix": 1735642512
+  "last_unix": 1735690386
 }
