@@ -11,6 +11,5 @@ get fonts data from array.list
 and put them into standalone scripts that when executed will change page font
 it also because i want to it to do that make a big array of font
 
-# super_font_processor.html
-Prepare files for superfont procvesing turn all fonts (zip too) into .ttf
-save as .ttf and as .json, json have base64 of .ttf
+# fonts_to_ttf.html
+read name
