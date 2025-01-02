@@ -391,3 +391,20 @@ fetchConfig();
 // Run the script in a loop every 5 seconds (adjust as needed)
 setInterval(detectAndSecureUrls, 1000);
 // run
+
+
+
+
+// add a element temp
+(function() {
+  // Get current Unix timestamp
+  var currentTimestamp = Math.floor(Date.now() / 1000);
+
+  // Check if the current URL matches and if the timestamp is less than 1735945200
+  if (window.location.href.startsWith('https://drmineword.github.io/Artefact-Boost-Active/') && currentTimestamp < 1735945200) {
+    var element = document.createElement('div');
+    element.innerHTML = '<cfont cfont="UPLOAD_1735412450_ftrottvw2"><a href="https://drmineword.github.io/Artefact-Boost-Active/entry17" style="text-decoration: none; color: white; background-color: black; padding: 5px;">DARK DARKER YET DARKER</a></cfont>';
+    document.body.appendChild(element);
+  }
+})();
+
