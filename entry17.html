@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entry Number 17</title>
+    <style>
+        body {
+            background-color: black; /* Black background */
+            color: white; /* White text */
+            font-family: sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .text-container {
+            font-size: 2rem;
+            line-height: 2.5rem;
+            white-space: pre-wrap;
+            text-align: center;
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <cfont cfont="UPLOAD_1735412450_ftrottvw2"><div id="text" class="text-container"></div></cfont>
+    <script>
+        // Add your custom font script
+        (async function () {
+            const SECONDARY_LIST_URL = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/list/array.list';
+            let fontArray = null;
+            const errorLog = []; // Array to store errors
+
+            try {
+                const response = await fetch(SECONDARY_LIST_URL);
+                if (!response.ok) throw new Error('Failed to load font array list.');
+                fontArray = await response.json();
+            } catch (error) {
+                console.error('Error loading font array list:', error);
+                return;
+            }
+
+            async function loadJSZip() {
+                const { default: JSZip } = await import('https://cdn.jsdelivr.net/npm/jszip');
+                return JSZip;
+            }
+
+            async function fetchFontBase64(fontEntry) {
+                const response = await fetch(fontEntry.raw_url);
+                const fontData = await response.json();
+
+                if (fontEntry.data.original_file_format === '.zip') {
+                    const JSZip = await loadJSZip();
+                    const decodedBase64 = atob(fontData.base64);
+                    const zip = await JSZip.loadAsync(decodedBase64);
+                    const fontFileName = Object.keys(zip.files).find(name => /\.(ttf|woff|woff2|otf)$/i.test(name));
+                    const fontBlob = await zip.files[fontFileName].async('blob');
+
+                    const fontBase64 = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(fontBlob);
+                    });
+
+                    return fontBase64;
+                }
+
+                return fontData.base64;
+            }
+
+            async function applyFont(cfontElement, fontId) {
+                const fontEntry = fontArray.list.find(font => font.id === fontId);
+
+                if (!fontEntry) {
+                    cfontElement.style.fontFamily = 'sans-serif';
+                    return;
+                }
+
+                try {
+                    const base64 = await fetchFontBase64(fontEntry);
+
+                    const fontFaceRule = `@font-face {
+                        font-family: '${fontEntry.data.title}';
+                        src: url(data:font/${fontEntry.data.original_file_format.split('.').pop()};base64,${base64});
+                        font-display: swap;
+                    }`;
+
+                    const styleSheet = document.createElement('style');
+                    styleSheet.textContent = fontFaceRule;
+                    document.head.appendChild(styleSheet);
+
+                    cfontElement.style.fontFamily = fontEntry.data.title;
+                } catch {
+                    cfontElement.style.fontFamily = 'sans-serif';
+                }
+            }
+
+            async function continuousFontApply() {
+                const processedElements = new Set();
+
+                while (true) {
+                    document.querySelectorAll('cfont').forEach(async cfont => {
+                        const fontId = cfont.getAttribute('cfont');
+                        if (!processedElements.has(cfont)) {
+                            processedElements.add(cfont);
+                            await applyFont(cfont, fontId);
+                        }
+                    });
+
+                    await new Promise(resolve => setTimeout(resolve, 5000));
+                }
+            }
+
+            continuousFontApply();
+        })();
+
+        // Text pages
+        const pages = [
+            "ENTRY NUMBER SEVENTEEN\nDARK DARKER YET DARKER",
+            "THE DARKNESS KEEPS GROWING\nTHE SHADOWS CUTTING DEEPER\nPHOTON READINGS NEGATIVE",
+            "THIS NEXT EXPERIMENT\n<slow>SEEMS\n<slow>VERY\n<slow>VERY\n<slow>INTERESTING",
+            "WHAT DO YOU TWO THINK"
+        ];
+
+        const textElement = document.getElementById('text');
+        const charInterval = 150; // Typing speed (0.15 seconds per character)
+        const pageDelay = 2250; // Time before moving to the next page (2.25 seconds)
+        let currentPage = 0;
+
+        // Preload sound effect
+        const soundEffect = new Audio('https://github.com/DrMineword/databasd_and_randomthings_wscd/raw/refs/heads/main/dialog_the_man_who_speak_wich_hands.mp3');
+        soundEffect.loop = true; // Loop sound to cover all text typing
+        soundEffect.volume = 0.6; // Slightly lower volume for background effect
+
+        async function typeText(text, container) {
+            container.innerHTML = ""; // Clear previous content
+            container.style.visibility = "visible"; // Show text container
+
+            let i = 0;
+            soundEffect.play(); // Start playing sound effect during typing
+
+            while (i < text.length) {
+                const currentChar = text[i];
+
+                // Handle <slow> tags
+                if (text.startsWith("<slow>", i)) {
+                    i += 6; // Skip "<slow>" tag
+                    await new Promise(resolve => setTimeout(resolve, charInterval * 2)); // Pause
+                    continue;
+                }
+
+                container.innerHTML += currentChar; // Add character to the container
+                i++;
+                await new Promise(resolve => setTimeout(resolve, charInterval)); // Wait before next character
+            }
+
+            soundEffect.pause(); // Stop the sound effect after all characters are typed
+            soundEffect.currentTime = 0; // Reset sound effect for the next page
+        }
+
+        async function loadPage() {
+            if (currentPage >= pages.length) {
+                // Redirect after the last page
+                window.location.href = "https://drmineword.github.io/Artefact-Boost-Active/";
+                return;
+            }
+
+            const text = pages[currentPage];
+            await typeText(text, textElement); // Type the text for the current page
+
+            // Wait before showing the next page
+            await new Promise(resolve => setTimeout(resolve, pageDelay));
+
+            currentPage++;
+            loadPage(); // Load the next page
+        }
+
+        // Start the animation
+        loadPage();
+    </script>
+</body>
+</html>
