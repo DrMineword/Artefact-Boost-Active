@@ -23,16 +23,49 @@
             text-align: center;
             visibility: hidden;
         }
+        .start-container {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 100%;
+            height: 100%;
+            color: white;
+            font-size: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .start-container:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
 <body>
+    <div class="start-container" id="start-container">
+        Click to Read
+    </div>
     <cfont cfont="UPLOAD_1735412450_ftrottvw2"><div id="text" class="text-container"></div></cfont>
     <script>
+        // Start interaction element
+        const startContainer = document.getElementById('start-container');
+        const textContainer = document.getElementById('text');
+        const soundEffect = new Audio('https://github.com/DrMineword/databasd_and_randomthings_wscd/raw/refs/heads/main/dialog_the_man_who_speak_wich_hands.mp3');
+
+        // Function to hide start container and show text
+        function startAnimation() {
+            startContainer.style.display = 'none'; // Hide the start overlay
+            textContainer.style.visibility = 'visible'; // Show text container
+            loadPage(); // Start loading the text pages
+        }
+
+        startContainer.addEventListener('click', startAnimation);
+
         // Add your custom font script
         (async function () {
             const SECONDARY_LIST_URL = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/list/array.list';
             let fontArray = null;
-            const errorLog = []; // Array to store errors
 
             try {
                 const response = await fetch(SECONDARY_LIST_URL);
@@ -126,19 +159,12 @@
             "WHAT DO YOU TWO THINK"
         ];
 
-        const textElement = document.getElementById('text');
         const charInterval = 150; // Typing speed (0.15 seconds per character)
         const pageDelay = 2250; // Time before moving to the next page (2.25 seconds)
         let currentPage = 0;
 
-        // Preload sound effect
-        const soundEffect = new Audio('https://github.com/DrMineword/databasd_and_randomthings_wscd/raw/refs/heads/main/dialog_the_man_who_speak_wich_hands.mp3');
-        soundEffect.loop = true; // Loop sound to cover all text typing
-        soundEffect.volume = 0.6; // Slightly lower volume for background effect
-
         async function typeText(text, container) {
             container.innerHTML = ""; // Clear previous content
-            container.style.visibility = "visible"; // Show text container
 
             let i = 0;
             soundEffect.play(); // Start playing sound effect during typing
@@ -170,7 +196,7 @@
             }
 
             const text = pages[currentPage];
-            await typeText(text, textElement); // Type the text for the current page
+            await typeText(text, textContainer); // Type the text for the current page
 
             // Wait before showing the next page
             await new Promise(resolve => setTimeout(resolve, pageDelay));
@@ -178,9 +204,6 @@
             currentPage++;
             loadPage(); // Load the next page
         }
-
-        // Start the animation
-        loadPage();
     </script>
 </body>
 </html>
