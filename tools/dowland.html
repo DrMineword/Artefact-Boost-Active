@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Downloader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>File Downloader</h1>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        const queryParams = new URLSearchParams(window.location.search);
+        const fileUrl = queryParams.get('url');
+        const fileId = queryParams.get('id');
+
+        const output = document.getElementById('output');
+
+        if (!fileUrl && !fileId) {
+            output.innerHTML = '<p>Please provide a <code>url</code> or <code>id</code> parameter.</p>';
+        } else {
+            const fileEndpoint = fileUrl || `https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/dowland/${fileId}/file.json`;
+
+            fetch(fileEndpoint)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error fetching file: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const fileInfo = data.file;
+
+                    // Decode the file size (assuming "data" is base64 encoded and calculating size in bytes)
+                    const fileSizeBytes = atob(fileInfo.data).length;
+                    const fileSizeMB = (fileSizeBytes / (1024 * 1024)).toFixed(2);
+
+                    // Calculate estimated download time (assuming 5 Mbps connection)
+                    const downloadSpeedMbps = 5;
+                    const downloadSpeedBytesPerSecond = downloadSpeedMbps * 125000; // 1 Mbps = 125,000 Bytes/sec
+                    const estimatedTimeSeconds = (fileSizeBytes / downloadSpeedBytesPerSecond).toFixed(2);
+
+                    output.innerHTML = `
+                        <p><strong>File Information:</strong></p>
+                        <ul>
+                            <li><strong>MIME Type:</strong> ${fileInfo.mime}</li>
+                            <li><strong>File Size:</strong> ${fileSizeMB} MB</li>
+                            <li><strong>Estimated Download Time:</strong> ${estimatedTimeSeconds} seconds (on a 5 Mbps connection)</li>
+                        </ul>
+                        <a href="data:application/octet-stream;base64,${fileInfo.data}" download="file">Download File</a>
+                    `;
+                })
+                .catch(error => {
+                    output.innerHTML = `<p>Error: ${error.message}</p>`;
+                });
+        }
+    </script>
+</body>
+</html>
