@@ -75,7 +75,17 @@
                 "#008000",
                 "#ffffff"
             ]
+        },
+        {
+            "id": "The_Man_Who_Speak_Wich_Hands",
+            "html-msg": "<cfont cfont=\"UPLOAD_1735412450_ftrottvw2\"><a href=\"https://drmineword.github.io/Artefact-Boost-Active/entry17\" style=\"text-decoration: none; color: white; background-color: black; padding: 5px;\">DARK DARKER YET DARKER</a></cfont>",
+            "start-show-unix": "1737025201",
+            "end-show-unix": "1739844000",
+            "colors": [
+                "#008000",
+                "#ffffff"
+            ]
         }
     ],
-    "consolelog": "Test_V3"
+    "consolelog": "[CHANGE THE LOG]: Removed Herobrine"
 }
