@@ -1,3 +1,5 @@
+the /fonts contain files of script that was was manually added (i moved to autmoated system) and a config json file of what page should get what font (i think it will not be used no longe because i made a <cfont> flag)
+
 Remote File Transfer Use Guide
 
 # font_uploader.html
@@ -9,6 +11,6 @@ get fonts data from array.list
 and put them into standalone scripts that when executed will change page font
 it also because i want to it to do that make a big array of font
 
-#super_font_processor.html
+# super_font_processor.html
 Prepare files for superfont procvesing turn all fonts (zip too) into .ttf
 save as .ttf and as .json, json have base64 of .ttf
