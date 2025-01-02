@@ -1,0 +1,14 @@
+Remote File Transfer Use Guide
+
+# font_uploader.html
+Uploaded font files and zip are base64 encoded and put to remoteupload folder wich their name and id
+id raw_url etc is put to array.list
+
+# font_sync.html
+get fonts data from array.list
+and put them into standalone scripts that when executed will change page font
+it also because i want to it to do that make a big array of font
+
+#super_font_processor.html
+Prepare files for superfont procvesing turn all fonts (zip too) into .ttf
+save as .ttf and as .json, json have base64 of .ttf
