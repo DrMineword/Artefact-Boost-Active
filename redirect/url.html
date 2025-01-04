@@ -161,28 +161,29 @@
             }, 10);  // Update every 10 milliseconds
         }
 
-        // Initialize the page based on URL parameters
-        function initializePage() {
-            const { name, url, time } = getURLParams();
-            const destinationName = document.getElementById('destinationName');
-            destinationName.textContent = name;
-            destinationName.href = url;  // Set the hyperlink to the destination URL
-		destinationName.target = "_self"; // Ensure it opens in the same window
+      function initializePage() {
+    const { name, url, time } = getURLParams();
+    const destinationName = document.getElementById('destinationName');
 
-            // Set the page title dynamically based on the 'name' parameter
-            document.title = name || "Redirecting...";  // Default to "Redirecting..." if no name is provided
+    destinationName.innerHTML = name; // Render name with <br> tags as line breaks
+    destinationName.href = url;       // Set the hyperlink to the destination URL
+    destinationName.target = "_self"; // Ensure it opens in the same window
 
-            destinationUrl = url;
+    // Sanitize the page title: remove HTML tags and truncate at <br>
+    const cleanTitle = name.split('<br>')[0].replace(/<[^>]*>/g, ''); // Remove tags and everything after <br>
+    document.title = cleanTitle || "Redirecting..."; // Default to "Redirecting..." if no name is provided
 
-            if (time === 0) {
-                window.location.href = url; // Redirect immediately if time is 0
-            } else {
-                startCountdown(time);
-            }
+    destinationUrl = url;
 
-            const userId = localStorage.getItem('userId') || 'IncognitoAgent'; // Default to IncognitoAgent if not found
-            sendToDiscord(name, url, userId);
-        }
+    if (time === 0) {
+        window.location.href = url; // Redirect immediately if time is 0
+    } else {
+        startCountdown(time);
+    }
+
+    const userId = localStorage.getItem('userId') || 'IncognitoAgent'; // Default to IncognitoAgent if not found
+    sendToDiscord(name, url, userId);
+}
 
         // Run the initialization
         initializePage();
