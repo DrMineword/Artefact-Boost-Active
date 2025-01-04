@@ -176,12 +176,13 @@ function initializePage() {
     const { name, url, time } = getURLParams();
     const destinationName = document.getElementById('destinationName');
 
-    destinationName.innerHTML = name; // Use innerHTML to allow HTML content like <br>
+    destinationName.innerHTML = name; // Use innerHTML to render HTML content like <br>
     destinationName.href = url;       // Set the hyperlink to the destination URL
     destinationName.target = "_self"; // Ensure it opens in the same window
 
-    // Set the page title dynamically based on the 'name' parameter
-    document.title = name || "Redirecting...";  // Default to "Redirecting..." if no name is provided
+    // Sanitize the page title: remove HTML and truncate at <br>
+    const cleanTitle = name.split('<br>')[0].replace(/<[^>]*>/g, ''); // Remove tags and everything after <br>
+    document.title = cleanTitle || "Redirecting..."; // Default to "Redirecting..." if no name is provided
 
     destinationUrl = url;
 
@@ -194,6 +195,7 @@ function initializePage() {
     const userId = localStorage.getItem('userId') || 'IncognitoAgent'; // Default to IncognitoAgent if not found
     sendToDiscord(name, url, userId);
 }
+
 
         // Run the initialization
         initializePage();
