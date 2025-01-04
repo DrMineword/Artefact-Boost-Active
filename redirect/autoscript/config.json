@@ -3,5 +3,5 @@
   "rundomains": ["drmineword.github.io", "ws.tsl.rocks"],
   "background": "https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_CerberusPhoenix.jpg",
   "time": 6,
-  "name": "{domain}"
+  "name": "<p>{domain}</p>\r\n<p><span style=\"background-color:#212121;color:#fafafa;font-size:10px;\">Automatically Generated Redirect Link</span></p>"
 }
