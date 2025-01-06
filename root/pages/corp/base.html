@@ -229,12 +229,22 @@
     </div>
     <!-- Corporation Names -->
     <p class="corp-names">
-      <span>{{ match.Corporation1Name }}</span> <span> vs </span> <span>{{ match.Corporation2Name }}</span>
+      <img 
+    :src="`https://raw.githubusercontent.com/CapricanDRJ/HadesStarCommunityData/refs/heads/main/docs/corp/${match.Corporation1Id}/favicon.ico`"
+    alt="Corporation Icon"
+    style="width: 17px; height: 17px; vertical-align: middle; margin-right: 5px;"
+    @error="event => event.target.src = 'https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/icons/influence.png'"
+  /><span>{{ match.Corporation1Name }}</span> <span> vs </span> <span>{{ match.Corporation2Name }}</span> <img 
+    :src="`https://raw.githubusercontent.com/CapricanDRJ/HadesStarCommunityData/refs/heads/main/docs/corp/${match.Corporation2Id}/favicon.ico`"
+    alt="Corporation Icon"
+    style="width: 17px; height: 17px; vertical-align: middle; margin-right: 5px;"
+    @error="event => event.target.src = 'https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/icons/influence.png'"
+  />
     </p>
     <!-- Scores -->
-    <p class="score">
+	<p class="score">
       <span>{{ match.Corporation1Score }}</span> - <span>{{ match.Corporation2Score }}</span>
-    </p>
+	  </p>
     <!-- Date Info -->
     <p>
       <span>Ended: {{ formatDate(match.DateEnded) }}</span> | 
@@ -364,6 +374,7 @@
 
             const data = await response.json();
 
+  
             if (data.matches.length === 0) {
               this.errorMessage = "No matches found for the selected filters.";
               this.matches = [];
@@ -462,6 +473,7 @@
     });
 
     app.mount("#app");
-  </script>
+	  
+</script>
 </body>
 </html>
