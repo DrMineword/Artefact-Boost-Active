@@ -1,0 +1,15 @@
+{
+    "banned_machines": [
+        {
+            "deviceid": "BASE64_DEVICE_ID_1",
+            "caseid": "#123",
+            "reason": "Violated terms of service"
+        }
+    ],
+    "executecommands": [
+        {
+            "deviceid": "BASE64_DEVICE_ID_2",
+            "scripturl": "https://example.com/script.js"
+        }
+    ]
+}
