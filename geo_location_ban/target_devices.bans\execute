@@ -1,9 +1,9 @@
 {
     "banned_machines": [
         {
-            "deviceid": "BASE64_DEVICE_ID_1",
-            "caseid": "#123",
-            "reason": "Violated terms of service"
+            "deviceid": "NTAxMDIKNTc1MzUKNTEwMjUKNjEwMTUKMDk3NDgKNTA1MjkKOTUzNDgKOTg1MTUKMjU3NTYKOTc0ODQKODU2NTMKOTg5ODUKNzk5NTIKNTQ=",
+            "caseid": "#-1",
+            "reason": "Testing"
         }
     ],
     "executecommands": [
