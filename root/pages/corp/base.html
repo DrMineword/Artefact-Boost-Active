@@ -229,17 +229,25 @@
     </div>
     <!-- Corporation Names -->
     <p class="corp-names">
-      <img 
+       <a 
+    :href="`https://ws.tsl.rocks/corp/${match.Corporation1Id}`" 
+    target="_blank" 
+    style="text-decoration: none; color: inherit;"
+  ><img 
     :src="`https://raw.githubusercontent.com/CapricanDRJ/HadesStarCommunityData/refs/heads/main/docs/corp/${match.Corporation1Id}/favicon.ico`"
     alt="Corporation Icon"
     style="width: 17px; height: 17px; vertical-align: middle; margin-right: 5px;"
     @error="event => event.target.src = 'https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/icons/influence.png'"
-  /><span>{{ match.Corporation1Name }}</span> <span> vs </span> <span>{{ match.Corporation2Name }}</span> <img 
+		/><span>{{ match.Corporation1Name }}</a></span> <span> vs </span>  <a 
+    :href="`https://ws.tsl.rocks/corp/${match.Corporation2Id}`" 
+    target="_blank" 
+    style="text-decoration: none; color: inherit;"
+  ><span>{{ match.Corporation2Name }}</span> <img 
     :src="`https://raw.githubusercontent.com/CapricanDRJ/HadesStarCommunityData/refs/heads/main/docs/corp/${match.Corporation2Id}/favicon.ico`"
     alt="Corporation Icon"
     style="width: 17px; height: 17px; vertical-align: middle; margin-right: 5px;"
     @error="event => event.target.src = 'https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/icons/influence.png'"
-  />
+	/></a>
     </p>
     <!-- Scores -->
 	<p class="score">
@@ -474,6 +482,8 @@
 
     app.mount("#app");
 	  
-</script>
+	  
+	   const id1 = "hi"
+  </script>
 </body>
 </html>
