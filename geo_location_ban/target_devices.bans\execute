@@ -1,9 +1,9 @@
 {
     "banned_machines": [
         {
-            "deviceid": "N/A",
-            "caseid": "#-1",
-            "reason": "Testing"
+            "deviceid": "NTQ1NDUKMDEwMDUKNzEwMjkKNzk3NTUKNTc5OTUKNjUyNTQKMTAxNTcKOTg1NDUKMzUyNDkKNTI0OTUKNzUxNTAKOTk1MTkKODEwMjkKODQ5",
+            "caseid": "#1",
+            "reason": "Possible abuse of internal system"
         }
     ],
     "executecommands": [
