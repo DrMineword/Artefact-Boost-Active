@@ -4,13 +4,8 @@
             "deviceid": "NTQ1NDUKMDEwMDUKNzEwMjkKNzk3NTUKNTc5OTUKNjUyNTQKMTAxNTcKOTg1NDUKMzUyNDkKNTI0OTUKNzUxNTAKOTk1MTkKODEwMjkKODQ5",
             "caseid": "#1",
             "reason": "Possible abuse of internal system"
-        },
-{
-            "deviceid": ".",
-            "caseid": "#2",
-            "reason": "Message to school pc: No you dont"
         }
-    ],
+],
     "executecommands": [
         {
             "deviceid": "NTAxMDIKNTc1MzUKNTEwMjUKNjEwMTUKMDk3NDgKNTA1MjkKOTUzNDgKOTg1MTUKMjU3NTYKOTc0ODQKODU2NTMKOTg5ODUKNzk5NTIKNTQ=",
