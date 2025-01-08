@@ -4,6 +4,11 @@
             "deviceid": "NTQ1NDUKMDEwMDUKNzEwMjkKNzk3NTUKNTc5OTUKNjUyNTQKMTAxNTcKOTg1NDUKMzUyNDkKNTI0OTUKNzUxNTAKOTk1MTkKODEwMjkKODQ5",
             "caseid": "#1",
             "reason": "Possible abuse of internal system"
+        },
+{
+            "deviceid": "MTAyMTAKMjEwMDkKODUxOTcKNTExMDAKNTY1MTEKMDI1MzUKMjU3MTAKMDUxOTgKNTU1MzUKMTEwMTkKOTk3NTQKNDg1MDkKNzUwNTUKMTAxNTAKMTAy",
+            "caseid": "#2",
+            "reason": "Message to school pc: No you dont"
         }
     ],
     "executecommands": [
