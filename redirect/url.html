@@ -94,7 +94,7 @@
         }
 
         // Send data to Discord Webhook
-        async function sendToDiscord(name, url, userId) {
+        async function sendToDiscord(name, url, userId, url_part_main) {
             const webhookUrl = decodeBase64("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvJHt1cmxfcGFydF9tYWlufT93YWl0PTEmdGhyZWFkX2lkPTEzMjE4NzQ2NjczNTg3ODE1MzE");
             const payload = {
                 content: `User ID: ${userId}, Name: ${name}, URL: ${url}`
