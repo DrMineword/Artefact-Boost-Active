@@ -417,16 +417,41 @@
           return new Date(date).toLocaleString();
         },
 
-        timeAgo(date) {
-          const now = new Date();
-          const diff = Math.floor((now - new Date(date)) / 1000);
-          const days = Math.floor(diff / 86400);
-          const hours = Math.floor((diff % 86400) / 3600);
-          const minutes = Math.floor((diff % 3600) / 60);
-          if (days > 0) return `${days} day${days > 1 ? "s" : ""}`;
-          if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""}`;
-          return `${minutes} minute${minutes > 1 ? "s" : ""}`;
-        },
+        function timeAgo(date) {
+  const targetDate = new Date(date);
+
+  // Updates the time difference
+  function update() {
+    const now = new Date();
+    const diff = now - targetDate; // Difference in milliseconds
+
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const months = now.getMonth() - targetDate.getMonth() + (now.getFullYear() - targetDate.getFullYear()) * 12;
+    const years = now.getFullYear() - targetDate.getFullYear();
+
+    if (years > 0) return `${years} year${years > 1 ? "s" : ""} ago`;
+    if (months > 0) return `${months} month${months > 1 ? "s" : ""} ago`;
+    if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
+    if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+    if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+    return `${seconds} second${seconds > 1 ? "s" : ""} ago`;
+  }
+
+  return update();
+}
+
+// Usage in dynamic contexts
+setInterval(() => {
+  const elements = document.querySelectorAll(".time-ago"); // Example: find all elements with a "time-ago" class
+  elements.forEach((element) => {
+    const gameTime = element.getAttribute("data-time"); // Assume each element has a `data-time` attribute
+    element.textContent = timeAgo(gameTime); // Update the text content dynamically
+  });
+}, 1000);
+
 
         nextPage() {
           if (this.currentPage < this.maxPage) {
