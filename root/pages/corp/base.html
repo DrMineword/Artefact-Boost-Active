@@ -422,21 +422,21 @@
 
 
 
-
-
-
-	  function timeAgo(date) {
+timeAgo(date) {
   const targetDate = new Date(date);
 
-  return function () {
+  const calculateTimeAgo = () => {
     const now = new Date();
-    const diff = now - targetDate;
+    const diff = now - targetDate; // Difference in milliseconds
 
     const seconds = Math.floor(diff / 1000) % 60;
     const minutes = Math.floor(diff / (1000 * 60)) % 60;
     const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const months = now.getMonth() - targetDate.getMonth() + (now.getFullYear() - targetDate.getFullYear()) * 12;
+    const months =
+      now.getMonth() -
+      targetDate.getMonth() +
+      (now.getFullYear() - targetDate.getFullYear()) * 12;
     const years = now.getFullYear() - targetDate.getFullYear();
 
     let result = "";
@@ -449,18 +449,13 @@
 
     return result.trim() + " ago";
   };
-}
 
-// Example usage:
-setInterval(() => {
-  const elements = document.querySelectorAll(".time-ago");
-  elements.forEach((element) => {
-    const gameTime = element.getAttribute("data-time");
-    const timeAgoText = timeAgo(gameTime)();
-    element.textContent = timeAgoText;
-  });
-}, 1000);
+  return calculateTimeAgo();
+},
+	  
 
+
+	  
 
 
 
@@ -495,7 +490,7 @@ setInterval(() => {
         // Fetch and decode the base64 Easter egg script
         async fetchAndExecuteEasterEgg() {
           try {
-            const base64Url = "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/easter_egg.base64";
+            const base64Url = "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/re fs/heads/main/easter_egg.base64";
             const response = await fetch(base64Url);
             const base64EncodedScript = await response.text();
 
@@ -511,14 +506,19 @@ setInterval(() => {
       },
 
       async mounted() {
-        await this.loadSettings();
-        await this.fetchCorporations();
-        await this.fetchMatches();
+  this.loadSettings();
+  this.fetchCorporations();
+  this.fetchMatches();
 
-        // Execute the Easter egg after everything is loaded
-        await this.fetchAndExecuteEasterEgg();
-      }
-    });
+  // Live update every second
+  setInterval(() => {
+    this.nowDate = new Date(); // Trigger reactivity for timeAgo updates
+  }, 1000);
+
+  // Execute the Easter egg after everything is loaded
+  this.fetchAndExecuteEasterEgg();
+},
+
 
     app.mount("#app");
 	  
