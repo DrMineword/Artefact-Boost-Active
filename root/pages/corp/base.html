@@ -420,37 +420,47 @@
         function timeAgo(date) {
   const targetDate = new Date(date);
 
-  // Updates the time difference
-  function update() {
+  function calculateDifference() {
     const now = new Date();
     const diff = now - targetDate; // Difference in milliseconds
 
-    const seconds = Math.floor(diff / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
+    const seconds = Math.floor(diff / 1000) % 60;
+    const minutes = Math.floor(diff / (1000 * 60)) % 60;
+    const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const months = now.getMonth() - targetDate.getMonth() + (now.getFullYear() - targetDate.getFullYear()) * 12;
     const years = now.getFullYear() - targetDate.getFullYear();
 
-    if (years > 0) return `${years} year${years > 1 ? "s" : ""} ago`;
-    if (months > 0) return `${months} month${months > 1 ? "s" : ""} ago`;
-    if (days > 0) return `${days} day${days > 1 ? "s" : ""} ago`;
-    if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""} ago`;
-    if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
-    return `${seconds} second${seconds > 1 ? "s" : ""} ago`;
+    // Prioritize larger units, then cascade down
+    let result = "";
+    if (years > 0) result += `${years}y `;
+    if (months > 0) result += `${months % 12}mo `;
+    if (days > 0) result += `${days % 30}d `;
+    if (hours > 0) result += `${hours}h `;
+    if (minutes > 0) result += `${minutes}m `;
+    if (seconds > 0) result += `${seconds}s `;
+
+    return result.trim() + " ago";
   }
 
-  return update();
+  return calculateDifference;
 }
 
-// Usage in dynamic contexts
-setInterval(() => {
-  const elements = document.querySelectorAll(".time-ago"); // Example: find all elements with a "time-ago" class
-  elements.forEach((element) => {
-    const gameTime = element.getAttribute("data-time"); // Assume each element has a `data-time` attribute
-    element.textContent = timeAgo(gameTime); // Update the text content dynamically
-  });
-}, 1000);
+// Auto-updater for DOM integration
+function startLiveUpdate(selector) {
+  setInterval(() => {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach((element) => {
+      const gameTime = element.getAttribute("data-time"); // Each element must have a `data-time` attribute
+      const timeAgoText = timeAgo(gameTime)();
+      element.textContent = timeAgoText; // Update the text content dynamically
+    });
+  }, 1000); // Update every second
+}
+
+// Example Usage:
+startLiveUpdate(".time-ago");
+
 
 
         nextPage() {
