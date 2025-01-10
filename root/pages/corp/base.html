@@ -417,16 +417,56 @@
           return new Date(date).toLocaleString();
         },
 
-        timeAgo(date) {
-          const now = new Date();
-          const diff = Math.floor((now - new Date(date)) / 1000);
-          const days = Math.floor(diff / 86400);
-          const hours = Math.floor((diff % 86400) / 3600);
-          const minutes = Math.floor((diff % 3600) / 60);
-          if (days > 0) return `${days} day${days > 1 ? "s" : ""}`;
-          if (hours > 0) return `${hours} hour${hours > 1 ? "s" : ""}`;
-          return `${minutes} minute${minutes > 1 ? "s" : ""}`;
-        },
+
+
+
+
+
+
+
+
+	  function timeAgo(date) {
+  const targetDate = new Date(date);
+
+  return function () {
+    const now = new Date();
+    const diff = now - targetDate;
+
+    const seconds = Math.floor(diff / 1000) % 60;
+    const minutes = Math.floor(diff / (1000 * 60)) % 60;
+    const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const months = now.getMonth() - targetDate.getMonth() + (now.getFullYear() - targetDate.getFullYear()) * 12;
+    const years = now.getFullYear() - targetDate.getFullYear();
+
+    let result = "";
+    if (years > 0) result += `${years}y `;
+    if (months > 0) result += `${months % 12}mo `;
+    if (days > 0) result += `${days % 30}d `;
+    if (hours > 0) result += `${hours}h `;
+    if (minutes > 0) result += `${minutes}m `;
+    if (seconds > 0) result += `${seconds}s `;
+
+    return result.trim() + " ago";
+  };
+}
+
+// Example usage:
+setInterval(() => {
+  const elements = document.querySelectorAll(".time-ago");
+  elements.forEach((element) => {
+    const gameTime = element.getAttribute("data-time");
+    const timeAgoText = timeAgo(gameTime)();
+    element.textContent = timeAgoText;
+  });
+}, 1000);
+
+
+
+
+
+
+	  
 
         nextPage() {
           if (this.currentPage < this.maxPage) {
