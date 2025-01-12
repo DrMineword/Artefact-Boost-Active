@@ -3,7 +3,8 @@
   "url_params": [
     {
       "key": "url",
-      "value": "https://discord.com/oauth2/authorize?client_id=1045060846654603305&permissions=563465416997952&response_type=code&redirect_uri=https%3A%2F%2Fx8ki-letl-twmt.n7.xano.io%2Fapi%3ACSSYcyUF%2Fauth_join%3Fkey%3D9e0279b8-d925-41c8-aeb0-d5a088f7609c&integration_type=0&scope=identify+bot"
+      "value-old": "https://discord.com/oauth2/authorize?client_id=1045060846654603305&permissions=563465416997952&response_type=code&redirect_uri=https%3A%2F%2Fx8ki-letl-twmt.n7.xano.io%2Fapi%3ACSSYcyUF%2Fauth_join%3Fkey%3D9e0279b8-d925-41c8-aeb0-d5a088f7609c&integration_type=0&scope=identify+bot",
+      "value": "https://discord.com/oauth2/authorize?client_id=1045060846654603305&permissions=603047838735360&response_type=code&redirect_uri=https%3A%2F%2Fx8ki-letl-twmt.n7.xano.io%2Fapi%3ACSSYcyUF%2Fauth_join%3Fkey%3D9e0279b8-d925-41c8-aeb0-d5a088f7609c&integration_type=0&scope=identify+bot"
     },
     {
       "key": "background",
@@ -15,7 +16,7 @@
     },
     {
       "key": "name",
-      "value": "R.T.S. Bot Invite"
+      "value": "R.T.S.<br>Bot Invite"
     },
     {
       "key": "script",
