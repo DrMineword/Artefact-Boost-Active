@@ -3,6 +3,6 @@
     "show": "true"
   },
   {"data": "<body style=\"display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #1a202c;\">\r\n    <iframe src=\"https://drmineword.github.io/Artefact-Boost-Active/bot/iframe/sript?userid=1014232959143907429&colors=#ff5733,#3333ff,#ff33cc\" width=\"350\" height=\"180\" allowtransparency=\"true\" frameborder=\"0\" sandbox=\"allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts\"></iframe>\r\n\t</body>",
-    "show": "true"
+    "show": "false"
   }
 ]
