@@ -69,11 +69,11 @@
                 const sectionElement = document.createElement("div");
                 sectionElement.className = "section";
                 sectionElement.innerHTML = `
-                    <h1>${parseCustomText(section.header)}</h1>
-                    <p>${parseCustomText(section.desc)}</p>
-                    <div>
+                    <center><h1>${parseCustomText(section.header)}</h1></center>
+                     <center><p>${parseCustomText(section.desc)}</p></center>
+                    <center><div>
                         ${section.imgurl.map(url => `<img src="${url}" alt="Image">`).join("")}
-                    </div>
+                    </div></center>
                 `;
                 contentWrapper.appendChild(sectionElement);
             });
