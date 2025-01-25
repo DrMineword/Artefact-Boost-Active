@@ -1,0 +1,7 @@
+{
+  "id": "UPLOAD_1737833486_ukxxftlxt",
+  "title": "Modeseven-L3n5",
+  "timestamp": "2025-01-25T19:34:27.715Z",
+  "description": "ModeSeven readme:\n\nModeSeven is based on the bitmap font in Teletext televisions,\n1980s-vintage Videotext terminals (such as the Prestel system used in\nthe UK), and the BBC Micro computer.  (The name derives from the BBC\nMicro screen mode which used the teletext character generator.)\n\nThis font looks \"natural\" at a size of 20 pixels, or any multiple thereof.\nHowever, it has been hinted as to scale as well as an ex-bitmap font\ncan be expected to.\n\nThis font was created by hand with Fontographer 4.1.2 on a Macintosh.\nThe character definitions were worked out from a bitmap version of the\nTeletext font created by James Fidell, and included in xbeeb (a BBC\nMicro emulator for UNIX/X11).  The spacing of the original has been\npreserved, which is why many character shapes are aligned to the right\nof their cells.\n\nThis font is freely distributable.  If you use it on the cover of a book,\nCD, magazine or something else,  I'd appreciate a copy, though.\n\n -- acb\nacb@dev.null.org\n\n\nlicense: Freeware\nlink: https://www.fontspace.com/modeseven-font-f2369",
+  "original_format": ".ttf"
+}
