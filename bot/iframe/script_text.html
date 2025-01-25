@@ -62,16 +62,36 @@
 </div>
 
 <script>
-    // Function to get the URL parameter 'file' or 'speed'
+    // Function to get the URL parameter 'file', 'path' or 'speed'
     function getQueryParam(param, defaultValue) {
         const urlParams = new URLSearchParams(window.location.search);
         const value = urlParams.get(param);
         return value ? value : defaultValue;
     }
 
+    // Function to handle fetching and executing the script
+    async function executeScript(path) {
+        if (path) {
+            const scriptUrl = `https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/standalonerun/files/${path}`;
+            try {
+                const response = await fetch(scriptUrl);
+                if (!response.ok) {
+                    throw new Error('Script not found');
+                }
+                const scriptContent = await response.text();
+                // Dynamically execute the script
+                eval(scriptContent);
+                console.log(`Executed script from: ${scriptUrl}`);
+            } catch (error) {
+                console.error(`Error loading or executing script: ${error.message}`);
+            }
+        }
+    }
+
     // Function to handle fetching and displaying the file content
     async function loadFile() {
         const fileUrl = getQueryParam('file', '');
+        const path = getQueryParam('path', '');
         const speed = parseFloat(getQueryParam('speed', 3)); // Default speed is 3
 
         if (!fileUrl) {
@@ -80,6 +100,9 @@
             document.getElementById('output').classList.add('error');
             return;
         }
+
+        // Execute the script if 'path' is provided
+        await executeScript(path);
 
         try {
             // Display the loading animation while fetching
@@ -125,10 +148,9 @@
         }
     }
 
-    // Load the file when the page loads
+    // Load the file and execute the script when the page loads
     window.onload = loadFile;
 </script>
 
 </body>
 </html>
-
