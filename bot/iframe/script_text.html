@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Output</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #1e1e1e;
+            color: #00FF00;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .terminal {
+            width: 80%;
+            max-width: 600px;
+            height: 80%;
+            max-height: 400px;
+            background-color: #121212;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-y: auto;
+            border: 2px solid #00FF00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+            color: #00FF00;
+        }
+        .loading {
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+            border-right: 2px solid #00FF00;
+            animation: typing 3s steps(30) 1s 1 normal both, blink 0.75s step-end infinite;
+        }
+        @keyframes typing {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="terminal">
+    <div id="output" class="loading">Loading...</div>
+</div>
+
+<script>
+    // Function to get the URL parameter 'file'
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // Function to handle fetching and displaying the file content
+    async function loadFile() {
+        const fileUrl = getQueryParam('file');
+        
+        if (!fileUrl) {
+            document.getElementById('output').textContent = "404 Error: File parameter is missing!";
+            document.getElementById('output').classList.remove('loading');
+            document.getElementById('output').classList.add('error');
+            return;
+        }
+
+        try {
+            // Display the loading animation while fetching
+            const response = await fetch(fileUrl);
+            if (!response.ok) {
+                throw new Error('File not found');
+            }
+            const text = await response.text();
+
+            // Simulate printing the content with a typing animation
+            let index = 0;
+            const outputElement = document.getElementById('output');
+            outputElement.classList.remove('loading'); // Remove loading animation
+            outputElement.textContent = ""; // Clear loading text
+
+            function typeWriter() {
+                if (index < text.length) {
+                    outputElement.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, 30); // Delay between characters
+                }
+            }
+            typeWriter(); // Start the typing effect
+
+        } catch (error) {
+            document.getElementById('output').textContent = `404 Error: ${error.message}`;
+            document.getElementById('output').classList.remove('loading');
+            document.getElementById('output').classList.add('error');
+        }
+    }
+
+    // Load the file when the page loads
+    window.onload = loadFile;
+</script>
+
+</body>
+</html>
