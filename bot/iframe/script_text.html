@@ -28,6 +28,7 @@
             border: 2px solid #00FF00;
             box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
             color: #00FF00;
+            white-space: pre-wrap; /* Ensures that newlines are respected */
         }
         .loading {
             white-space: nowrap;
@@ -88,23 +89,34 @@
             }
             const text = await response.text();
 
-            // Replace newlines with <br> for correct line breaks
-            const formattedText = text.replace(/\n/g, "<br>");
-
-            // Simulate printing the content with a typing animation
-            let index = 0;
+            // Split content by lines, so each line can be typed separately
+            const lines = text.split('\n');
             const outputElement = document.getElementById('output');
             outputElement.classList.remove('loading'); // Remove loading animation
-            outputElement.innerHTML = ""; // Clear loading text
+            outputElement.textContent = ""; // Clear loading text
 
+            let lineIndex = 0;
+            let charIndex = 0;
+
+            // Function to type each line character by character
             function typeWriter() {
-                if (index < formattedText.length) {
-                    outputElement.innerHTML += formattedText.charAt(index);
-                    index++;
-                    setTimeout(typeWriter, 1000 / speed); // Delay between characters based on speed
+                if (lineIndex < lines.length) {
+                    const currentLine = lines[lineIndex];
+
+                    if (charIndex < currentLine.length) {
+                        outputElement.textContent += currentLine.charAt(charIndex);
+                        charIndex++;
+                        setTimeout(typeWriter, 1000 / speed); // Adjust speed between characters
+                    } else {
+                        // When current line is finished, move to next line
+                        outputElement.textContent += '\n'; // Simulate new line
+                        lineIndex++;
+                        charIndex = 0; // Reset charIndex for the next line
+                        setTimeout(typeWriter, 1000 / speed); // Adjust speed between lines
+                    }
                 }
             }
-            typeWriter(); // Start the typing effect
+            typeWriter(); // Start typing
 
         } catch (error) {
             document.getElementById('output').textContent = `404 Error: ${error.message}`;
@@ -119,3 +131,4 @@
 
 </body>
 </html>
+
