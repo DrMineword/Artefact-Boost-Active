@@ -61,16 +61,18 @@
 </div>
 
 <script>
-    // Function to get the URL parameter 'file'
-    function getQueryParam(param) {
+    // Function to get the URL parameter 'file' or 'speed'
+    function getQueryParam(param, defaultValue) {
         const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
+        const value = urlParams.get(param);
+        return value ? value : defaultValue;
     }
 
     // Function to handle fetching and displaying the file content
     async function loadFile() {
-        const fileUrl = getQueryParam('file');
-        
+        const fileUrl = getQueryParam('file', '');
+        const speed = parseFloat(getQueryParam('speed', 3)); // Default speed is 3
+
         if (!fileUrl) {
             document.getElementById('output').textContent = "404 Error: File parameter is missing!";
             document.getElementById('output').classList.remove('loading');
@@ -86,17 +88,20 @@
             }
             const text = await response.text();
 
+            // Replace newlines with <br> for correct line breaks
+            const formattedText = text.replace(/\n/g, "<br>");
+
             // Simulate printing the content with a typing animation
             let index = 0;
             const outputElement = document.getElementById('output');
             outputElement.classList.remove('loading'); // Remove loading animation
-            outputElement.textContent = ""; // Clear loading text
+            outputElement.innerHTML = ""; // Clear loading text
 
             function typeWriter() {
-                if (index < text.length) {
-                    outputElement.textContent += text.charAt(index);
+                if (index < formattedText.length) {
+                    outputElement.innerHTML += formattedText.charAt(index);
                     index++;
-                    setTimeout(typeWriter, 30); // Delay between characters
+                    setTimeout(typeWriter, 1000 / speed); // Delay between characters based on speed
                 }
             }
             typeWriter(); // Start the typing effect
