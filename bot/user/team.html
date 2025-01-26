@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="User Info" />
+    <meta property="og:description" content="Displaying user info with ranks and banners" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yourwebsite.com" />
+    <title>Loading...</title>
+    <style id="dynamic-styles"></style>
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #F0F8FF;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            color: #2F4F4F;
+            text-align: center;
+        }
+
+        /* Content Wrapper */
+        #content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Section Styles */
+        .section {
+            background-color: rgba(255, 255, 255, 0.2); /* Transparent background */
+            margin-bottom: 20px;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+       .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #1A1A1A;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    background-size: cover;
+    background-position: center;
+    height: 120px;
+}
+
+.rank {
+    font-size: 14px;
+    color: #777;
+    margin-top: -5px; /* Controls the space between name and rank */
+}
+
+
+
+        /* Iframe Styles */
+        iframe {
+            width: 350px;
+            height: 180px;
+            border: none;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Ensure the User Name is always white */
+        h1 {
+            color: white;
+        }
+
+        /* Banner Styles */
+        .banner {
+            width: 100%;
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #1A1A1A;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div id="content-wrapper" style="display: none;">
+        <div id="page-content"></div>
+    </div>
+
+    <script>
+        async function loadSettings() {
+            const settingsUrl = "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/bot/user/data.json";  // JSON URL
+            const response = await fetch(settingsUrl);
+            const settings = await response.json();
+
+            // Set the website title dynamically
+            document.title = settings.websiteTitle;
+
+            // Apply global styles dynamically from the JSON data
+            const styles = `
+                body {
+                    background-color: ${settings.backgroundColor};
+                    background-image: url(${settings.backgroundImage});
+                    font-size: ${settings.fontSize};
+                    color: ${settings.textColor};
+                }
+            `;
+            document.getElementById("dynamic-styles").textContent = styles;
+
+            // Load user data and display it dynamically
+            const contentWrapper = document.getElementById("page-content");
+            for (let user of settings.data) {
+                const userData = await fetchUserData(user.id);
+                const bannerUrl = await getUserBanner(user.id);
+                if (userData) {
+                    const sectionElement = document.createElement("div");
+                    sectionElement.className = "section";
+                    sectionElement.innerHTML = `
+                        <div class="header" style="background-image: url('${bannerUrl}');">
+    <h1>${userData.displayName}</h1>
+    <div class="rank">${parseCustomText(user.rank)}</div>
+</div>
+                        <iframe src="https://drmineword.github.io/Artefact-Boost-Active/bot/iframe/sript?userid=${user.id}&colors=#ff5733,#3333ff,#ff33cc" allowtransparency="true" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+                    `;
+                    contentWrapper.appendChild(sectionElement);
+                }
+            }
+
+            // Show the content after it's loaded
+            document.getElementById("content-wrapper").style.display = "block";
+        }
+
+        async function fetchUserData(id) {
+            try {
+                const userResponse = await fetch(`https://api.lanyard.rest/v1/users/${id}`);
+                if (!userResponse.ok) throw new Error("User not found");
+                const userData = await userResponse.json();
+                return {
+                    id,
+                    displayName: userData.data.discord_user.display_name || userData.data.discord_user.global_name
+                };
+            } catch (error) {
+                console.error(`Error fetching user data:`, error);
+                return null;
+            }
+        }
+
+        async function getUserBanner(id) {
+            try {
+                const bannerResponse = await fetch('https://usrbg.is-hardly.online/users');
+                if (!bannerResponse.ok) throw new Error("Banner data not found");
+                const bannerData = await bannerResponse.json();
+                const bannerId = bannerData.users[id];
+                return bannerId
+                    ? `https://usrbg.is-hardly.online/usrbg/v2/${id}?${bannerId}=&size=4096`
+                    : 'https://placehold.co/300x150?text=No+Banner';  // Fallback to a default image if no banner
+            } catch (error) {
+                console.error(`Error fetching banner data:`, error);
+                return 'https://placehold.co/300x150?text=No+Banner';  // Fallback to a default image
+            }
+        }
+
+        function parseCustomText(text) {
+            if (!text) return "";
+
+            // Replace [text](url) with <a href="url">text</a>
+            text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+            // Replace <color=hex></color> with styled span tags
+            text = text.replace(/<color=([^>]+)>(.*?)<\/color>/g, '<span style="color:$1;">$2</span>');
+
+            return text;
+        }
+
+        loadSettings().catch(error => {
+            console.error("Failed to load settings:", error);
+        });
+    </script>
+</body>
+</html>
