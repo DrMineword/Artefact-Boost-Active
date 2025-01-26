@@ -267,10 +267,49 @@ priorityFunction();
         window.onload = fetchUserData;
     </script>
 </head>
-<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
-    <div class="flex flex-col bg-gray-800 rounded-lg shadow-lg w-[200px] h-[350px] overflow-hidden">
+    <style>
+        /* Make the body take the full screen but only show a small portion */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* The container of the content, size is fixed */
+        .content-container {
+            width: 200px;
+            height: 350px;
+            background-color: #1f2937; /* Dark background color */
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Content inside the container (profile, etc.) */
+        .profile-section, .activity-section {
+            padding: 16px;
+            color: white;
+        }
+
+        /* Optional styling */
+        .profile-section img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .profile-section h1, .profile-section p {
+            margin: 0;
+        }
+    </style>
+<body>
+    <div class="content-container">
         <!-- Profile Section -->
-        <div class="flex items-center p-4 border-b border-gray-700">
+        <div class="profile-section flex items-center p-4 border-b border-gray-700">
             <div class="relative">
                 <img id="user-avatar"
                      src=""
@@ -286,7 +325,7 @@ priorityFunction();
         </div>
 
         <!-- Activity Section -->
-        <div class="flex items-center p-4">
+        <div class="activity-section flex items-center p-4">
             <img id="activity-image"
                  src=""
                  alt="Activity Image"
