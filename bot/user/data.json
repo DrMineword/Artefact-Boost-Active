@@ -1,0 +1,18 @@
+{
+  "websiteTitle": "RTS TEAM",
+  "backgroundColor": "#F0F8FF",
+  "backgroundImage": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/bot/ownership/main/matrix.gif",
+  "textColor": "#2F4F4F",
+  "linkColor": "#FF4500",
+  "fontSize": "18px",
+  "data": [
+    {
+      "id": "987284796789116949",
+      "rank": "<h2>Top User</h2><p>High level user</p>"
+    },
+    {
+      "id": "305645588907819028",
+      "rank": "<h2>VIP User</h2><p>Special privileges</p>"
+    }
+  ]
+}
