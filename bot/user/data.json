@@ -6,13 +6,17 @@
   "linkColor": "#FF4500",
   "fontSize": "18px",
   "data": [
-    {
-      "id": "987284796789116949",
-      "rank": "<h2>Top User</h2>"
-    },
-    {
-      "id": "1203357768610746385",
-      "rank": null
-    }
-  ]
+        {
+            "id": "987284796789116949",
+            "rank": "<p style='color: #FFD700; font-weight: bold; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);'>Co-Owner & Chief Developer</p>"
+        },
+        {
+            "id": "1014232959143907429",
+            "rank": "<p style='color: #FFD700; font-weight: bold; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);'>Project Owner</p>"
+        },
+  {
+            "id": "9252998965280235x0",
+            "rank": "<p style='color: #FFD700; font-weight: bold; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);'>Project Owner</p>"
+        }
+    ]
 }
