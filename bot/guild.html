@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="White Star Corporations Data">
+<meta property="og:url" content="https://discord.gg/7CKxPNEE7a">
+<meta property="og:image" content="https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/bot/portrait_BlueStar.jpg">
+<meta property="og:description" content="RTS bot support server & White Stars database
+Read more: https://drmineword.github.io/Artefact-Boost-Active/tools/go?id=readme
+Join Us: https://discord.gg/7CKxPNEE7a">
+    <title>Redirect Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/BlackCitadel.jpg'); /* Replace with your background image URL */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .redirect-link {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .redirect-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p id="message">Redirecting...</p>
+        <p id="fallback" style="display: none;">
+            Failed to redirect to <a id="redirect-link" class="redirect-link" href="#">{domain}</a>
+        </p>
+    </div>
+    <script>
+        // Fetch JSON and redirect
+        async function redirectFromJson() {
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/bot/data_guild.json'); // Replace with your JSON file URL
+                if (!response.ok) throw new Error('Failed to fetch JSON');
+
+                const data = await response.json();
+                const baseUrl = data.base_url;
+                const urlParams = new URLSearchParams();
+
+                data.url_params.forEach(param => {
+                    urlParams.append(param.key, param.value);
+                });
+
+                const redirectUrl = `${baseUrl}?${urlParams.toString()}`;
+                window.location.href = redirectUrl;
+            } catch (error) {
+                console.error(error);
+
+                const fallback = document.getElementById('fallback');
+                const link = document.getElementById('redirect-link');
+                const message = document.getElementById('message');
+
+                message.style.display = 'none';
+                fallback.style.display = 'block';
+
+                const domain = 'the intended site'; // Replace with domain logic if necessary
+                link.textContent = domain;
+                link.href = 'https://example.com'; // Replace with your fallback URL
+            }
+        }
+
+        redirectFromJson();
+    </script>
+</body>
+</html>
+  
