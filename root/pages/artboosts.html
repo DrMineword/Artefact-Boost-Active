@@ -13,9 +13,8 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <title id="website-title">Loading...</title>
-	<meta property="og:title" content="List Of Active Artefact Boost" id="og-title">
-	<meta name="twitter:title" content="List Of Active Artefact Boost" id="twitter-title">
-    <style>
+	
+	<style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -300,7 +299,14 @@
                 const decodedSettings = atob(base64Content);
                 const settings = JSON.parse(decodedSettings);
 
-                document.getElementById('website-title').innerText = settings.websiteTitle;
+                // Define the settings object
+const settings = {
+    websiteTitle: "List Of Active Artefact Boost"
+};
+
+// Set the innerText of the element using settings.websiteTitle
+document.getElementById('website-title').innerText = settings.websiteTitle;
+
                 document.body.style.backgroundImage = `url(${settings.backgroundImage})`;
                 document.body.style.backgroundColor = settings.backgroundColor;
                 document.body.style.color = settings.textColor;
