@@ -2,19 +2,19 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta property="og:type" content="website">
-<meta content="WSCD - Artefact Boost" property="og:title" />
-<meta content="White Star Corporations Data Website Made By DrMineword" property="og:description" />
-<meta content="https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_PlanetWhiteStar.png" property="og:image" />
-<meta content="#d9a68a" data-react-helmet="true" name="theme-color" />
-
-
-<meta name="twitter:card" content="summary_large_image">
-<title id="website-title">Loading...</title>
-	
-	<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Open Graph (OG) and Twitter Card meta tags -->
+    <meta property="og:title" content="List Of Active Artefact Boost" id="og-title">
+    <meta property="og:description" content="Artefact Boost List By DrMineword" id="og-description">
+    <meta property="og:image" content="https://example.com/default-image.jpg" id="og-image">
+    <meta property="og:url" content="https://www.example.com" id="og-url">
+    <meta name="twitter:title" content="List Of Active Artefact Boost" id="twitter-title">
+    <meta name="twitter:description" content="Artefact Boost List By DrMineword" id="twitter-description">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_WhiteStar.png" id="twitter-image">
+    <meta name="twitter:card" content="summary_large_image">
+    <title id="website-title">Loading...</title>
+    <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -299,14 +299,7 @@
                 const decodedSettings = atob(base64Content);
                 const settings = JSON.parse(decodedSettings);
 
-                // Define the settings object
-const settings = {
-    websiteTitle: "List Of Active Artefact Boost"
-};
-
-// Set the innerText of the element using settings.websiteTitle
-document.getElementById('website-title').innerText = settings.websiteTitle;
-
+                document.getElementById('website-title').innerText = settings.websiteTitle;
                 document.body.style.backgroundImage = `url(${settings.backgroundImage})`;
                 document.body.style.backgroundColor = settings.backgroundColor;
                 document.body.style.color = settings.textColor;
