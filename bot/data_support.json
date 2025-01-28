@@ -1,0 +1,25 @@
+{
+  "base_url": "https://drmineword.github.io/Artefact-Boost-Active/redirect/url_",
+  "url_params": [
+    {
+      "key": "url",
+      "value": "https://discord.gg/7CKxPNEE7a"
+    },
+    {
+      "key": "background",
+      "value": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/bot/portrait_WhiteStar-1.png"
+    },
+    {
+      "key": "time",
+      "value": "8"
+    },
+    {
+      "key": "name",
+      "value": "Invite To<br>White Star Corporations Data"
+    },
+    {
+      "key": "script",
+      "value": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/standalonerun/files/Modeseven-L3n5/script.execute"
+    }
+  ]
+}
