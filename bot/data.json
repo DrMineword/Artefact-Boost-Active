@@ -16,7 +16,7 @@
     },
     {
       "key": "name",
-      "value": "<body style=\"background: linear-gradient(to right, black, navy); display: flex; justify-content: center; align-items: center; height: 100vh;\">\n    <div style=\"background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);\"><h1 style=\"color: cyan; font-family: Arial, sans-serif; text-shadow: 0 0 5px cyan;\">R.T.S.</h1><br><p style=\"color: white; font-size: 18px;\">Bot Invite</p>\n    </div>\n</body>\n"
+      "value": "<body style=\"background: linear-gradient(to right, black, navy); display: flex; justify-content: center; align-items: center; height: 100vh;\">\n    <div style=\"background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);\"><h1>R.T.S.</h1><p style=\" font-size: 18px;\">Bot Invite</p>\n    </div>\n</body>"
     },
     {
       "key": "script",
