@@ -3,20 +3,20 @@
   "url_params": [
     {
       "key": "url",
-      "value-old": "https://discord.com/oauth2/authorize?client_id=1045060846654603305&permissions=563465416997952&response_type=code&redirect_uri=https%3A%2F%2Fx8ki-letl-twmt.n7.xano.io%2Fapi%3ACSSYcyUF%2Fauth_join%3Fkey%3D9e0279b8-d925-41c8-aeb0-d5a088f7609c&integration_type=0&scope=identify+bot",
+      "value-old": "https://discord.com/oauth2/authorize?client_id=1045060846654603305&permissions=517614197832&response_type=code&redirect_uri=https%3A%2F%2Fx8ki-letl-twmt.n7.xano.io%2Fapi%3ACSSYcyUF%2Fauth_join%3Fkey%3D9e0279b8-d925-41c8-aeb0-d5a088f7609c&integration_type=0&scope=identify+bot",
       "value": "https://discord.com/oauth2/authorize?client_id=1045060846654603305&permissions=603047838735360&response_type=code&redirect_uri=https%3A%2F%2Fx8ki-letl-twmt.n7.xano.io%2Fapi%3ACSSYcyUF%2Fauth_join%3Fkey%3D9e0279b8-d925-41c8-aeb0-d5a088f7609c&integration_type=0&scope=identify+bot"
     },
     {
       "key": "background",
-      "value": "https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_CerberusPhoenix.jpg"
+      "value": "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/bot/ownership/987284796789116949.jfif"
     },
     {
       "key": "time",
-      "value": "6"
+      "value": "7"
     },
     {
       "key": "name",
-      "value": "R.T.S.<br>Bot Invite"
+      "value": "<body style=\"background: linear-gradient(to right, black, navy); display: flex; justify-content: center; align-items: center; height: 100vh;\">\n    <div style=\"background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);\"><h1 style=\"color: cyan; font-family: Arial, sans-serif; text-shadow: 0 0 5px cyan;\">R.T.S.</h1><br><p style=\"color: white; font-size: 18px;\">Bot Invite</p>\n    </div>\n</body>\n"
     },
     {
       "key": "script",
