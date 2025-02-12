@@ -27,14 +27,18 @@
     <p id="loading">Please wait while the page is loading...</p>
 
     <script>
-        // Function to generate a random memory jammer
+        // Function to generate a very random memory jammer with random UID and jam type
         function generateMemoryJamer() {
             const jamTypes = ["strawberry jam", "blueberry jam", "raspberry jam", "cherry jam", "mango jam"];
             const randomJamType = jamTypes[Math.floor(Math.random() * jamTypes.length)];
-            const randomValue = Math.floor(Math.random() * 1000000) + Math.floor(Math.random() * 1000000) + Math.floor(Math.random() * 1000000);
-            const randomUid = 'xxxx-xxxx-xxxx'.replace(/[x]/g, function() { return (Math.random() * 16 | 0).toString(16); });
 
-            return `jamtype=${randomJamType}&value=${randomValue}${randomUid}${Math.floor(Math.random() * 10000)}`;
+            // Generate a highly random sequence: 
+            // Random 10-digit number, a random UID, and some random numbers for uniqueness
+            const randomValue = Math.floor(Math.random() * 10000000000);  // Random 10 digits
+            const randomUid = 'xxxx-xxxx-xxxx'.replace(/[x]/g, function() { return (Math.random() * 16 | 0).toString(16); });  // Random UID
+
+            // Return the jam type and random sequence as part of the jammer
+            return `jam=${randomUid}${randomValue}${randomJamType}`;
         }
 
         // Extract the 'id' parameter from the URL query string
@@ -46,13 +50,23 @@
             const memoryJamer = generateMemoryJamer();
             const fetchUrl = `https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/corporations_page/${id}?${memoryJamer}`;
 
+            // Log the URL and memory jammer to the console under the key 'corpslasturl'
+            console.log("corpslasturl:", fetchUrl);
+
+            // Store the constructed URL in localStorage
+            localStorage.setItem('corpslasturl', fetchUrl);
+
             // Show loading message
             document.getElementById('loading').innerText = "Fetching content, please wait...";
 
             // Fetch the HTML content from the generated URL with no cache
             fetch(fetchUrl, {
                 method: 'GET',
-                headers: {}
+                headers: {
+                    'Cache-Control': 'no-store',  // Prevent caching
+                    'Pragma': 'no-cache',         // HTTP/1.0 support
+                    'Expires': '0',               // Ensure no cached response is used
+                }
             })
             .then(response => response.text())
             .then(html => {
