@@ -49,17 +49,24 @@
             // Show loading message
             document.getElementById('loading').innerText = "Fetching content, please wait...";
 
-            // Fetch the HTML content from the generated URL
-            fetch(fetchUrl)
-                .then(response => response.text())
-                .then(html => {
-                    // Replace the entire body content with the fetched HTML
-                    document.documentElement.innerHTML = html;
-                })
-                .catch(error => {
-                    console.error('Error fetching the page:', error);
-                    document.getElementById('loading').innerText = "Failed to load content. Please try again.";
-                });
+            // Fetch the HTML content from the generated URL with no cache
+            fetch(fetchUrl, {
+                method: 'GET',
+                headers: {
+                    'Cache-Control': 'no-store',  // Prevent caching
+                    'Pragma': 'no-cache',         // HTTP/1.0 support
+                    'Expires': '0',               // Ensure no cached response is used
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                // Replace the entire body content with the fetched HTML
+                document.documentElement.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error fetching the page:', error);
+                document.getElementById('loading').innerText = "Failed to load content. Please try again.";
+            });
         } else {
             document.getElementById('loading').innerText = "No ID provided in the URL.";
         }
