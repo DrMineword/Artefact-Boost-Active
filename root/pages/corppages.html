@@ -29,7 +29,7 @@
     <script>
         // Function to generate a very random memory jammer with random UID and jam type
         function generateMemoryJamer() {
-            const jamTypes = ["strawberry jam", "blueberry jam", "raspberry jam", "cherry jam", "mango jam"];
+            const jamTypes = ["strawberry%20jam", "blueberry%20jam", "raspberry%20jam", "cherry%20jam", "mango%20jam"];
             const randomJamType = jamTypes[Math.floor(Math.random() * jamTypes.length)];
 
             // Generate a highly random sequence: 
@@ -38,7 +38,7 @@
             const randomUid = 'xxxx-xxxx-xxxx'.replace(/[x]/g, function() { return (Math.random() * 16 | 0).toString(16); });  // Random UID
 
             // Return the jam type and random sequence as part of the jammer
-            return `jam=${randomUid}${randomValue}${randomJamType}`;
+            return `jam=${randomUid}abc${randomValue}&type=${randomJamType}`;
         }
 
         // Extract the 'id' parameter from the URL query string
@@ -62,11 +62,7 @@
             // Fetch the HTML content from the generated URL with no cache
             fetch(fetchUrl, {
                 method: 'GET',
-                headers: {
-                    'Cache-Control': 'no-store',  // Prevent caching
-                    'Pragma': 'no-cache',         // HTTP/1.0 support
-                    'Expires': '0',               // Ensure no cached response is used
-                }
+                headers: {}
             })
             .then(response => response.text())
             .then(html => {
