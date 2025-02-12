@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Page Loader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+        }
+
+        h1 {
+            color: #ffcc00;
+        }
+
+        #loading {
+            color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Loading Dynamic Content...</h1>
+    <p id="loading">Please wait while the page is loading...</p>
+
+    <script>
+        // Function to generate a random memory jammer
+        function generateMemoryJamer() {
+            const jamTypes = ["strawberry jam", "blueberry jam", "raspberry jam", "cherry jam", "mango jam"];
+            const randomJamType = jamTypes[Math.floor(Math.random() * jamTypes.length)];
+            const randomValue = Math.floor(Math.random() * 1000000) + Math.floor(Math.random() * 1000000) + Math.floor(Math.random() * 1000000);
+            const randomUid = 'xxxx-xxxx-xxxx'.replace(/[x]/g, function() { return (Math.random() * 16 | 0).toString(16); });
+
+            return `jamtype=${randomJamType}&value=${randomValue}${randomUid}${Math.floor(Math.random() * 10000)}`;
+        }
+
+        // Extract the 'id' parameter from the URL query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        if (id) {
+            // Construct the URL with the id and the generated memory jamer
+            const memoryJamer = generateMemoryJamer();
+            const fetchUrl = `https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/corporations_page/${id}?${memoryJamer}`;
+
+            // Show loading message
+            document.getElementById('loading').innerText = "Fetching content, please wait...";
+
+            // Fetch the HTML content from the generated URL
+            fetch(fetchUrl)
+                .then(response => response.text())
+                .then(html => {
+                    // Replace the entire body content with the fetched HTML
+                    document.documentElement.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error fetching the page:', error);
+                    document.getElementById('loading').innerText = "Failed to load content. Please try again.";
+                });
+        } else {
+            document.getElementById('loading').innerText = "No ID provided in the URL.";
+        }
+    </script>
+
+</body>
+</html>
