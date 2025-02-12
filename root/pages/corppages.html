@@ -52,16 +52,25 @@
             // Fetch the HTML content from the generated URL with no cache
             fetch(fetchUrl, {
                 method: 'GET',
-                headers: {
-                    'Cache-Control': 'no-store',  // Prevent caching
-                    'Pragma': 'no-cache',         // HTTP/1.0 support
-                    'Expires': '0',               // Ensure no cached response is used
-                }
+                headers: {}
             })
             .then(response => response.text())
             .then(html => {
-                // Replace the entire body content with the fetched HTML
-                document.documentElement.innerHTML = html;
+                // Inject the fetched HTML content into the body
+                document.body.innerHTML = html;
+
+                // Execute any scripts within the new HTML
+                const scripts = Array.from(document.body.getElementsByTagName('script'));
+                scripts.forEach(script => {
+                    const newScript = document.createElement('script');
+                    newScript.type = 'text/javascript';
+                    if (script.src) {
+                        newScript.src = script.src;  // If the script has a 'src' attribute
+                    } else {
+                        newScript.innerHTML = script.innerHTML;  // If it's an inline script
+                    }
+                    document.body.appendChild(newScript);  // Append the new script element to execute it
+                });
             })
             .catch(error => {
                 console.error('Error fetching the page:', error);
