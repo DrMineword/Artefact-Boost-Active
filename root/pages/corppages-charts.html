@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Page Loader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+        }
+
+        h1 {
+            color: #ffcc00;
+        }
+
+        #loading {
+            color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Loading Dynamic Content...</h1>
+    <p id="loading">Please wait while the page is loading...</p>
+
+    <script>
+        function generateMemoryJamer() {
+            const jamTypes = ["strawberry%20jam", "blueberry%20jam", "raspberry%20jam", "cherry%20jam", "mango%20jam"];
+            const randomJamType = jamTypes[Math.floor(Math.random() * jamTypes.length)];
+
+            const randomValue = Math.floor(Math.random() * 10000000000); 
+            const randomUid = 'xxxx-xxxx-xxxx'.replace(/[x]/g, function() { 
+                return (Math.random() * 16 | 0).toString(16); 
+            });
+
+            return `jam=${randomUid}abc${randomValue}&type=${randomJamType}`;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        const cid = urlParams.get('cid');  // Get the cid from the URL
+
+        if (id) {
+            const memoryJamer = generateMemoryJamer();
+            const fetchUrl = `https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/corporations_page/${id}?${memoryJamer}&cid=${cid}`;  // Add cid param to the URL
+
+            console.log("corpslasturl:", fetchUrl);
+            localStorage.setItem('corpslasturl', fetchUrl);
+
+            document.getElementById('loading').innerText = "Fetching content, please wait...";
+
+            fetch(fetchUrl, {
+                method: 'GET',
+                headers: {}
+            })
+            .then(response => response.json()) 
+            .then(data => {
+                if (data.urls && Array.isArray(data.urls)) {
+                    // Look for the url with matching cid
+                    const matchedUrl = data.urls.find(item => item.id === cid);
+
+                    if (matchedUrl && matchedUrl.url) {
+                        window.location.href = matchedUrl.url;  // Redirect to the URL matching the cid
+                    } else {
+                        throw new Error("No matching URL found for cid.");
+                    }
+                } else if (data.html) {
+                    const decodedHtml = atob(data.html); // Decode Base64
+
+                    document.body.innerHTML = decodedHtml;
+
+                    // Execute scripts
+                    const scripts = Array.from(document.body.getElementsByTagName('script'));
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        newScript.type = 'text/javascript';
+                        if (script.src) {
+                            newScript.src = script.src;
+                        } else {
+                            newScript.innerHTML = script.innerHTML;
+                        }
+                        document.body.appendChild(newScript);
+                    });
+                } else {
+                    throw new Error("Invalid JSON format: Missing 'html' key or 'urls' key");
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching the page:', error);
+                document.getElementById('loading').innerText = "Failed to load content. Please try again.";
+            });
+        } else {
+            document.getElementById('loading').innerText = "No ID provided in the URL.";
+        }
+    </script>
+
+</body>
+</html>
