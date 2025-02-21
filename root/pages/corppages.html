@@ -30,60 +30,75 @@
         function generateMemoryJamer() {
             const jamTypes = ["strawberry%20jam", "blueberry%20jam", "raspberry%20jam", "cherry%20jam", "mango%20jam"];
             const randomJamType = jamTypes[Math.floor(Math.random() * jamTypes.length)];
-
-            const randomValue = Math.floor(Math.random() * 10000000000); 
+            const randomValue = Math.floor(Math.random() * 10000000000);
             const randomUid = 'xxxx-xxxx-xxxx'.replace(/[x]/g, function() { 
                 return (Math.random() * 16 | 0).toString(16); 
             });
-
             return `jam=${randomUid}abc${randomValue}&type=${randomJamType}`;
+        }
+
+        function isValidId(id) {
+            const allowedPattern = /^[a-zA-Z0-9_-]+\.json$/; // Restrict to alphanumeric, underscore, hyphen, and .json
+            return allowedPattern.test(id);
+        }
+
+        function isSafeUrl(url) {
+            try {
+                const parsedUrl = new URL(url, window.location.origin);
+                return parsedUrl.protocol === 'https:' && !parsedUrl.href.includes('javascript:');
+            } catch (e) {
+                return false;
+            }
         }
 
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
 
-        if (id) {
-            const memoryJamer = generateMemoryJamer();
-            const fetchUrl = `https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/corporations_page/${id}?${memoryJamer}`;
-
-            console.log("corpslasturl:", fetchUrl);
-            localStorage.setItem('corpslasturl', fetchUrl);
-
-            document.getElementById('loading').innerText = "Fetching content, please wait...";
-
-            fetch(fetchUrl, {
-                method: 'GET',
-                headers: {}
-            })
-            .then(response => response.json()) 
-            .then(data => {
-                if (data.html) {
-                    const decodedHtml = atob(data.html); // Decode Base64
-
-                    document.body.innerHTML = decodedHtml;
-
-                    // Execute scripts
-                    const scripts = Array.from(document.body.getElementsByTagName('script'));
-                    scripts.forEach(script => {
-                        const newScript = document.createElement('script');
-                        newScript.type = 'text/javascript';
-                        if (script.src) {
-                            newScript.src = script.src;
-                        } else {
-                            newScript.innerHTML = script.innerHTML;
-                        }
-                        document.body.appendChild(newScript);
-                    });
-                } else {
-                    throw new Error("Invalid JSON format: Missing 'html' key");
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching the page:', error);
-                document.getElementById('loading').innerText = "Failed to load content. Please try again.";
-            });
+        if (!id || !isValidId(id)) {
+            document.body.innerHTML = `<h2>This URL was infected!!!</h2><p>>_< We are very sorry for the problem, but someone wanted to attack you via the method [Invalid ID]</p>`;
         } else {
-            document.getElementById('loading').innerText = "No ID provided in the URL.";
+            const memoryJamer = generateMemoryJamer();
+            const fetchUrl = `https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/main/corporations_page/${id}?${memoryJamer}`;
+
+            if (!isSafeUrl(fetchUrl)) {
+                document.body.innerHTML = `<h2>This URL was infected!!!</h2><p>>_< We are very sorry for the problem, but someone wanted to attack you via the method [URL Manipulation: ${fetchUrl}]</p>`;
+            } else {
+                console.log("corpslasturl:", fetchUrl);
+                localStorage.setItem('corpslasturl', fetchUrl);
+
+                document.getElementById('loading').innerText = "Fetching content, please wait...";
+
+                fetch(fetchUrl, {
+                    method: 'GET',
+                    headers: {}
+                })
+                .then(response => response.json()) 
+                .then(data => {
+                    if (data.html) {
+                        const decodedHtml = atob(data.html); // Decode Base64
+                        document.body.innerHTML = decodedHtml;
+
+                        // Execute scripts
+                        const scripts = Array.from(document.body.getElementsByTagName('script'));
+                        scripts.forEach(script => {
+                            const newScript = document.createElement('script');
+                            newScript.type = 'text/javascript';
+                            if (script.src) {
+                                newScript.src = script.src;
+                            } else {
+                                newScript.innerHTML = script.innerHTML;
+                            }
+                            document.body.appendChild(newScript);
+                        });
+                    } else {
+                        throw new Error("Invalid JSON format: Missing 'html' key");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching the page:', error);
+                    document.getElementById('loading').innerText = "Failed to load content. Please try again.";
+                });
+            }
         }
     </script>
 
