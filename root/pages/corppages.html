@@ -130,7 +130,10 @@
 /%3Ca%20href/i
         ];
 
-        return !dangerousPatterns.some(pattern => pattern.test(decodeURIComponent(value)));
+        // Decode URI and normalize the value by converting it to lowercase for comparison
+    const decodedValue = decodeURIComponent(value).toLowerCase();
+
+    return !dangerousPatterns.some(pattern => pattern.test(decodedValue));
     }
 
     function isValidId(value) {
