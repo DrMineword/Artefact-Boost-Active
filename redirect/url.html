@@ -180,15 +180,19 @@ async function topSafeCheck() {
         /<object/i,
         /%3Cobject/i,
         /<a\s+href/i, 
-        /%3Ca%20href/i
+        /%3Ca%20href/i,
+/<iframe/i,
+/<style/i,
+/<iframe/i
     ];
 
     // Decode URI and normalize the value by converting it to lowercase for comparison
     const decodedValue = decodeURIComponent(value).toLowerCase();
 
+	      console.log("Value being checked:", decodedValue);
+
     return !dangerousPatterns.some(pattern => pattern.test(decodedValue));
 }
-
     function isValidId(value) {
         const allowedPattern = /^(?!.*\.\.\/)[a-zA-Z0-9/_-]+$/;
         return allowedPattern.test(value);
