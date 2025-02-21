@@ -116,10 +116,19 @@ const dangerousPatterns = [
     /<html.*ontouch\w+\s*=\s*[^>]+>/i,
     /<form.*onsubmit\s*=\s*[^>]+>/i,
     /<scr.*ipt.*>/i,
-    /%3C.*%3E/i,
-    /javascript:.*alert/i,
-    /<.*onerror=.*>/i,
-    /<.*onload=.*>/i
+    /%3C.*%3E/i,  // Detects encoded < and > symbols
+    /javascript:.*alert/i,  // Detects javascript payloads with alerts
+    /<.*onerror=.*>/i,  // Detects onerror attributes with scripts
+    /<.*onload=.*>/i,  // Detects onload attributes with scripts
+    /<.*onabort=.*>/i,  // Additional detection for onabort event handlers
+    /<.*ondragstart=.*>/i,  // Additional detection for dragstart event handlers
+    /<.*onmousemove=.*>/i,  // Additional detection for mousemove event handlers
+    /<.*onclick=.*>/i,  // Additional detection for click event handlers
+    /<.*onmouseover=.*>/i,  // Additional detection for mouseover event handlers
+    /<.*onkeydown=.*>/i,  // Additional detection for keyboard events
+    /<.*onkeyup=.*>/i,  // Additional detection for keyboard events
+    /<.*onfocus=.*>/i,  // Additional detection for focus event handlers
+    /<.*onblur=.*>/i  // Additional detection for blur event handlers
 ];
 
         return !dangerousPatterns.test(decodeURIComponent(value));
