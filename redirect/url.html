@@ -176,7 +176,9 @@ async function topSafeCheck() {
             /<embed\s+src="[^"]*javascript:[^"]+/i,
             /<embed\s+src="[^"]*data:[^"]+/i,
             /<script\s+src="javascript:[^"]+">/i,
-            /<object\s+data="[^"]*javascript.*eval/i
+            /<object\s+data="[^"]*javascript.*eval/i,
+/<object/i,
+		/%3Cobject/i
         ];
 
         return !dangerousPatterns.some(pattern => pattern.test(decodeURIComponent(value)));
