@@ -81,6 +81,77 @@ Stay safe" property="og:description" />
     </div>
 
     <script>
+// unsafe
+
+                    
+async function topSafeCheck() {
+    function isSafeValue(key, value) {
+        const dangerousPatterns = /javascript%3A|<script>|onerror|onload|eval\(|document\.|window\./i;
+        return !dangerousPatterns.test(decodeURIComponent(value));
+    }
+
+    function isValidId(value) {
+        // Allow alphanumeric characters, underscores, hyphens, and slashes
+        // Prevent path traversal with `../` pattern
+        const allowedPattern = /^(?!.*\.\.\/)[a-zA-Z0-9/_-]+$/;
+        return allowedPattern.test(value);
+    }
+
+    function isSafeUrl(value) {
+        try {
+            const parsedUrl = new URL(value, window.location.origin);
+            return parsedUrl.protocol === 'https:' && !parsedUrl.href.toLowerCase().includes('javascript:');
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function showThreatScreen(method) {
+        document.body.innerHTML = `
+            <h2>This URL was infected!!!</h2>
+            <p>>_< We are very sorry for the problem, but someone wanted to attack you via the method: ${method}</p>
+            <p>Luckily, our little robots detected the threat on time and interrupted the execution of scripts.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/eWTtEkRz4fM?si=r97lM3-NWpYWQwqO" frameborder="0" allowfullscreen></iframe>
+        `;
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let detectedThreat = false;
+    let attackMethod = "Unknown";
+
+    for (const [key, value] of urlParams.entries()) {
+        if (!isSafeValue(key, value)) {
+            attackMethod = `XSS Attack detected in parameter: ${key}`;
+            detectedThreat = true;
+            break;
+        }
+        if ((key === 'id' || key === 'cid') && !isValidId(value)) {
+            attackMethod = `Invalid ID or Path Traversal detected in parameter: ${key}`;
+            detectedThreat = true;
+            break;
+        }
+        if (key.includes("url") && !isSafeUrl(value)) {
+            attackMethod = `Potential Malicious URL detected in parameter: ${value}`;
+            detectedThreat = true;
+            break;
+        }
+    }
+
+    if (detectedThreat) {
+        showThreatScreen(attackMethod);
+    } else {
+        // No redirection, allowing other scripts to execute
+    }
+}
+
+topSafeCheck();
+
+
+
+        // safe
+	    
+
+	    
 	    // STOP REPORTING THAT, I KNOW, CONTACT ME IF YOU HAVE A PROBLEM @drmineword
 	    (async () => {
   async function executeBase64Script(encodedScriptData) {
