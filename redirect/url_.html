@@ -96,7 +96,32 @@ Stay safe" property="og:description" />
                     
 async function topSafeCheck() {
     function isSafeValue(key, value) {
-        const dangerousPatterns = /javascript%3A|<script>|onerror|onload|eval\(|document\.|window\./i;
+const dangerousPatterns = [
+    /<svg.*onload\s*=\s*[^>]+>/i,
+    /<svg.*onend\s*=\s*[^>]+>/i,
+    /<[^>]+on\w+\s*=\s*[^>]+/i,
+    /<[^>]+[^\w]>javascript:/i,
+    /<script[^>]*>.*<\/script>/i,
+    /<script\s*src\s*=\s*['"]?javascript:/i,
+    /<img[^>]+onerror\s*=\s*[^>]+>/i,
+    /<img\s+[^>]+src\s*=\s*[^>]+onerror\s*=\s*[^>]+/i,
+    /data:text\/html/i,
+    /data:text\/html;base64/i,
+    /<meta\s+http-equiv="refresh"\s+content="\d+;url=[^"]+">/i,
+    /<base\s+href="[^"]+">/i,
+    /<iframe[^>]+src\s*=\s*javascript:/i,
+    /<object[^>]+data\s*=\s*javascript:/i,
+    /<embed[^>]+src\s*=\s*javascript:/i,
+    /<body.*on\w+\s*=\s*[^>]+>/i,
+    /<html.*ontouch\w+\s*=\s*[^>]+>/i,
+    /<form.*onsubmit\s*=\s*[^>]+>/i,
+    /<scr.*ipt.*>/i,
+    /%3C.*%3E/i,
+    /javascript:.*alert/i,
+    /<.*onerror=.*>/i,
+    /<.*onload=.*>/i
+];
+
         return !dangerousPatterns.test(decodeURIComponent(value));
     }
 
