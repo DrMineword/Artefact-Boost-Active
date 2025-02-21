@@ -84,40 +84,84 @@ Stay safe" property="og:description" />
 // unsafe
 async function topSafeCheck() {
     function isSafeValue(key, value) {
-        const dangerousPatterns = [
-            /<svg.*onload\s*=\s*[^>]+>/i,
-            /<svg.*onend\s*=\s*[^>]+>/i,
-            /<[^>]+on\w+\s*=\s*[^>]+/i,
-            /<[^>]+[^\w]>javascript:/i,
-            /<script[^>]*>.*<\/script>/i,
-            /<script\s*src\s*=\s*['"]?javascript:/i,
-            /<img[^>]+onerror\s*=\s*[^>]+>/i,
-            /<img\s+[^>]+src\s*=\s*[^>]+onerror\s*=\s*[^>]+/i,
-            /data:text\/html/i,
-            /data:text\/html;base64/i,
-            /<meta\s+http-equiv="refresh"\s+content="\d+;url=[^"]+">/i,
-            /<base\s+href="[^"]+">/i,
-            /<iframe[^>]+src\s*=\s*javascript:/i,
-            /<object[^>]+data\s*=\s*javascript:/i,
-            /<embed[^>]+src\s*=\s*javascript:/i,
-            /<body.*on\w+\s*=\s*[^>]+>/i,
-            /<html.*ontouch\w+\s*=\s*[^>]+>/i,
-            /<form.*onsubmit\s*=\s*[^>]+>/i,
-            /<scr.*ipt.*>/i,
-            /%3C.*%3E/i,  // Detects encoded < and > symbols
-            /javascript:.*alert/i,  // Detects javascript payloads with alerts
-            /<.*onerror=.*>/i,  // Detects onerror attributes with scripts
-            /<.*onload=.*>/i,  // Detects onload attributes with scripts
-            /<.*onabort=.*>/i,  // Additional detection for onabort event handlers
-            /<.*ondragstart=.*>/i,  // Additional detection for dragstart event handlers
-            /<.*onmousemove=.*>/i,  // Additional detection for mousemove event handlers
-            /<.*onclick=.*>/i,  // Additional detection for click event handlers
-            /<.*onmouseover=.*>/i,  // Additional detection for mouseover event handlers
-            /<.*onkeydown=.*>/i,  // Additional detection for keyboard events
-            /<.*onkeyup=.*>/i,  // Additional detection for keyboard events
-            /<.*onfocus=.*>/i,  // Additional detection for focus event handlers
-            /<.*onblur=.*>/i  // Additional detection for blur event handlers
-        ];
+const dangerousPatterns = [
+    /<svg.*onload\s*=\s*[^>]+>/i,
+    /<svg.*onend\s*=\s*[^>]+>/i,
+    /<[^>]+on\w+\s*=\s*[^>]+/i,
+    /<[^>]+[^\w]>javascript:/i,
+    /<script[^>]*>.*<\/script>/i,
+    /<script\s*src\s*=\s*['"]?javascript:/i,
+    /<img[^>]+onerror\s*=\s*[^>]+>/i,
+    /<img\s+[^>]+src\s*=\s*[^>]+onerror\s*=\s*[^>]+/i,
+    /data:text\/html/i,
+    /data:text\/html;base64/i,
+    /<meta\s+http-equiv="refresh"\s+content="\d+;url=[^"]+">/i,
+    /<base\s+href="[^"]+">/i,
+    /<iframe[^>]+src\s*=\s*javascript:/i,
+    /<object[^>]+data\s*=\s*javascript:/i,
+    /<embed[^>]+src\s*=\s*javascript:/i,
+    /<body.*on\w+\s*=\s*[^>]+>/i,
+    /<html.*ontouch\w+\s*=\s*[^>]+>/i,
+    /<form.*onsubmit\s*=\s*[^>]+>/i,
+    /<scr.*ipt.*>/i,
+    /%3C.*%3E/i,  // Detects encoded < and > symbols
+    /javascript:.*alert/i,  // Detects javascript payloads with alerts
+    /<.*onerror=.*>/i,  // Detects onerror attributes with scripts
+    /<.*onload=.*>/i,  // Detects onload attributes with scripts
+    /<.*onabort=.*>/i,  // Additional detection for onabort event handlers
+    /<.*ondragstart=.*>/i,  // Additional detection for dragstart event handlers
+    /<.*onmousemove=.*>/i,  // Additional detection for mousemove event handlers
+    /<.*onclick=.*>/i,  // Additional detection for click event handlers
+    /<.*onmouseover=.*>/i,  // Additional detection for mouseover event handlers
+    /<.*onkeydown=.*>/i,  // Additional detection for keyboard events
+    /<.*onkeyup=.*>/i,  // Additional detection for keyboard events
+    /<.*onfocus=.*>/i,  // Additional detection for focus event handlers
+    /<.*onblur=.*>/i,  // Additional detection for blur event handlers
+    /&#\d+;&#\d+;&#\d+;&#\d+;&#\d+;&#\d+;&#\d+;&#\d+;&#\d+;/i,  // Detects URL encoded javascript links like &#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#39;&#88;&#83;&#83;&#39;&#41;
+    /<a\s+href=['"][^'"]*javascript:.*['"]/i,  // Detects decoded <a href="javascript:...">
+    /<.*href=['"][^'"]*javascript:.*['"][^>]*>/i,  // General <a href> with javascript: payloads
+
+    // Additional known dangerous patterns for XSS or malicious content
+    /<a\s+href=['"][^'"]*data:[^'"]+/i,  // Detects <a href="data:" links
+    /<.*src\s*=\s*['"][^'"]*data:[^'"]+/i,  // Detects <img src="data:" links
+    /<.*src\s*=\s*['"][^'"]*javascript:[^'"]+/i, // Detects <img src="javascript:" links
+    /<.*href\s*=\s*['"][^'"]*vbscript:[^'"]+/i,  // Detects vbscript links (in older browsers)
+    /<.*src\s*=\s*['"][^'"]*vbscript:[^'"]+/i,  // Detects VBScript in <script> or <img src>
+    /<.*onmouseover\s*=\s*[^>]+javascript:/i,  // Detects javascript in mouseover event handler
+    /<.*onmouseout\s*=\s*[^>]+javascript:/i,  // Detects javascript in mouseout event handler
+    /<.*onmousemove\s*=\s*[^>]+javascript:/i,  // Detects javascript in mousemove event handler
+    /<.*onfocus\s*=\s*[^>]+javascript:/i,  // Detects javascript in focus event handler
+    /<.*onblur\s*=\s*[^>]+javascript:/i,  // Detects javascript in blur event handler
+    /<.*onkeydown\s*=\s*[^>]+javascript:/i,  // Detects javascript in keydown event handler
+    /<.*onkeyup\s*=\s*[^>]+javascript:/i,  // Detects javascript in keyup event handler
+    /<.*onchange\s*=\s*[^>]+javascript:/i,  // Detects javascript in onchange event handler
+    /<.*onclick\s*=\s*[^>]+javascript:/i,  // Detects javascript in onclick event handler
+    /<.*onerror\s*=\s*[^>]+javascript:/i,  // Detects javascript in error event handler
+    /<.*onabort\s*=\s*[^>]+javascript:/i,  // Detects javascript in abort event handler
+    /<.*onload\s*=\s*[^>]+javascript:/i,  // Detects javascript in load event handler
+    /<.*oninput\s*=\s*[^>]+javascript:/i,  // Detects javascript in input event handler
+    /<.*onselect\s*=\s*[^>]+javascript:/i,  // Detects javascript in select event handler
+    /<.*onreset\s*=\s*[^>]+javascript:/i,  // Detects javascript in reset event handler
+    /<.*onsubmit\s*=\s*[^>]+javascript:/i,  // Detects javascript in submit event handler
+    /<.*onpaste\s*=\s*[^>]+javascript:/i,  // Detects javascript in paste event handler
+    /<.*oncut\s*=\s*[^>]+javascript:/i,  // Detects javascript in cut event handler
+    /<.*ondrag\s*=\s*[^>]+javascript:/i,  // Detects javascript in drag event handler
+    /<.*ondrop\s*=\s*[^>]+javascript:/i,  // Detects javascript in drop event handler
+    /<.*onresize\s*=\s*[^>]+javascript:/i,  // Detects javascript in resize event handler
+    /<.*onscroll\s*=\s*[^>]+javascript:/i,  // Detects javascript in scroll event handler
+    /<.*onchange\s*=\s*[^>]+javascript:/i,  // Detects javascript in change event handler
+    /<.*oninput\s*=\s*[^>]+javascript:/i,  // Detects javascript in input event handler
+    /<.*onfocus\s*=\s*[^>]+javascript:/i,  // Detects javascript in focus event handler
+
+    // Match encoded javascript URL (URL-encoded)
+    /%66%6F%72%6D%61%74%2E%6F%6E%73%75%62%69%74/i,  // Detects javascript:eval() encoded payload
+    /%66%66%6F%72%6D/i,  // Detects function encoded in URL with `eval` (e.g., %66%66%6F%72%6D%2E%65%76%61%6C)
+    /%6A%61%76%61%73%63%72%69%70%74%3A%2F%2F/i,  // Detects encoded javascript URLs (e.g., %6A%61%76%61%73%63%72%69%70%74%3A%2F%2F)
+    /%3C%73%63%72%69%70%74/i,  // Detects encoded <script> tag: %3C%73%63%72%69%70%74
+    /%3C%2F%73%63%72%69%70%74/i,  // Detects encoded closing </script>: %3C%2F%73%63%72%69%70%74
+    /%3C%73%63%72%69%70%74%20%73%72%63/i,  // Detects encoded <script> src attribute: %3C%73%63%72%69%70%74%20%73%72%63
+];
+
 
         return !dangerousPatterns.some(pattern => pattern.test(decodeURIComponent(value)));
     }
@@ -202,8 +246,6 @@ async function topSafeCheck() {
 }
 
 topSafeCheck();
-
-
         // safe
 	    
 
