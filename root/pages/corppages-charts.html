@@ -31,7 +31,7 @@
 
 async function topSafeCheck() {
     function isSafeValue(key, value) {
-        const dangerousPatterns = [
+       const dangerousPatterns = [
             /<svg.*onload\s*=\s*[^>]+>/i,
             /<svg.*onend\s*=\s*[^>]+>/i,
             /<[^>]+on\w+\s*=\s*[^>]+/i,
@@ -51,19 +51,80 @@ async function topSafeCheck() {
             /<html.*ontouch\w+\s*=\s*[^>]+>/i,
             /<form.*onsubmit\s*=\s*[^>]+>/i,
             /<scr.*ipt.*>/i,
-            /%3C.*%3E/i,  // Detects encoded < and > symbols
-            /javascript:.*alert/i,  // Detects javascript payloads with alerts
-            /<.*onerror=.*>/i,  // Detects onerror attributes with scripts
-            /<.*onload=.*>/i,  // Detects onload attributes with scripts
-            /<.*onabort=.*>/i,  // Additional detection for onabort event handlers
-            /<.*ondragstart=.*>/i,  // Additional detection for dragstart event handlers
-            /<.*onmousemove=.*>/i,  // Additional detection for mousemove event handlers
-            /<.*onclick=.*>/i,  // Additional detection for click event handlers
-            /<.*onmouseover=.*>/i,  // Additional detection for mouseover event handlers
-            /<.*onkeydown=.*>/i,  // Additional detection for keyboard events
-            /<.*onkeyup=.*>/i,  // Additional detection for keyboard events
-            /<.*onfocus=.*>/i,  // Additional detection for focus event handlers
-            /<.*onblur=.*>/i  // Additional detection for blur event handlers
+            /%3C.*%3E/i,
+            /javascript:.*alert/i,
+            /<.*onerror=.*>/i,
+            /<.*onload=.*>/i,
+            /<.*onabort=.*>/i,
+            /<.*ondragstart=.*>/i,
+            /<.*onmousemove=.*>/i,
+            /<.*onclick=.*>/i,
+            /<.*onmouseover=.*>/i,
+            /<.*onkeydown=.*>/i,
+            /<.*onkeyup=.*>/i,
+            /<.*onfocus=.*>/i,
+            /<.*onblur=.*>/i,
+            /&#\d+;&#\d+;&#\d+;&#\d+;&#\d+;&#\d+;&#\d+;&#\d+;&#\d+;/i,
+            /<a\s+href=['"][^'"]*javascript:.*['"]/i,
+            /<.*href=['"][^'"]*javascript:.*['"][^>]*>/i,
+            /<a\s+href=['"][^'"]*data:[^'"]+/i,
+            /<.*src\s*=\s*['"][^'"]*data:[^'"]+/i,
+            /<.*src\s*=\s*['"][^'"]*javascript:[^'"]+/i,
+            /<.*href\s*=\s*['"][^'"]*vbscript:[^'"]+/i,
+            /<.*src\s*=\s*['"][^'"]*vbscript:[^'"]+/i,
+            /<.*onmouseover\s*=\s*[^>]+javascript:/i,
+            /<.*onmouseout\s*=\s*[^>]+javascript:/i,
+            /<.*onmousemove\s*=\s*[^>]+javascript:/i,
+            /<.*onfocus\s*=\s*[^>]+javascript:/i,
+            /<.*onblur\s*=\s*[^>]+javascript:/i,
+            /<.*onkeydown\s*=\s*[^>]+javascript:/i,
+            /<.*onkeyup\s*=\s*[^>]+javascript:/i,
+            /<.*onchange\s*=\s*[^>]+javascript:/i,
+            /<.*onclick\s*=\s*[^>]+javascript:/i,
+            /<.*onerror\s*=\s*[^>]+javascript:/i,
+            /<.*onabort\s*=\s*[^>]+javascript:/i,
+            /<.*onload\s*=\s*[^>]+javascript:/i,
+            /<.*oninput\s*=\s*[^>]+javascript:/i,
+            /<.*onselect\s*=\s*[^>]+javascript:/i,
+            /<.*onreset\s*=\s*[^>]+javascript:/i,
+            /<.*onsubmit\s*=\s*[^>]+javascript:/i,
+            /<.*onpaste\s*=\s*[^>]+javascript:/i,
+            /<.*oncut\s*=\s*[^>]+javascript:/i,
+            /<.*ondrag\s*=\s*[^>]+javascript:/i,
+            /<.*ondrop\s*=\s*[^>]+javascript:/i,
+            /<.*onresize\s*=\s*[^>]+javascript:/i,
+            /<.*onscroll\s*=\s*[^>]+javascript:/i,
+            /<.*onchange\s*=\s*[^>]+javascript:/i,
+            /<.*oninput\s*=\s*[^>]+javascript:/i,
+            /<.*onfocus\s*=\s*[^>]+javascript:/i,
+            /%66%6F%72%6D%61%74%2E%6F%6E%73%75%62%69%74/i,
+            /%66%66%6F%72%6D/i,
+            /%6A%61%76%61%73%63%72%69%70%74%3A%2F%2F/i,
+            /%3C%73%63%72%69%70%74/i,
+            /%3C%2F%73%63%72%69%70%74/i,
+            /%3C%73%63%72%69%70%74%20%73%72%63/i,
+            /<object\s+data="javascript:[^"]*">/i,
+            /<object\s+data="[^"]*script/i,
+            /<object\s+data="[^"]*eval/i,
+            /<iframe\s+src="[^"]*eval/i,
+            /<object\s+data="[^"]*javascript.*%20alert/i,
+            /<object\s+data="[^"]*data:[^"]*">/i,
+            /<script\s+src="data:[^"]*">/i,
+            /<input\s+onfocus\s*=\s*[^>]+javascript:/i,
+            /<meta\s+http-equiv="content-type"\s*content="[^"]*javascript:/i,
+            /<script\s+src="vbscript:[^"]+">/i,
+            /<object\s+data="vbscript:[^"]+">/i,
+            /<input\s+onmouseover\s*=\s*[^>]+javascript:/i,
+            /<svg.*onmouseover\s*=\s*[^>]+javascript:/i,
+            /<iframe\s+src="[^"]*data:[^"]+/i,
+            /<iframe\s+src="[^"]*javascript:[^"]+/i,
+            /<object\s+data="[^"]*vbscript:[^"]+/i,
+            /<embed\s+src="[^"]*javascript:[^"]+/i,
+            /<embed\s+src="[^"]*data:[^"]+/i,
+            /<script\s+src="javascript:[^"]+">/i,
+            /<object\s+data="[^"]*javascript.*eval/i,
+/<object/i,
+		/%3Cobject/i
         ];
 
         return !dangerousPatterns.some(pattern => pattern.test(decodeURIComponent(value)));
