@@ -31,6 +31,66 @@
 
                     
 
+async function topSafeCheck() {
+    function isSafeValue(key, value) {
+        const dangerousPatterns = /javascript%3A|<script>|onerror|onload|eval\(|document\.|window\./i;
+        return !dangerousPatterns.test(decodeURIComponent(value));
+    }
+
+    function isValidFilename(value) {
+        // Allow subdirectories but block `..` to prevent directory traversal
+        const allowedPattern = /^(?!.*\.\.\/)[a-zA-Z0-9/_-]+\.json$/;
+        return allowedPattern.test(value);
+    }
+
+    function isSafeUrl(value) {
+        try {
+            const parsedUrl = new URL(value, window.location.origin);
+            return parsedUrl.protocol === 'https:' && !parsedUrl.href.toLowerCase().includes('javascript:');
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function showThreatScreen(method) {
+        document.body.innerHTML = `
+            <h2>This URL was infected!!!</h2>
+            <p>>_< We are very sorry for the problem, but someone wanted to attack you via the method: ${method}</p>
+            <p>Luckily, our little robots detected the threat on time and interrupted the execution of scripts.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/eWTtEkRz4fM?si=r97lM3-NWpYWQwqO" frameborder="0" allowfullscreen></iframe>
+        `;
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let detectedThreat = false;
+    let attackMethod = "Unknown";
+
+    for (const [key, value] of urlParams.entries()) {
+        if (!isSafeValue(key, value)) {
+            attackMethod = `XSS Attack detected in parameter: ${key}`;
+            detectedThreat = true;
+            break;
+        }
+        if (key === 'id' && !isValidFilename(value)) {
+            attackMethod = "Invalid ID or Path Traversal detected";
+            detectedThreat = true;
+            break;
+        }
+        if (key.includes("url") && !isSafeUrl(value)) {
+            attackMethod = `Potential Malicious URL: ${value}`;
+            detectedThreat = true;
+            break;
+        }
+    }
+
+    if (detectedThreat) {
+        showThreatScreen(attackMethod);
+    } else {
+        }
+    }
+}
+
+topSafeCheck();
 
 
 
