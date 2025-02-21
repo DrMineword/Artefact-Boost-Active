@@ -104,7 +104,7 @@ async function topSafeCheck() {
 
     // Add flags to patterns
     const decodedPatterns = decodedFlags.map(flag => {
-        return new RegExp(flag.trim() + "[^>]*", "i");
+        return new RegExp(flag.trim());
     });
 
     // Dangerous patterns that you want to check
