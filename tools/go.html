@@ -17,15 +17,14 @@ Stay safe" property="og:description" />
     <title>Redirecting...</title>
     <script>
 
-        // unsafe
-
-                    
-async function topSafeCheck() {
+        document.addEventListener('DOMContentLoaded', async function() {
+    // Function to check for unsafe values
     function isSafeValue(key, value) {
         const dangerousPatterns = /javascript%3A|<script>|onerror|onload|eval\(|document\.|window\./i;
         return !dangerousPatterns.test(decodeURIComponent(value));
     }
 
+    // Function to validate the ID
     function isValidId(value) {
         // Allow alphanumeric characters, underscores, hyphens, and slashes
         // Prevent path traversal with `../` pattern
@@ -33,6 +32,7 @@ async function topSafeCheck() {
         return allowedPattern.test(value);
     }
 
+    // Function to check if a URL is safe
     function isSafeUrl(value) {
         try {
             const parsedUrl = new URL(value, window.location.origin);
@@ -42,6 +42,7 @@ async function topSafeCheck() {
         }
     }
 
+    // Function to display a threat screen if an attack is detected
     function showThreatScreen(method) {
         document.body.innerHTML = `
             <h2>This URL was infected!!!</h2>
@@ -51,10 +52,12 @@ async function topSafeCheck() {
         `;
     }
 
+    // Get URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     let detectedThreat = false;
     let attackMethod = "Unknown";
 
+    // Loop through each URL parameter and check for threats
     for (const [key, value] of urlParams.entries()) {
         if (!isSafeValue(key, value)) {
             attackMethod = `XSS Attack detected in parameter: ${key}`;
@@ -73,19 +76,14 @@ async function topSafeCheck() {
         }
     }
 
+    // If a threat is detected, show the threat screen
     if (detectedThreat) {
         showThreatScreen(attackMethod);
     } else {
         // No redirection, allowing other scripts to execute
     }
-}
-
-topSafeCheck();
-
-
-
-        // safe
-
+});
+        
         document.addEventListener("DOMContentLoaded", async () => {
             try {
                 // Retrieve the `id` parameter from the query string
