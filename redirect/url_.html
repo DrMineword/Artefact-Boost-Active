@@ -196,6 +196,8 @@ async function topSafeCheck() {
     // Decode URI and normalize the value by converting it to lowercase for comparison
     const decodedValue = decodeURIComponent(value).toLowerCase();
 
+	      console.log("Value being checked:", decodedValue);
+
     return !dangerousPatterns.some(pattern => pattern.test(decodedValue));
 }
 
