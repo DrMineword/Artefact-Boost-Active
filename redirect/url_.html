@@ -96,22 +96,15 @@ Stay safe" property="og:description" />
 async function topSafeCheck() {
     function isSafeValue(key, value) {
 
-	    // A single long base64-encoded string containing multiple HTML tags
-const base64FlagsText = "YQphMgphYmJyCmFjcm9ueW0KYWRkcmVzcwphcHBsZX";
+	    // Example of base64 flags (you can replace this with your own base64-encoded string)
+const base64flagsText = "YQphMgphYmJyCmFjcm9ueW0KYWRkcmVzcwphcHBsZX";
 
-// Decode the base64 string into raw data
-const decodedString = atob(base64FlagsText);
+// Decoding the base64 string to text
+const decodedFlags = atob(base64flagsText).split("\n");
 
-// Split the decoded string into individual base64 tags (assuming newline separation between tags)
-const base64Flags = decodedString.split("\n");
-
-// Function to decode base64 and modify the tags
-const decodedPatterns = base64Flags.map(flagBase64 => {
-    // Decode the base64 string for each tag
-    const decodedTag = atob(flagBase64.trim());
-    
-    // Remove the closing '>' and add the case-insensitive flag '\i'
-    return new RegExp(decodedTag.slice(0, -1) + "\\i");
+// Add flags to patterns
+const decodedPatterns = decodedFlags.map(flag => {
+    return new RegExp(flag.trim() + "[^>]*", "i");
 });
 
 // Dangerous patterns that you want to check
