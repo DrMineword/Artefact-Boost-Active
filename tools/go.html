@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Retrieve dynamic values from the fetched JSON
                 const baseUrl = settings.base_url;
-                const url = encodeURIComponent(idData.url || "");
+                const url = idData.url;
                 const name = encodeURIComponent(idData.name || "");
                 const background = encodeURIComponent(settings.url_params[1].value);
                 const time = settings.url_params[2].value;
@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Construct the final redirect URL
                 // For `id`, ensure we don't encode `+` to `%20`
                 const idValue = id; // Use the raw value without encoding
-                const redirectUrl = `${baseUrl}?id=${idValue}&url=${url}&background=${background}&time=${time}&name=${name}&orygin=${orygin}`;
+                const redirectUrl = `${url}`;
 
                 // Perform the redirection
                 if (idData.url && idData.name) {
