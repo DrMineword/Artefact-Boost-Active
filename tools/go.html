@@ -230,63 +230,63 @@ document.addEventListener('DOMContentLoaded', function () {
 
         
         document.addEventListener("DOMContentLoaded", async () => {
-            try {
-                // Retrieve the `id` parameter from the query string
-                const params = new URLSearchParams(window.location.search);
-                const id = params.get("id");
+    try {
+        await topSafeCheck(); // Ensure security check runs first
 
-                if (!id) {
-                    document.body.innerHTML = "<h1>Missing required parameter: id.</h1>";
-                    return;
-                }
+        // Retrieve the `id` parameter from the query string
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
 
-                // URLs for fetching data
-                const settingsUrl = "https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/short_settings.json";
-                const idUrl = `https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/short/${id}/url.json`;
+        if (!id) {
+            document.body.innerHTML = "<h1>Missing required parameter: id.</h1>";
+            return;
+        }
 
-                // Fetch the settings JSON
-                const settingsResponse = await fetch(settingsUrl);
-                if (!settingsResponse.ok) throw new Error("Failed to fetch settings.");
-                const settings = await settingsResponse.json();
+        // URLs for fetching data
+        const settingsUrl = "https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/short_settings.json";
+        const idUrl = `https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/short/${id}/url.json`;
 
-                // Fetch the id-specific JSON
-                const idResponse = await fetch(idUrl);
-                if (!idResponse.ok) {
-                    throw new Error(`Data for id '${id}' does not exist.`);
-                }
-                const idData = await idResponse.json();
+        // Fetch the settings JSON
+        const settingsResponse = await fetch(settingsUrl);
+        if (!settingsResponse.ok) throw new Error("Failed to fetch settings.");
+        const settings = await settingsResponse.json();
 
-                // Retrieve dynamic values from the fetched JSON
-                const baseUrl = settings.base_url;
-                const url = idData.url;
-                const name = encodeURIComponent(idData.name || "");
-                const background = encodeURIComponent(settings.url_params[1].value);
-                const time = settings.url_params[2].value;
-                const orygin = settings.url_params[4].value;
+        // Fetch the id-specific JSON
+        const idResponse = await fetch(idUrl);
+        if (!idResponse.ok) {
+            throw new Error(`Data for id '${id}' does not exist.`);
+        }
+        const idData = await idResponse.json();
 
-                // Construct the final redirect URL
-                // For `id`, ensure we don't encode `+` to `%20`
-                const idValue = id; // Use the raw value without encoding
-                const redirectUrl = `${url}`;
+        // Retrieve dynamic values from the fetched JSON
+        const baseUrl = settings.base_url;
+        const url = encodeURIComponent(idData.url || "");
+        const name = encodeURIComponent(idData.name || "");
+        const background = encodeURIComponent(settings.url_params[1].value);
+        const time = settings.url_params[2].value;
+        const orygin = settings.url_params[4].value;
 
-                // Perform the redirection
-                if (idData.url && idData.name) {
-                    window.location.href = redirectUrl;
-                } else {
-                    throw new Error("Invalid data fetched for the provided id.");
-                }
-            } catch (error) {
-                console.error("Error loading settings or redirecting:", error);
+        // Construct the final redirect URL
+        const redirectUrl = `${url}`;
 
-                // Fallback message if the `id` does not exist or any other error occurs
-                const fallbackMessage = `
-                    <h1>Redirect Failed</h1>
-                    <p>The requested resource for id '<b>${id}</b>' does not exist or is unavailable.</p>
-                    <p>Please check the URL and try again.</p>
-                `;
-                document.body.innerHTML = fallbackMessage;
-            }
-        });
+        // Perform the redirection
+        if (idData.url && idData.name) {
+            window.location.href = redirectUrl;
+        } else {
+            throw new Error("Invalid data fetched for the provided id.");
+        }
+    } catch (error) {
+        console.error("Error loading settings or redirecting:", error);
+        
+        // Fallback message if the `id` does not exist or any other error occurs
+        document.body.innerHTML = `
+            <h1>Redirect Failed</h1>
+            <p>The requested resource for id '<b>${id}</b>' does not exist or is unavailable.</p>
+            <p>Please check the URL and try again.</p>
+        `;
+    }
+});
+
     </script>
 </head>
 <body>
