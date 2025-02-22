@@ -253,7 +253,7 @@ topSafeCheck();
         const idData = await idResponse.json();
 
         // Retrieve dynamic values from the fetched JSON
-        const url = encodeURIComponent(idData.url || "");
+        const url = idData.url;
         
         // Construct the final redirect URL
         const redirectUrl = `${url}`;
