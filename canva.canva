@@ -1,116 +1,162 @@
 (function() {
-    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame ||
-    function(callback) {
-        window.setTimeout(callback, 1000 / 60);
-    };
-    window.requestAnimationFrame = requestAnimationFrame;
-})();
+    var canvas = document.getElementById('c'),
+        ctx = canvas.getContext('2d'),
+        fl = 300,
+        count = 18,
+        points = [],
+        startSpeed = 0,
+        tick = 0,
+        width,
+        height,
+        bounds,
+        vp,
+        mouse,
+        canvasOffset;
 
+    function rand(min, max) {
+        return Math.random() * (max - min) + min;
+    }
 
-var flakes = [],
-    canvas = document.getElementById("canvas"),
-    ctx = canvas.getContext("2d"),
-    flakeCount = 150,
-    mX = -100,
-    mY = -100
+    function norm(val, min, max) {
+        return (val - min) / (max - min);
+    }
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    function resetPoint(p, init) {
+        p.z = init ? rand(0, bounds.z.max) : bounds.z.max;
+        p.x = rand(bounds.x.min, bounds.x.max) / (fl / (fl + p.z));
+        p.y = rand(bounds.y.min, bounds.y.max) / (fl / (fl + p.z));
+        p.ox = p.x;
+        p.oy = p.y;
+        p.oz = p.z;
+        p.vx = 0;
+        p.vy = 0;
+        p.vz = rand(-1, -10) + startSpeed;
+        p.ax = 0;
+        p.ay = 0;
+        p.az = 0;
+        p.s = 0;
+        p.sx = 0;
+        p.sy = 0;
+        p.os = p.s;
+        p.osx = p.sx;
+        p.osy = p.sy;
+        p.hue = rand(120, 200);
+        p.lightness = rand(70, 100);
+        p.alpha = 0;
+        return p;
+    }
 
-function snow() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    function create() {
+        vp = {
+            x: width / 2,
+            y: height / 2
+        };
+        mouse = {
+            x: vp.x,
+            y: vp.y,
+            down: false
+        };
+        bounds = {
+            x: { min: -vp.x, max: width - vp.x },
+            y: { min: -vp.y, max: height - vp.y },
+            z: { min: -fl, max: 1000 }
+        };
+    }
 
-    for (var i = 0; i < flakeCount; i++) {
-        var flake = flakes[i],
-            x = mX,
-            y = mY,
-            minDist = 150,
-            x2 = flake.x,
-            y2 = flake.y;
-
-        var dist = Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y)),
-            dx = x2 - x,
-            dy = y2 - y;
-
-        if (dist < minDist) {
-            var force = minDist / (dist * dist),
-                xcomp = (x - x2) / dist,
-                ycomp = (y - y2) / dist,
-                deltaV = force / 2;
-
-            flake.velX -= deltaV * xcomp;
-            flake.velY -= deltaV * ycomp;
-
-        } else {
-            flake.velX *= .98;
-            if (flake.velY <= flake.speed) {
-                flake.velY = flake.speed
+    function update() {
+        if (mouse.down) {
+            if (startSpeed > -30) {
+                startSpeed -= 0.1;
+            } else {
+                startSpeed = -30;
             }
-            flake.velX += Math.cos(flake.step += .05) * flake.stepSize;
+        } else {
+            if (startSpeed < 0) {
+                startSpeed += 1;
+            } else {
+                startSpeed = 0;
+            }
         }
 
-        ctx.fillStyle = "rgba(255,255,255," + flake.opacity + ")";
-        flake.y += flake.velY;
-        flake.x += flake.velX;
-            
-        if (flake.y >= canvas.height || flake.y <= 0) {
-            reset(flake);
+        vp.x += ((width / 2 - (mouse.x - width / 2)) - vp.x) * 0.025;
+        vp.y += ((height / 2 - (mouse.y - height / 2)) - vp.y) * 0.025;
+        bounds = {
+            x: { min: -vp.x, max: width - vp.x },
+            y: { min: -vp.y, max: height - vp.y },
+            z: { min: -fl, max: 1000 }
+        };
+
+        if (points.length < count) {
+            points.push(resetPoint({}));
         }
-
-
-        if (flake.x >= canvas.width || flake.x <= 0) {
-            reset(flake);
+        var i = points.length;
+        while (i--) {
+            var p = points[i];
+            p.vx += p.ax;
+            p.vy += p.ay;
+            p.vz += p.az;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.z += p.vz;
+            if (mouse.down) {
+                p.az = -0.5;
+            }
+            if (
+                p.sx - p.sr > bounds.x.max ||
+                p.sy - p.sr > bounds.y.max ||
+                p.z > bounds.z.max ||
+                p.sx + p.sr < bounds.x.min ||
+                p.sy + p.sr < bounds.y.min ||
+                p.z < bounds.z.min
+            ) {
+                resetPoint(p);
+            }
+            p.ox = p.x;
+            p.oy = p.y;
+            p.oz = p.z;
+            p.os = p.s;
+            p.osx = p.sx;
+            p.osy = p.sy;
         }
-
-        ctx.beginPath();
-        ctx.arc(flake.x, flake.y, flake.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
-    requestAnimationFrame(snow);
-};
-
-function reset(flake) {
-    flake.x = Math.floor(Math.random() * canvas.width);
-    flake.y = 0;
-    flake.size = (Math.random() * 3) + 2;
-    flake.speed = (Math.random() * 1) + 0.5;
-    flake.velY = flake.speed;
-    flake.velX = 0;
-    flake.opacity = (Math.random() * 0.5) + 0.3;
-}
-
-function init() {
-    for (var i = 0; i < flakeCount; i++) {
-        var x = Math.floor(Math.random() * canvas.width),
-            y = Math.floor(Math.random() * canvas.height),
-            size = (Math.random() * 3) + 2,
-            speed = (Math.random() * 1) + 0.5,
-            opacity = (Math.random() * 0.5) + 0.3;
-
-        flakes.push({
-            speed: speed,
-            velY: speed,
-            velX: 0,
-            x: x,
-            y: y,
-            size: size,
-            stepSize: (Math.random()) / 30,
-            step: 0,
-            opacity: opacity
-        });
     }
 
-    snow();
-};
+    function render() {
+        ctx.save();
+        ctx.translate(vp.x, vp.y);
+        ctx.clearRect(-vp.x, -vp.y, width, height);
+        var i = points.length;
+        while (i--) {
+            var p = points[i];
+            p.s = fl / (fl + p.z);
+            p.sx = p.x * p.s;
+            p.sy = p.y * p.s;
+            p.alpha = (bounds.z.max - p.z) / (bounds.z.max / 2);
+            ctx.beginPath();
+            ctx.moveTo(p.sx, p.sy);
+            ctx.lineTo(p.osx, p.osy);
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'hsla(' + p.hue + ', 100%, ' + p.lightness + '%, ' + p.alpha + ')';
+            ctx.stroke();
+        }
+        ctx.restore();
+    }
 
-canvas.addEventListener("mousemove", function(e) {
-    mX = e.clientX,
-    mY = e.clientY
-});
+    function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        canvasOffset = { x: canvas.offsetLeft, y: canvas.offsetTop };
+    }
 
-window.addEventListener("resize",function(){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-})
+    function loop() {
+        requestAnimationFrame(loop);
+        update();
+        render();
+        tick++;
+    }
 
-init();
+    window.addEventListener('resize', resize);
+    document.body.appendChild(canvas);
+    resize();
+    create();
+    loop();
+})();
