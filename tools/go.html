@@ -259,7 +259,7 @@ topSafeCheck();
         const redirectUrl = `${url}`;
 
         // Perform the redirection
-        if (idData.url && idData.name) {
+        if (idData.url) {
             window.location.href = redirectUrl;
         } else {
             throw new Error("Invalid data fetched for the provided id.");
