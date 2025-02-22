@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Retrieve dynamic values from the fetched JSON
                 const baseUrl = settings.base_url;
-                const url = idData.url;
+                const url = encodeURIComponent(idData.url || "");
                 const name = encodeURIComponent(idData.name || "");
                 const background = encodeURIComponent(settings.url_params[1].value);
                 const time = settings.url_params[2].value;
