@@ -1,7 +1,0 @@
-{
-  "whitelistedDomains": ["https://drmineword.github.io/Artefact-Boost-Active/*", "https://base64.guru/*", "https://drmineword.github.io/Artefact-Boost-Active"],
-  "rundomains": ["drmineword.github.io", "ws.tsl.rocks"],
-  "background": "https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_CerberusPhoenix.jpg",
-  "time": 6,
-  "name": "<p>{domain}</a><br><span style=\"color:#fafafa;font-size:13px;\">Automatically Generated Redirect Link</span><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://onlinehtmleditor.dev/\"></p>"
-}
