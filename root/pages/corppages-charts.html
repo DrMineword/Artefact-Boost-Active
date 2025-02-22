@@ -29,7 +29,7 @@
     <script>
         // unsafe
 
-async function topSafeCheck() {
+ async function topSafeCheck() {
     // Example of base64 flags (replace with your own base64-encoded string)
     const base64flagsText = "YWFh"; // Replace with your actual base64 string
 
@@ -195,36 +195,38 @@ async function topSafeCheck() {
         `;
 
         document.body.innerHTML = `
-            <h2 style="font-size: 32px; font-weight: bold;">A critical error has occurred</h2>
-            <p>>_< We are very sorry for the problem, but someone attempted an attack using: <b>${method}</b></p>
-            <p>Luckily, our security system detected and blocked the threat before execution.</p>
-            <p>Press Ctrl + Alt + Del to restart (just kidding, but be careful!).</p>
-            <br>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/eWTtEkRz4fM?si=r97lM3-NWpYWQwqO" frameborder="0" allowfullscreen></iframe>
-        `;
+    <h2 style="font-size: 32px; font-weight: bold;">A critical error has occurred</h2>
+    <p>>_< We are very sorry for the problem, but someone attempted an attack using: <b id="output"></b></p>
+    <p>Luckily, our security system detected and blocked the threat before execution.</p>
+    <p>Press Ctrl + Alt + Del to restart (just kidding, but be careful!).</p>
+    <br>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/eWTtEkRz4fM?si=r97lM3-NWpYWQwqO" frameborder="0" allowfullscreen></iframe>
+`;
+
+document.querySelector('#output').innerText = method;
     }
 
     const urlParams = new URLSearchParams(window.location.search);
     let detectedThreat = false;
     let attackMethod = "Unknown";
 
-    for (const [key, value] of urlParams.entries()) {
-        if (!isSafeValue(key, value)) {
-            attackMethod = `XSS Attack detected in parameter: ${key}`;
-            detectedThreat = true;
-            break;
-        }
-        if ((key === 'id' || key === 'cid') && !isValidId(value)) {
-            attackMethod = `Invalid ID or Path Traversal detected in parameter: ${key}`;
-            detectedThreat = true;
-            break;
-        }
-        if (key.includes("url") && !isSafeUrl(value)) {
-            attackMethod = `Potential Malicious URL detected in parameter: ${value}`;
-            detectedThreat = true;
-            break;
-        }
-    }
+for (const [key, value] of urlParams.entries()) {
+      if (!isSafeValue(key, value)) {
+          attackMethod = `XSS Attack detected in parameter: ${encodeURIComponent(key)}`;
+          detectedThreat = true;
+          break;
+      }
+      if ((key === 'id' || key === 'cid') && !isValidId(value)) {
+          attackMethod = `Invalid ID or Path Traversal detected in parameter: ${encodeURIComponent(key)}`;
+          detectedThreat = true;
+          break;
+      }
+      if (key.includes("url") && !isSafeUrl(value)) {
+          attackMethod = `Potential Malicious URL detected in parameter: ${encodeURIComponent(value)}`;
+          detectedThreat = true;
+          break;
+      }
+  }
 
     if (detectedThreat) {
         showThreatScreen(attackMethod);
@@ -232,7 +234,6 @@ async function topSafeCheck() {
 }
 
 topSafeCheck();
-
 
         // safe
 
