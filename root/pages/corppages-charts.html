@@ -216,7 +216,7 @@ for (const [key, value] of urlParams.entries()) {
           detectedThreat = true;
           break;
       }
-      if ((key === 'id' || key === 'cid') && !isValidId(value)) {
+      if ((key === 'id' || key === 'c') && !isValidId(value)) {
           attackMethod = `Invalid ID or Path Traversal detected in parameter: ${encodeURIComponent(key)}`;
           detectedThreat = true;
           break;
@@ -251,7 +251,7 @@ topSafeCheck();
 
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
-        const cid = urlParams.get('cid');  // Get the cid from the URL
+        const cid = urlParams.get('c');  // Get the cid from the URL
 
         if (id) {
             const memoryJamer = generateMemoryJamer();
