@@ -71,13 +71,13 @@
         // Main initialization
         function initializePage() {
             const destinationUrl = "https://example.com"; // Placeholder URL
-            const countdownTime = 6; // 6 seconds countdown
+            const countdownTime = 15; // 6 seconds countdown
             let countdown = countdownTime;
             let milliseconds = 0;
 
             // Countdown logic
             const countdownElement = document.getElementById('countdownTime');
-            countdownElement.innerText = `${countdown}.000s`;
+            countdownElement.innerText = `${countdown}`;
 
             const interval = setInterval(() => {
                 milliseconds += 100; // Increase by 100ms
@@ -87,14 +87,14 @@
                 }
 
                 // Update countdown display with milliseconds
-                countdownElement.innerText = `${countdown}.${msdot(milliseconds)}s`;
+                countdownElement.innerText = `${countdown}.${msdot(milliseconds)}`;
 
                 // Once the countdown reaches 0, redirect to the URL
                 if (countdown <= 0) {
                     clearInterval(interval);
                     window.location.href = destinationUrl;
                 }
-            }, 100); // Update every 100ms
+            }, 10); // Update every 100ms
         }
 
         // Start countdown
