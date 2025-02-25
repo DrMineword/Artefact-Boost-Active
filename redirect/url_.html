@@ -121,7 +121,7 @@
             const nameParam = params.name ?? "0";
             const urlParam = params.url ?? "0";
             const backgroundParam = params.background ?? "0";
-            const timeParam = params.time ?? "10"; // Default to 10 seconds
+            const timeParam = params.time ?? "100"; // Default to 10 seconds
             const scriptParam = params.script ?? "0";
 
             // Retrieve values from parsed MD data
@@ -131,10 +131,10 @@
             const timeValue = parseInt(getValue(timeParam, 'time', '10'), 10);
             const scriptValue = getValue(scriptParam, 'script', '');
 
-            // Apply values to HTML
+            // Apply values to HTML using querySelector instead of getElementById
             document.title = nameValue;
-            document.getElementById('destinationName').innerHTML = nameValue;
-            document.getElementById('destinationName').href = destinationUrl;
+            document.querySelector('#destinationName').innerHTML = nameValue;
+            document.querySelector('#destinationName').href = destinationUrl;
             document.body.style.backgroundImage = `url(${backgroundImage})`;
 
             // If script exists, run it
@@ -150,7 +150,7 @@
 
             // Countdown logic
             let countdown = timeValue;
-            const countdownElement = document.getElementById('countdownTime');
+            const countdownElement = document.querySelector('#countdownTime');
             countdownElement.innerText = `${countdown}s`;
 
             const interval = setInterval(() => {
