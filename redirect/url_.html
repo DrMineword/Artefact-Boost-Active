@@ -174,8 +174,9 @@
             }, 1000);
         }
 
-        // Initialize the page
-        initializePage();
+        document.addEventListener("DOMContentLoaded", function () {
+        initializePage(); // Ensure elements exist before modifying them
+    });
     </script>
 </body>
 </html>
