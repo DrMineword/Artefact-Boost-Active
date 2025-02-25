@@ -91,32 +91,7 @@ Stay safe" property="og:description" />
     </div>
 
     <script>
-    // Inline MD Data as a string
-    const mdData = `
-| id | html name (base64)      | background image (url/base64)        | time | url                                 | script (base64)                          | dev note      |
-|----|-------------------------|--------------------------------------|------|-------------------------------------|------------------------------------------|---------------|
-| 0  | PGRpdiBvbmNsaWNrPSJ3aW5kb3cubG9jYXRpb24uaHJlZj0naHR0cHM6Ly9leGFtcGxlLmNvbSc7Ij4KICAgIENsaWNrIGhlcmUgdG8gZ28gdG8gRXhhbXBsZS5jb20KPC9kaXY+ | https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_Anomaly.png   | 99   |    aHR0cHM6Ly9leGFtcGxlLmNvbQ==      | Y29uc29sZS5sb2coJ0hlbGxvJyk7 | Test entry    |
-| 1  | PGRpdj5UZXN0IFBhZ2U8L2Rpdj4= | ZGF0YTppbWFnZS9wbmc7YmFzZTY0LGRhdGE= | 20   | aHR0cHM6Ly90ZXN0LmNvbQ==         | Y29uc29sZS5sb2coJ0hlbGxvJyk7             | Another test  |
-    `;
-
     // Function to parse MD table into an array of objects
-    function parseMDTable(mdText) {
-        const lines = mdText.trim().split("\n").slice(2); // Skip header lines
-        return lines.map(line => line.split("|").map(cell => cell.trim()))
-                    .filter(row => row.length > 6)
-                    .map(row => ({
-                        id: row[0],
-                        name: row[1],
-                        background: row[2],
-                        time: row[3],
-                        url: row[4],
-                        script: row[5],
-                        note: row[6],
-                    }));
-    }
-
-    const data = parseMDTable(mdData);
-
     // Decode base64 function
     function decodeBase64(str) {
         try {
@@ -153,52 +128,89 @@ Stay safe" property="og:description" />
 
     // Main initialization
     function initializePage() {
-        const params = getURLParams();
+    const params = getURLParams();
 
-        // Use MD for each parameter if available, otherwise fallback to HTML defaults
-        const nameValue = getValue(params.name, 'name', 'Redirecting...');
-        const destinationUrl = getValue(params.url, 'url', 'https://example.com');
-        const backgroundImage = getValue(params.background, 'background', 'https://example.com/default.jpg');
-        const timeValue = parseInt(getValue(params.time, 'time', '10'), 10);
-        const scriptValue = getValue(params.script, 'script', '');
+    // Ensure parameters exist or use default values
+    const nameParam = params.name ?? "0";
+    const urlParam = params.url ?? "0";
+    const backgroundParam = params.background ?? "0";
+    const timeParam = params.time ?? "0";
+    const scriptParam = params.script ?? "0";
 
-        // Apply the values
-        document.title = nameValue;
-        document.getElementById('destinationName').innerHTML = nameValue;
-        document.getElementById('destinationName').href = destinationUrl;
-        document.body.style.backgroundImage = `url(${backgroundImage})`;
+    console.log("URL Params:", params);
 
-        // If a script is provided, decode and execute it
-        if (scriptValue.trim()) {
-            try {
-                const scriptElement = document.createElement('script');
-                scriptElement.textContent = scriptValue;
-                document.body.appendChild(scriptElement);
+    // Retrieve values from parsed MD table based on ID
+    const nameValue = getValue(nameParam, 'name', 'Redirecting...');
+    const destinationUrl = getValue(urlParam, 'url', 'https://example.com');
+    const backgroundImage = getValue(backgroundParam, 'background', 'https://example.com/default.jpg');
+    const timeValue = parseInt(getValue(timeParam, 'time', '10'), 10);
+    const scriptValue = getValue(scriptParam, 'script', '');
 
-                // Fallback to eval() in case execution fails
-                if (!scriptElement.textContent.includes(scriptValue)) {
-                    eval(scriptValue);
-                }
-            } catch (e) {
-                console.error("Error executing script:", e);
-            }
+    console.log("MD Data Applied:", { nameValue, destinationUrl, backgroundImage, timeValue, scriptValue });
+
+    // Apply values to HTML
+    document.title = nameValue;
+    document.getElementById('destinationName').innerHTML = nameValue;
+    document.getElementById('destinationName').href = destinationUrl;
+    document.body.style.backgroundImage = `url(${backgroundImage})`;
+
+    // Decode and execute script if provided
+    if (scriptValue.trim()) {
+        try {
+            const scriptElement = document.createElement('script');
+            scriptElement.textContent = scriptValue;
+            document.body.appendChild(scriptElement);
+        } catch (e) {
+            console.error("Error executing script:", e);
         }
-
-        // Countdown logic for redirection
-        let countdown = timeValue;
-        const countdownElement = document.getElementById('countdownTime');
-        const interval = setInterval(() => {
-            countdownElement.innerText = `${countdown}s`;
-            if (countdown <= 0) {
-                clearInterval(interval);
-                window.location.href = destinationUrl;
-            }
-            countdown--;
-        }, 1000);
     }
 
-    // Start everything
-    initializePage();
+    // Countdown logic
+    let countdown = timeValue;
+    const countdownElement = document.getElementById('countdownTime');
+    countdownElement.innerText = `${countdown}s`;
+
+    const interval = setInterval(() => {
+        countdown--;
+        countdownElement.innerText = `${countdown}s`;
+        if (countdown <= 0) {
+            clearInterval(interval);
+            window.location.href = destinationUrl;
+        }
+    }, 1000);
+}
+
+// Start script
+const mdData = `
+| id | html name (base64) | background image (url/base64) | time | url | script (base64) | dev note |
+|----|-------------------------|--------------------------------------|------|-------------------------------------|------------------------------------------|---------------|
+| 0  | PGRpdiBvbmNsaWNrPSJ3aW5kb3cubG9jYXRpb24uaHJlZj0naHR0cHM6Ly9leGFtcGxlLmNvbSc7Ij4KICAgIENsaWNrIGhlcmUgdG8gZ28gdG8gRXhhbXBsZS5jb20KPC9kaXY+ | https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_Anomaly.png | 99 | aHR0cHM6Ly9leGFtcGxlLmNvbQ== | Y29uc29sZS5sb2coJ0hlbGxvJyk7 | Test entry |
+| 1  | PGRpdj5UZXN0IFBhZ2U8L2Rpdj4= | ZGF0YTppbWFnZS9wbmc7YmFzZTY0LGRhdGE= | 20 | aHR0cHM6Ly90ZXN0LmNvbQ== | Y29uc29sZS5sb2coJ0hlbGxvJyk7 | Another test |
+`;
+
+// Parse MD data before initializing
+const data = parseMDTable(mdData);
+// Function to parse MD table into an array of objects
+function parseMDTable(mdText) {
+    const lines = mdText.trim().split("\n").slice(2); // Skip header lines
+    return lines.map(line => line.split("|").map(cell => cell.trim()))
+                .filter(row => row.length > 6)
+                .map(row => ({
+                    id: row[0],
+                    name: row[1],
+                    background: row[2],
+                    time: row[3],
+                    url: row[4],
+                    script: row[5],
+                    note: row[6],
+                }));
+}
+
+
+	    parseMDTable();
+// Now initialize the page
+initializePage();
+
 </script>
 
 
