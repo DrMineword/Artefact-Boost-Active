@@ -6,7 +6,7 @@
     <title>Redirecting...</title>
     <style>
         body {
-            background-image: url('https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_CerberusStation.png'); 
+            background-image: url('https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_Anomaly.png');
             background-size: cover;
             background-position: center;
             color: white;
@@ -16,6 +16,7 @@
             justify-content: flex-end;
             align-items: center;
             padding: 20px;
+            font-size: 16px;
         }
 
         .content {
@@ -23,20 +24,25 @@
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.5);
             border-radius: 10px;
+            width: auto;
+            max-width: 700px;
+            min-width: 300px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         .status {
-            font-size: 24px;
+            font-size: clamp(1rem, 2vw, 1.5rem);
             font-weight: bold;
             color: black;
+            text-align: center;
         }
 
         #countdown {
             margin-top: 15px;
             font-size: 20px;
+            font-weight: normal;
             color: yellow;
         }
 
@@ -47,124 +53,51 @@
 </head>
 <body>
     <div class="content">
-        <div class="status">
-            You are on your way to:<br>
-            <a id="destinationName" href="#" target="_self">Example URL</a>
-        </div>
-        <div id="countdown">
-            You will be deployed in <span id="countdownTime">...</span>
-        </div>
+        <center>
+            <div class="status">
+                <p style="color: #000000; font-size: 24px;">You are on your way to:<br>
+                <a id="destinationName" href="#" target="_self">Example URL</a></p>
+            </div>
+            <div id="countdown">You will be deployed in <span id="countdownTime">...</span></div>
+        </center>
     </div>
 
     <script>
-        // MD data
-        const mdData = `
-        | id | html name (base64) | background image (url/base64) | time | url | script (base64) | dev note |
-        |----|---------------------|-------------------------------|------|-----|------------------|----------|
-        | 0  | PGRpdiBvbmNsaWNrPSJ3aW5kb3cubG9jYXRpb24uaHJlZj0naHR0cHM6Ly9leGFtcGxlLmNvbSc7Ij4KICAgIENsaWNrIGhlcmUgdG8gZ28gdG8gRXhhbXBsZS5jb20KPC9kaXY+ | https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_Anomaly.png | 99 | aHR0cHM6Ly9leGFtcGxlLmNvbQ== | Y29uc29sZS5sb2coJ0hlbGxvJyk7 | Test entry |
-        | 1  | PGRpdj5UZXN0IFBhZ2U8L2Rpdj4= | ZGF0YTppbWFnZS9wbmc7YmFzZTY0LGRhdGE= | 20 | aHR0cHM6Ly90ZXN0LmNvbQ== | Y29uc29sZS5sb2coJ0hlbGxvJyk7 | Another test |
-        `;
-
-        // Function to decode base64
-        function decodeBase64(str) {
-            try {
-                return atob(str);
-            } catch (e) {
-                return str;
-            }
+        // Function to update the countdown timer with milliseconds
+        function msdot(ms) {
+            return ms.toFixed(3); // Limit to 3 decimal places
         }
 
-        // Function to parse the MD data
-        function parseMDTable(mdText) {
-            const lines = mdText.trim().split("\n").slice(2); // Skip header
-            return lines.map(line => line.split("|").map(cell => cell.trim()))
-                        .filter(row => row.length > 6)
-                        .map(row => ({
-                            id: row[0],
-                            name: row[1],
-                            background: row[2],
-                            time: row[3],
-                            url: row[4],
-                            script: row[5],
-                            note: row[6],
-                        }));
-        }
-
-        // Function to get URL parameters
-        function getURLParams() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                name: params.get('name'),
-                url: params.get('url'),
-                background: params.get('background'),
-                time: params.get('time'),
-                script: params.get('script')
-            };
-        }
-
-        // Function to get value from MD table by id
-        function getValue(id, key, defaultValue) {
-            const entry = data.find(item => item.id === id);
-            if (entry && entry[key]) {
-                if (['name', 'script', 'background', 'url'].includes(key)) {
-                    return decodeBase64(entry[key]);
-                }
-                return entry[key];
-            }
-            return defaultValue;
-        }
-
-        // Main page initialization
+        // Main initialization
         function initializePage() {
-            const params = getURLParams();
-
-            const nameParam = params.name ?? "0";
-            const urlParam = params.url ?? "0";
-            const backgroundParam = params.background ?? "0";
-            const timeParam = params.time ?? "100"; // Default to 10 seconds
-            const scriptParam = params.script ?? "0";
-
-            // Retrieve values from parsed MD data
-            const nameValue = getValue(nameParam, 'name', 'Redirecting...');
-            const destinationUrl = getValue(urlParam, 'url', 'https://example.com');
-            const backgroundImage = getValue(backgroundParam, 'background', 'https://example.com/default.jpg');
-            const timeValue = parseInt(getValue(timeParam, 'time', '10'), 10);
-            const scriptValue = getValue(scriptParam, 'script', '');
-
-            // Apply values to HTML using querySelector instead of getElementById
-            document.title = nameValue;
-            document.querySelector('#destinationName').innerHTML = nameValue;
-            document.querySelector('#destinationName').href = destinationUrl;
-            document.body.style.backgroundImage = `url(${backgroundImage})`;
-
-            // If script exists, run it
-            if (scriptValue.trim()) {
-                try {
-                    const scriptElement = document.createElement('script');
-                    scriptElement.textContent = scriptValue;
-                    document.body.appendChild(scriptElement);
-                } catch (e) {
-                    console.error("Error executing script:", e);
-                }
-            }
+            const destinationUrl = "https://example.com"; // Placeholder URL
+            const countdownTime = 6; // 6 seconds countdown
+            let countdown = countdownTime;
+            let milliseconds = 0;
 
             // Countdown logic
-            let countdown = timeValue;
-            const countdownElement = document.querySelector('#countdownTime');
-            countdownElement.innerText = `${countdown}s`;
+            const countdownElement = document.getElementById('countdownTime');
+            countdownElement.innerText = `${countdown}.000s`;
 
             const interval = setInterval(() => {
-                countdown--;
-                countdownElement.innerText = `${countdown}s`;
+                milliseconds += 100; // Increase by 100ms
+                if (milliseconds >= 1000) {
+                    milliseconds = 0; // Reset milliseconds after 1 second
+                    countdown--; // Decrease seconds
+                }
+
+                // Update countdown display with milliseconds
+                countdownElement.innerText = `${countdown}.${msdot(milliseconds)}s`;
+
+                // Once the countdown reaches 0, redirect to the URL
                 if (countdown <= 0) {
                     clearInterval(interval);
                     window.location.href = destinationUrl;
                 }
-            }, 1000);
+            }, 100); // Update every 100ms
         }
 
-        // Parse the MD data and initialize the page
-        const data = parseMDTable(mdData);
+        // Start countdown
         initializePage();
     </script>
 </body>
