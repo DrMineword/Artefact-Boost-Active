@@ -61,7 +61,7 @@
             <p>You are on your way to:</p>
             <a id="destinationName" href="#" target="_self">Example URL</a>
         </div>
-        <div id="countdown">You will be deployed in <span id="countdownTime">...</span></div>
+        <div id="countdown">You will be deployed in <span id="countdownTime"></span></div>
     </div>
 
     <script>
@@ -78,7 +78,7 @@
         function formatTime(ms) {
             let seconds = Math.floor(ms / 1000);
             let milliseconds = ms % 1000;
-            return `${seconds}.${milliseconds.toString().padStart(3, '0')}`; // Ensure 3 digits after the dot
+            return `${seconds}.${milliseconds.toString().padStart(3, '0')}...`; // Ensure 3 digits after the dot
         }
 
         // Update timer every 10ms
