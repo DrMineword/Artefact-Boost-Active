@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:type" content="website">
+<meta content="Custom!Reditect URL..." property="og:title" />
+<meta content="It is dangerous to jump into the dark abyss of the Internet without checking where you are going
+This page contains an automatic redirect warning
+Stay safe" property="og:description" />
+<meta content="https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/bot/portrait_CerberusDestroyer.jpg" property="og:image" />
+<meta content="#a85355" data-react-helmet="true" name="theme-color" />
+
+
+    <meta name="twitter:card" content="summary_large_image">
+<title>Redirecting...</title> <!-- Default title -->
+    <style>
+    body {
+        background-image: url('https://raw.githubusercontent.com/DrMineword/1045060846654603305_bot_images/refs/heads/master/src/img/game/portraits/portrait_CerberusStation.png'); /* Default background */
+        background-size: cover;
+        background-position: center;
+        color: white;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: flex-end; /* Align to the right */
+        align-items: center; /* Vertically center */
+        padding: 20px;
+        font-size: 16px; /* Root font size for scaling */
+    }
+
+    /* Container for the text and countdown */
+    .content {
+        text-align: right;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
+        border-radius: 10px;
+        width: auto;
+        max-width: 700px;
+        min-width: 300px; /* Ensures a minimum width */
+        display: flex;
+        flex-direction: column; /* Stack content vertically */
+        align-items: center; /* Center align content */
+    }
+
+    .status {
+        font-size: clamp(1rem, 2vw, 1.5rem); /* Responsive font size */
+        font-weight: bold;
+        color: black; /* Set color of "You are on your way to" text to black */
+        text-align: center;
+    }
+
+    #countdown {
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: normal;
+            color: yellow;
+    }
+
+    #countdownTime {
+        display: inline-block;
+    }
+
+    /* Responsive Design for Smaller Screens */
+    @media (max-width: 600px) {
+        body {
+            padding: 10px;
+        }
+
+        .content {
+            max-width: 90%;
+        }
+
+        .status {
+            font-size: clamp(0.9rem, 4vw, 1.2rem);
+        }
+
+        #countdown {
+            font-size: 18px;
+        }
+    }
+</style>
+</head>
+<body>
+    <div class="content">
+		<center>
+        <div class="status"><p style="color: #000000; font-size: 24px;">You are on your way to:<br>
+			<a id="destinationName" href="#" target="_self">Example URL</a></div></p>
+        <div id="countdown">You will be deployed in <span id="countdownTime">...</span></div>
+		</center>
+    </div>
+
+    <script>
+    // Inline MD Data as a string
+    const mdData = `
+| id | html name (base64)      | background image (url/base64)        | time | url                                 | script (base64)                          | dev note      |
+|----|-------------------------|--------------------------------------|------|-------------------------------------|------------------------------------------|---------------|
+| 0  | SGVsbG8gd29ybGQ=        | aHR0cHM6Ly9leGFtcGxlLmNvbS9iZy5qcGc=   | 10   | aHR0cHM6Ly9leGFtcGxlLmNvbQ==         |                                          | Test entry    |
+| 1  | PGRpdj5UZXN0IFBhZ2U8L2Rpdj4= | ZGF0YTppbWFnZS9wbmc7YmFzZTY0LGRhdGE= | 20   | aHR0cHM6Ly90ZXN0LmNvbQ==         | Y29uc29sZS5sb2coJ0hlbGxvJyk7             | Another test  |
+    `;
+
+    // Function to parse MD table into an array of objects
+    function parseMDTable(mdText) {
+      const lines = mdText.trim().split("\n").slice(2); // Skip header lines
+      return lines.map(line => line.split("|").map(cell => cell.trim())).filter(row => row.length > 6)
+                  .map(row => ({
+                      id: row[0],
+                      name: row[1],
+                      background: row[2],
+                      time: row[3],
+                      url: row[4],
+                      script: row[5],
+                      note: row[6],
+                  }));
+    }
+
+    const data = parseMDTable(mdData);
+
+    // Decode base64 function
+    function decodeBase64(str) {
+      try {
+        return atob(str);
+      } catch (e) {
+        return str; // If not valid base64, return original
+      }
+    }
+
+    // Get URL parameters (example: ?name=1&url=0&background=0&time=0&script=1)
+    function getURLParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        name: params.get('name'),
+        url: params.get('url'),
+        background: params.get('background'),
+        time: params.get('time'),
+        script: params.get('script')
+      };
+    }
+
+    // Retrieve value from MD table by id and key (if available, else fallback to default)
+    function getValue(id, key, defaultValue) {
+      const entry = data.find(item => item.id === id);
+      if (entry && entry[key]) {
+        // For 'name' and 'script', we expect base64 encoded values.
+        if (key === 'name' || key === 'script' || key === 'background' || key === 'url') {
+          return decodeBase64(entry[key]);
+        }
+        return entry[key];
+      }
+      return defaultValue;
+    }
+
+    // Main initialization
+    function initializePage() {
+      const params = getURLParams();
+
+      // Use MD for each parameter if available, otherwise fallback to HTML defaults
+      const nameValue = getValue(params.name, 'name', 'Redirecting...');
+      const destinationUrl = getValue(params.url, 'url', 'https://example.com');
+      const backgroundImage = getValue(params.background, 'background', 'https://example.com/default.jpg');
+      const timeValue = parseInt(getValue(params.time, 'time', '10'), 10);
+      const scriptValue = getValue(params.script, 'script', '');
+
+      // Apply the values
+      document.title = nameValue;
+      document.getElementById('destinationName').innerHTML = nameValue;
+      document.getElementById('destinationName').href = destinationUrl;
+      document.body.style.backgroundImage = `url(${backgroundImage})`;
+
+      // If a script is provided, decode and execute it
+      if (scriptValue) {
+        const scriptElement = document.createElement('script');
+        scriptElement.textContent = scriptValue;
+        document.body.appendChild(scriptElement);
+      }
+
+      // Countdown logic for redirection
+      let countdown = timeValue;
+      const countdownElement = document.getElementById('countdownTime');
+      const interval = setInterval(() => {
+        countdownElement.innerText = `${countdown}s`;
+        if (countdown <= 0) {
+          clearInterval(interval);
+          window.location.href = destinationUrl;
+        }
+        countdown--;
+      }, 1000);
+    }
+
+    // Start everything
+    initializePage();
+  </script>
+
+</body>
+</html>
