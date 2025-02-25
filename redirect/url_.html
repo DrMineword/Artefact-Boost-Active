@@ -20,20 +20,20 @@
         }
 
         .content {
-            text-align: right;
+            text-align: center;
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.5);
             border-radius: 10px;
-            width: auto;
             max-width: 700px;
             min-width: 300px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
         }
 
         .status {
-            font-size: clamp(1rem, 2vw, 1.5rem);
+            font-size: 2rem;
             font-weight: bold;
             color: black;
             text-align: center;
@@ -41,64 +41,61 @@
 
         #countdown {
             margin-top: 15px;
-            font-size: 20px;
+            font-size: 30px;
             font-weight: normal;
             color: yellow;
+            min-width: 120px; /* Stable width for the countdown text */
         }
 
+        /* Prevent layout shifts on timer updates */
         #countdownTime {
             display: inline-block;
+            width: 100px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <div class="content">
-        <center>
-            <div class="status">
-                <p style="color: #000000; font-size: 24px;">You are on your way to:<br>
-                <a id="destinationName" href="#" target="_self">Example URL</a></p>
-            </div>
-            <div id="countdown">You will be deployed in <span id="countdownTime">...</span></div>
-        </center>
+        <div class="status">
+            <p>You are on your way to:</p>
+            <a id="destinationName" href="#" target="_self">Example URL</a>
+        </div>
+        <div id="countdown">You will be deployed in <span id="countdownTime">...</span></div>
     </div>
 
     <script>
-        // Function to update the countdown timer with milliseconds
-        function msdot(ms) {
-            return ms.toFixed(3); // Limit to 3 decimal places
+        // Set countdown time in seconds
+        let countdown = 98;
+        const countdownElement = document.getElementById('countdownTime');
+
+        // Set update interval to 10ms for smooth updates
+        const updateInterval = 10; // 10ms
+        const totalTime = countdown * 1000; // Convert seconds to milliseconds
+        let startTime = Date.now(); // Record start time
+
+        // Function to format time as a string with milliseconds (e.g., "98.100")
+        function formatTime(ms) {
+            let seconds = Math.floor(ms / 1000);
+            let milliseconds = ms % 1000;
+            return `${seconds}.${milliseconds.toString().padStart(3, '0')}`; // Ensure 3 digits after the dot
         }
 
-        // Main initialization
-        function initializePage() {
-            const destinationUrl = "https://example.com"; // Placeholder URL
-            const countdownTime = 98; // 6 seconds countdown
-            let countdown = countdownTime;
-            let milliseconds = 0;
+        // Update timer every 10ms
+        const interval = setInterval(function () {
+            let elapsed = Date.now() - startTime;
+            let remaining = totalTime - elapsed; // Time remaining in ms
 
-            // Countdown logic
-            const countdownElement = document.getElementById('countdownTime');
-            countdownElement.innerText = `${countdown}`;
+            if (remaining <= 0) {
+                clearInterval(interval);
+                window.location.href = 'https://example.com'; // Redirect to the destination
+            } else {
+                countdownElement.innerText = formatTime(remaining); // Display updated time with milliseconds
+            }
+        }, updateInterval);
 
-            const interval = setInterval(() => {
-                milliseconds += 100; // Increase by 100ms
-                if (milliseconds >= 1000) {
-                    milliseconds = 0; // Reset milliseconds after 1 second
-                    countdown--; // Decrease seconds
-                }
-
-                // Update countdown display with milliseconds
-                countdownElement.innerText = `${countdown}.${msdot(milliseconds)}`;
-
-                // Once the countdown reaches 0, redirect to the URL
-                if (countdown <= 0) {
-                    clearInterval(interval);
-                    window.location.href = destinationUrl;
-                }
-            }, 100); // Update every 100ms
-        }
-
-        // Start countdown
-        initializePage();
+        // Set destination URL
+        document.getElementById('destinationName').href = 'https://example.com'; // Example URL
     </script>
 </body>
 </html>
