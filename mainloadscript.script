@@ -200,6 +200,7 @@ async function loadfont(fontId) {
 
 
 
+
 let config = null;  // Variable to store the configuration
 let isJsonFetched = false;  // Flag to track if JSON is fetched
 let logs = [];  // Array to store log objects for console output
