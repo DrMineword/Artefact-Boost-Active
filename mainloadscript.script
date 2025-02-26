@@ -187,59 +187,57 @@ async function loadfont(fontId) {
 
         // Fetch the raw_url to get the font data
         const fontResponse = await fetch(fontEntry.raw_url);
-        if (!fontResponse.ok) throw new Error('Failed to fetch font data.');
+        if (!fontResponse.ok) throw new Error(`Failed to fetch font data for ${fontId}.`);
         const fontData = await fontResponse.json();
 
-        // Find the appropriate script template based on type
+        // Determine the correct script template
+        const fileFormat = fontEntry.data.original_file_format.toLowerCase();
         const scriptTemplate = fontArray.script_array.find(script => {
-            const fileFormat = fontEntry.data.original_file_format;
             if (fileFormat === '.zip') return script.type === 'zip';
-            if (['.ttf', '.woff', '.woff2', '.otf'].includes(fileFormat)) return script.type === fileFormat || script.type === fileFormat.replace('.', '');
-            return false;
+            return ['.ttf', '.woff', '.woff2', '.otf'].includes(fileFormat) && script.type === fileFormat.replace('.', '');
         });
 
         if (!scriptTemplate) {
-            console.error(`No script template found for type: ${fontEntry.data.original_file_format}`);
+            console.error(`No script template found for type: ${fileFormat}`);
             return;
         }
 
-        // Log the console_log value
-        if (scriptTemplate.console_log) {
-            console.log('Script console_log:', scriptTemplate.console_log);
-        }
+        // Log the console_log value if present
+        if (scriptTemplate.console_log) console.log('Script console_log:', scriptTemplate.console_log);
 
-        // Replace ${base64} in the script with the actual base64 content
+        // Replace placeholder in script with actual base64 content
         const scriptContent = scriptTemplate.script.replace('${base64}', fontData.base64);
 
-        // Create and execute the script dynamically
+        // Inject the script into the page
         const scriptElement = document.createElement('script');
         scriptElement.textContent = scriptContent;
         document.body.appendChild(scriptElement);
 
         console.log(`Font "${fontEntry.data.title}" loaded successfully.`);
     } catch (error) {
-        console.error('Error loading font:', error);
+        console.error(`Error loading font "${fontId}":`, error);
     }
 }
 
-// Example to load: loadfont('UPLOAD_1735412499_x8fv2i4tr');
+// Example usage: loadfont('UPLOAD_1735412499_x8fv2i4tr');
 
+// Second async function to load a custom font loader script
 (async function loadCustomFontLoaderScript() {
-            const scriptUrl = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/standalonerun/customloader.execute';
-            try {
-                const response = await fetch(scriptUrl);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const scriptContent = await response.text();
-                const script = document.createElement('script');
-                script.type = 'text/javascript';
-                script.textContent = scriptContent;
-                document.head.appendChild(script);
-                console.log('Custom font loader script loaded and executed successfully.');
-            } catch (error) {
-                console.error('Failed to load and execute the custom font loader script.', error);
-            }
-        })();
+    const scriptUrl = 'https://raw.githubusercontent.com/DrMineword/Artefact-Boost-Active/refs/heads/main/fonts/remote_upload/standalonerun/customloader.execute';
+    try {
+        const response = await fetch(scriptUrl);
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-// Example to load:  <p><cfont cfont="UPLOAD_1735484919_em4zt1546">This is text in yet another custom font.</cfont></p>;
+        const scriptContent = await response.text();
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.textContent = scriptContent;
+        document.head.appendChild(script);
+
+        console.log('Custom font loader script loaded and executed successfully.');
+    } catch (error) {
+        console.error('Failed to load and execute the custom font loader script.', error);
+    }
+})();
+
+// Example: <p><cfont cfont="UPLOAD_1735484919_em4zt1546">This is text in yet another custom font.</cfont></p>;
