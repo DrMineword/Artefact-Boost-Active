@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:type" content="website">
+    <meta content="wscd/Corporation Pages" property="og:title" />
+    <meta content="Welcome to wscd/Corporation Pages, here you will find corporate pages updated hourly" property="og:description" />
+    <meta content="https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/corp_data/def/favbanner.png" property="og:image" />
+    <meta content="#808080" data-react-helmet="true" name="theme-color" />
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <title>Corporation Page Loader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+        }
+        h1 {
+            color: #ffcc00;
+        }
+        #loading {
+            color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Loading Page Content...</h1>
+    <p id="loading">Please wait while the page is loading...</p>
+
+    <script>
+        async function checkSecurity() {
+            const base64flagsText = "YWFh"; // Replace with actual base64 string
+            const decodedFlags = atob(base64flagsText).split("\n").map(flag => new RegExp(flag.trim(), "i"));
+
+            const dangerousPatterns = [
+                /<script.*?>.*?<\/script>/i, /javascript:/i, /on\w+\s*=\s*[^>]+/i,
+                /<iframe.*?>/i, /<object.*?>/i, /<embed.*?>/i, /data:text\/html/i
+            ];
+
+            const allPatterns = [...dangerousPatterns, ...decodedFlags];
+            const isSafeValue = value => !allPatterns.some(pattern => pattern.test(decodeURIComponent(value.toLowerCase())));
+
+            const urlParams = new URLSearchParams(window.location.search);
+            for (const [key, value] of urlParams.entries()) {
+                if (!isSafeValue(value)) {
+                    triggerSecurityScreen(`Potential XSS attack detected: ${encodeURIComponent(key)}`);
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function triggerSecurityScreen(reason) {
+            document.head.innerHTML = "";
+            document.body.style = "background: #0000AA; color: white; text-align: center; font-family: monospace;";
+            document.body.innerHTML = `<h2>Security Alert</h2><p>${reason}</p>`;
+        }
+
+        async function loadContent() {
+            if (!(await checkSecurity())) return;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get("id");
+            if (!id) {
+                document.getElementById("loading").innerText = "No ID provided.";
+                return;
+            }
+
+            const memoryJammer = `jam=${crypto.randomUUID()}&type=random`;
+            const fetchUrl = `https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/corporations_page/${id}?${memoryJammer}`;
+            console.log("Fetching:", fetchUrl);
+
+            try {
+                document.getElementById("loading").innerText = "Fetching content, please wait...";
+                const response = await fetch(fetchUrl);
+                const data = await response.json();
+                
+                if (!data.html) throw new Error("Invalid JSON: Missing 'html' key");
+                const decodedHtml = atob(data.html);
+                
+                document.body.innerHTML = decodedHtml;
+                document.querySelectorAll("script").forEach(script => {
+                    if (script.src) {
+                        let newScript = document.createElement("script");
+                        newScript.src = script.src;
+                        document.body.appendChild(newScript);
+                    } else {
+                        eval(script.innerText);
+                    }
+                });
+            } catch (error) {
+                console.error("Error fetching content:", error);
+                document.getElementById("loading").innerText = "Failed to load content.";
+            }
+        }
+
+        loadContent();
+    </script>
+
+</body>
+                                                              </html>
+                                                              
