@@ -32,37 +32,92 @@
     <p id="loading">Please wait while the page is loading...</p>
 
     <script>
-        async function checkSecurity() {
-            const base64flagsText = "YWFh"; // Replace with actual base64 string
+        async function topSafeCheck() {
+            const base64flagsText = "YWFh"; // Replace with your actual base64-encoded string
             const decodedFlags = atob(base64flagsText).split("\n").map(flag => new RegExp(flag.trim(), "i"));
 
             const dangerousPatterns = [
-                /<script.*?>.*?<\/script>/i, /javascript:/i, /on\w+\s*=\s*[^>]+/i,
-                /<iframe.*?>/i, /<object.*?>/i, /<embed.*?>/i, /data:text\/html/i
+                /<svg.*onload\s*=\s*[^>]+>/i, /<script.*?>.*?<\/script>/i, /javascript:/i,
+                /on\w+\s*=\s*[^>]+/i, /<iframe.*?>/i, /<object.*?>/i, /<embed.*?>/i,
+                /data:text\/html/i, /data:text\/html;base64/i, /<meta\s+http-equiv="refresh"/i
             ];
 
             const allPatterns = [...dangerousPatterns, ...decodedFlags];
-            const isSafeValue = value => !allPatterns.some(pattern => pattern.test(decodeURIComponent(value.toLowerCase())));
 
-            const urlParams = new URLSearchParams(window.location.search);
-            for (const [key, value] of urlParams.entries()) {
-                if (!isSafeValue(value)) {
-                    triggerSecurityScreen(`Potential XSS attack detected: ${encodeURIComponent(key)}`);
+            function isSafeValue(value) {
+                return !allPatterns.some(pattern => pattern.test(decodeURIComponent(value.toLowerCase())));
+            }
+
+            function isValidId(value) {
+                return /^(?!.*\.\.\/)[a-zA-Z0-9/_-]+$/.test(value);
+            }
+
+            function isSafeUrl(value) {
+                try {
+                    const parsedUrl = new URL(value, window.location.origin);
+                    return parsedUrl.protocol === 'https:' && !parsedUrl.href.toLowerCase().includes('javascript:');
+                } catch {
                     return false;
                 }
             }
-            return true;
+
+            function sanitizeText(text) {
+                return text.replace(/[<>]/g, c => ({ '<': '&lt;', '>': '&gt;' }[c]));
+            }
+
+            function showThreatScreen(method) {
+                document.head.innerHTML = "";
+                document.body.style = "background: #0000AA; color: white; font-family: monospace; text-align: center; padding: 50px; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;";
+                document.body.innerHTML = `
+                    <h2 style="font-size: 32px; font-weight: bold;">A critical error has occurred</h2>
+                    <p>>_< We are very sorry for the problem, but someone attempted an attack using: <b id="output"></b></p>
+                    <p>Luckily, our security system detected and blocked the threat before execution.</p>
+                    <p>Press Ctrl + Alt + Del to restart (just kidding, but be careful!).</p>
+                    <br>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/eWTtEkRz4fM?si=r97lM3-NWpYWQwqO" frameborder="0" allowfullscreen></iframe>
+                `;
+
+                document.querySelector('#output').innerText = sanitizeText(method);
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            let detectedThreat = false;
+            let attackMethod = "Unknown";
+
+            for (const [key, value] of urlParams.entries()) {
+                if (!isSafeValue(value)) {
+                    attackMethod = `XSS Attack detected in parameter: ${encodeURIComponent(key)}`;
+                    detectedThreat = true;
+                    break;
+                }
+                if ((key === 'id' || key === 'cid') && !isValidId(value)) {
+                    attackMethod = `Invalid ID or Path Traversal detected in parameter: ${encodeURIComponent(key)}`;
+                    detectedThreat = true;
+                    break;
+                }
+                if (key.includes("url") && !isSafeUrl(value)) {
+                    attackMethod = `Potential Malicious URL detected in parameter: ${encodeURIComponent(value)}`;
+                    detectedThreat = true;
+                    break;
+                }
+            }
+
+            if (detectedThreat) {
+                showThreatScreen(attackMethod);
+            }
         }
 
-        function triggerSecurityScreen(reason) {
-            document.head.innerHTML = "";
-            document.body.style = "background: #0000AA; color: white; text-align: center; font-family: monospace;";
-            document.body.innerHTML = `<h2>Security Alert</h2><p>${reason}</p>`;
+        topSafeCheck();
+
+        function generateMemoryJammer() {
+            const jamTypes = ["strawberry%20jam", "blueberry%20jam", "raspberry%20jam", "cherry%20jam", "mango%20jam"];
+            const randomJamType = jamTypes[Math.floor(Math.random() * jamTypes.length)];
+            const randomValue = Math.floor(Math.random() * 10000000000);
+            const randomUid = crypto.randomUUID();
+            return `jam=${randomUid}abc${randomValue}&type=${randomJamType}`;
         }
 
         async function loadContent() {
-            if (!(await checkSecurity())) return;
-
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get("id");
             if (!id) {
@@ -70,7 +125,7 @@
                 return;
             }
 
-            const memoryJammer = `jam=${crypto.randomUUID()}&type=random`;
+            const memoryJammer = generateMemoryJammer();
             const fetchUrl = `https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/corporations_page/${id}?${memoryJammer}`;
             console.log("Fetching:", fetchUrl);
 
@@ -102,5 +157,4 @@
     </script>
 
 </body>
-                                                              </html>
-                                                              
+</html>
