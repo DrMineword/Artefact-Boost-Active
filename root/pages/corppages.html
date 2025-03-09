@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:type" content="website">
-<meta content="wscd/Corporation Pages" property="og:title" />
-<meta content="Welcome to wscd/Corporation Pages, here you will find corporate pages updated hourly" property="og:description" />
-<meta content="https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/corp_data/def/favbanner.png" property="og:image" />
-<meta content="#808080" data-react-helmet="true" name="theme-color" />
-
-
+    <meta content="wscd/Corporation Pages" property="og:title" />
+    <meta content="Welcome to wscd/Corporation Pages, here you will find corporate pages updated hourly" property="og:description" />
+    <meta content="https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/corp_data/def/favbanner.png" property="og:image" />
+    <meta content="#808080" data-react-helmet="true" name="theme-color" />
     <meta name="twitter:card" content="summary_large_image">
     
     <title>Corporation Page Loader</title>
@@ -20,11 +18,9 @@
             background-color: #1e1e1e;
             color: #dcdcdc;
         }
-
         h1 {
             color: #ffcc00;
         }
-
         #loading {
             color: #ffcc00;
         }
@@ -36,275 +32,128 @@
     <p id="loading">Please wait while the page is loading...</p>
 
     <script>
-// unsafe
+        async function topSafeCheck() {
+            const base64flagsText = "YWFh"; // Replace with your actual base64-encoded string
+            const decodedFlags = atob(base64flagsText).split("\n").map(flag => new RegExp(flag.trim(), "i"));
 
+            const dangerousPatterns = [
+                /<svg.*onload\s*=\s*[^>]+>/i, /<script.*?>.*?<\/script>/i, /javascript:/i,
+                /on\w+\s*=\s*[^>]+/i, /<iframe.*?>/i, /<object.*?>/i, /<embed.*?>/i,
+                /data:text\/html/i, /data:text\/html;base64/i, /<meta\s+http-equiv="refresh"/i
+            ];
 
-   async function topSafeCheck() {
-    // Example of base64 flags (replace with your own base64-encoded string)
-    const base64flagsText = "YWFh"; // Replace with your actual base64 string
+            const allPatterns = [...dangerousPatterns, ...decodedFlags];
 
-    // Decoding the base64 string to text
-    const decodedFlags = atob(base64flagsText).split("\n");
+            function isSafeValue(value) {
+                return !allPatterns.some(pattern => pattern.test(decodeURIComponent(value.toLowerCase())));
+            }
 
-    // Add flags to patterns
-    const decodedPatterns = decodedFlags.map(flag => {
-        return new RegExp(flag.trim());
-    });
+            function isValidId(value) {
+                return /^(?!.*\.\.\/)[a-zA-Z0-9/_-]+$/.test(value);
+            }
 
-    // Dangerous patterns that you want to check
-    const dangerousPatterns = [
-        /<svg.*onload\s*=\s*[^>]+>/i,
-        /<svg.*onend\s*=\s*[^>]+>/i,
-        /<[^>]+on\w+\s*=\s*[^>]+/i,
-        /<[^>]+[^\w]>javascript:/i,
-        /<script[^>]*>.*<\/script>/i,
-        /<script\s*src\s*=\s*['"]?javascript:/i,
-        /<img[^>]+onerror\s*=\s*[^>]+>/i,
-        /<img\s+[^>]+src\s*=\s*[^>]+onerror\s*=\s*[^>]+/i,
-        /data:text\/html/i,
-        /data:text\/html;base64/i,
-        /<meta\s+http-equiv="refresh"\s+content="\d+;url=[^"]+">/i,
-        /<base\s+href="[^"]+">/i,
-        /<iframe[^>]+src\s*=\s*javascript:/i,
-        /<object[^>]+data\s*=\s*javascript:/i,
-        /<embed[^>]+src\s*=\s*javascript:/i,
-        /<body.*on\w+\s*=\s*[^>]+>/i,
-        /<html.*ontouch\w+\s*=\s*[^>]+>/i,
-        /<form.*onsubmit\s*=\s*[^>]+>/i,
-        /<scr.*ipt.*>/i,
-        /%3C.*%3E/i,
-        /javascript:.*alert/i,
-        /<.*onerror=.*>/i,
-        /<.*onload=.*>/i,
-        /<.*onabort=.*>/i,
-        /<.*ondragstart=.*>/i,
-        /<.*onmousemove=.*>/i,
-        /<.*onclick=.*>/i,
-        /<.*onmouseover=.*>/i,
-        /<.*onkeydown=.*>/i,
-        /<.*onkeyup=.*>/i,
-        /<.*onfocus=.*>/i,
-        /<.*onblur=.*>/i,
-        /&#\d+;&#\d+;&#\d+;&#\d+;&#\d+;&#\d+;&#\d+;&#\d+;&#\d+;/i,
-        /<a\s+href=['"][^'"]*javascript:.*['"]/i,
-        /<.*href=['"][^'"]*javascript:.*['"][^>]*>/i,
-        /<a\s+href=['"][^'"]*data:[^'"]+/i,
-        /<.*src\s*=\s*['"][^'"]*data:[^'"]+/i,
-        /<.*src\s*=\s*['"][^'"]*javascript:[^'"]+/i,
-        /<.*href\s*=\s*['"][^'"]*vbscript:[^'"]+/i,
-        /<.*src\s*=\s*['"][^'"]*vbscript:[^'"]+/i,
-        /<.*onmouseover\s*=\s*[^>]+javascript:/i,
-        /<.*onmouseout\s*=\s*[^>]+javascript:/i,
-        /<.*onmousemove\s*=\s*[^>]+javascript:/i,
-        /<.*onfocus\s*=\s*[^>]+javascript:/i,
-        /<.*onblur\s*=\s*[^>]+javascript:/i,
-        /<.*onkeydown\s*=\s*[^>]+javascript:/i,
-        /<.*onkeyup\s*=\s*[^>]+javascript:/i,
-        /<.*onchange\s*=\s*[^>]+javascript:/i,
-        /<.*onclick\s*=\s*[^>]+javascript:/i,
-        /<.*onerror\s*=\s*[^>]+javascript:/i,
-        /<.*onabort\s*=\s*[^>]+javascript:/i,
-        /<.*onload\s*=\s*[^>]+javascript:/i,
-        /<.*oninput\s*=\s*[^>]+javascript:/i,
-        /<.*onselect\s*=\s*[^>]+javascript:/i,
-        /<.*onreset\s*=\s*[^>]+javascript:/i,
-        /<.*onsubmit\s*=\s*[^>]+javascript:/i,
-        /<.*onpaste\s*=\s*[^>]+javascript:/i,
-        /<.*oncut\s*=\s*[^>]+javascript:/i,
-        /<.*ondrag\s*=\s*[^>]+javascript:/i,
-        /<.*ondrop\s*=\s*[^>]+javascript:/i,
-        /<.*onresize\s*=\s*[^>]+javascript:/i,
-        /<.*onscroll\s*=\s*[^>]+javascript:/i,
-        /<.*onchange\s*=\s*[^>]+javascript:/i,
-        /<.*oninput\s*=\s*[^>]+javascript:/i,
-        /<.*onfocus\s*=\s*[^>]+javascript:/i,
-        /%66%6F%72%6D%61%74%2E%6F%6E%73%75%62%69%74/i,
-        /%66%66%6F%72%6D/i,
-        /%6A%61%76%61%73%63%72%69%70%74%3A%2F%2F/i,
-        /%3C%73%63%72%69%70%74/i,
-        /%3C%2F%73%63%72%69%70%74/i,
-        /%3C%73%63%72%69%70%74%20%73%72%63/i,
-        /<object\s+data="javascript:[^"]*">/i,
-        /<object\s+data="[^"]*script/i,
-        /<object\s+data="[^"]*eval/i,
-        /<iframe\s+src="[^"]*eval/i,
-        /<object\s+data="[^"]*javascript.*%20alert/i,
-        /<object\s+data="[^"]*data:[^"]*">/i,
-        /<script\s+src="data:[^"]*">/i,
-        /<input\s+onfocus\s*=\s*[^>]+javascript:/i,
-        /<meta\s+http-equiv="content-type"\s*content="[^"]*javascript:/i,
-        /<script\s+src="vbscript:[^"]+">/i,
-        /<object\s+data="vbscript:[^"]+">/i,
-        /<input\s+onmouseover\s*=\s*[^>]+javascript:/i,
-        /<svg.*onmouseover\s*=\s*[^>]+javascript:/i,
-        /<iframe\s+src="[^"]*data:[^"]+/i,
-        /<iframe\s+src="[^"]*javascript:[^"]+/i,
-        /<object\s+data="[^"]*vbscript:[^"]+/i,
-        /<embed\s+src="[^"]*javascript:[^"]+/i,
-        /<embed\s+src="[^"]*data:[^"]+/i,
-        /<script\s+src="javascript:[^"]+">/i,
-        /<object\s+data="[^"]*javascript.*eval/i,
-        /<object/i,
-        /%3Cobject/i,
-        /<a\s+href/i, 
-        /%3Ca%20href/i,
-        /<iframe/i,
-        /<style/i,
-        /<iframe/i
-    ];
+            function isSafeUrl(value) {
+                try {
+                    const parsedUrl = new URL(value, window.location.origin);
+                    return parsedUrl.protocol === 'https:' && !parsedUrl.href.toLowerCase().includes('javascript:');
+                } catch {
+                    return false;
+                }
+            }
 
-    // Combining both lists
-    const combinedPatterns = [...dangerousPatterns, ...decodedPatterns];
+            function sanitizeText(text) {
+                return text.replace(/[<>]/g, c => ({ '<': '&lt;', '>': '&gt;' }[c]));
+            }
 
-    // Function to check if a value matches any of the dangerous patterns
-    function isSafeValue(key, value) {
-        console.log(`Checking value for key: ${key}`);
-        console.log(`Value being checked: ${value}`);
-        
-        // Decode URI to make sure we handle any encoded values and convert to lowercase
-        value = decodeURIComponent(value).toLowerCase();
+            function showThreatScreen(method) {
+                document.head.innerHTML = "";
+                document.body.style = "background: #0000AA; color: white; font-family: monospace; text-align: center; padding: 50px; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;";
+                document.body.innerHTML = `
+                    <h2 style="font-size: 32px; font-weight: bold;">A critical error has occurred</h2>
+                    <p>>_< We are very sorry for the problem, but someone attempted an attack using: <b id="output"></b></p>
+                    <p>Luckily, our security system detected and blocked the threat before execution.</p>
+                    <p>Press Ctrl + Alt + Del to restart (just kidding, but be careful!).</p>
+                    <br>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/eWTtEkRz4fM?si=r97lM3-NWpYWQwqO" frameborder="0" allowfullscreen></iframe>
+                `;
 
-        // Check for matches with any of the patterns
-        return !combinedPatterns.some(pattern => pattern.test(value));
-    }
+                document.querySelector('#output').innerText = sanitizeText(method);
+            }
 
-    function isValidId(value) {
-        const allowedPattern = /^(?!.*\.\.\/)[a-zA-Z0-9/_-]+$/;
-        return allowedPattern.test(value);
-    }
+            const urlParams = new URLSearchParams(window.location.search);
+            let detectedThreat = false;
+            let attackMethod = "Unknown";
 
-    function isSafeUrl(value) {
-        try {
-            const parsedUrl = new URL(value, window.location.origin);
-            return parsedUrl.protocol === 'https:' && !parsedUrl.href.toLowerCase().includes('javascript:');
-        } catch (e) {
-            return false;
+            for (const [key, value] of urlParams.entries()) {
+                if (!isSafeValue(value)) {
+                    attackMethod = `XSS Attack detected in parameter: ${encodeURIComponent(key)}`;
+                    detectedThreat = true;
+                    break;
+                }
+                if ((key === 'id' || key === 'cid') && !isValidId(value)) {
+                    attackMethod = `Invalid ID or Path Traversal detected in parameter: ${encodeURIComponent(key)}`;
+                    detectedThreat = true;
+                    break;
+                }
+                if (key.includes("url") && !isSafeUrl(value)) {
+                    attackMethod = `Potential Malicious URL detected in parameter: ${encodeURIComponent(value)}`;
+                    detectedThreat = true;
+                    break;
+                }
+            }
+
+            if (detectedThreat) {
+                showThreatScreen(attackMethod);
+            }
         }
-    }
 
-    function showThreatScreen(method) {
-        let styles = document.head.querySelectorAll("style, link[rel='stylesheet']");
-        styles.forEach(style => style.remove());
+        topSafeCheck();
 
-        let scripts = document.querySelectorAll('script');
-        scripts.forEach(script => script.remove());
-
-        document.body.style = `
-            background: #0000AA;
-            color: white;
-            font-family: monospace;
-            font-size: 18px;
-            text-align: center;
-            padding: 50px;
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        `;
-
-        document.body.innerHTML = `
-    <h2 style="font-size: 32px; font-weight: bold;">A critical error has occurred</h2>
-    <p>>_< We are very sorry for the problem, but someone attempted an attack using: <b id="output"></b></p>
-    <p>Luckily, our security system detected and blocked the threat before execution.</p>
-    <p>Press Ctrl + Alt + Del to restart (just kidding, but be careful!).</p>
-    <br>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/eWTtEkRz4fM?si=r97lM3-NWpYWQwqO" frameborder="0" allowfullscreen></iframe>
-`;
-
-document.querySelector('#output').innerText = method;
-    }
-
-    const urlParams = new URLSearchParams(window.location.search);
-    let detectedThreat = false;
-    let attackMethod = "Unknown";
-
-for (const [key, value] of urlParams.entries()) {
-      if (!isSafeValue(key, value)) {
-          attackMethod = `XSS Attack detected in parameter: ${encodeURIComponent(key)}`;
-          detectedThreat = true;
-          break;
-      }
-      if ((key === 'id' || key === 'cid') && !isValidId(value)) {
-          attackMethod = `Invalid ID or Path Traversal detected in parameter: ${encodeURIComponent(key)}`;
-          detectedThreat = true;
-          break;
-      }
-      if (key.includes("url") && !isSafeUrl(value)) {
-          attackMethod = `Potential Malicious URL detected in parameter: ${encodeURIComponent(value)}`;
-          detectedThreat = true;
-          break;
-      }
-  }
-
-    if (detectedThreat) {
-        showThreatScreen(attackMethod);
-    }
-}
-
-topSafeCheck();
-
-
-        // safe
-        function generateMemoryJamer() {
-            const jamTypes = ["strawberry%20jam", "bueberry%20jam", "raspberry%20jam", "cherry%20jam", "mango%20jam"];
+        function generateMemoryJammer() {
+            const jamTypes = ["strawberry%20jam", "blueberry%20jam", "raspberry%20jam", "cherry%20jam", "mango%20jam"];
             const randomJamType = jamTypes[Math.floor(Math.random() * jamTypes.length)];
-
-            const randomValue = Math.floor(Math.random() * 10000000000); 
-            const randomUid = 'xxxx-xxxx-xxxx'.replace(/[x]/g, function() { 
-                return (Math.random() * 16 | 0).toString(16); 
-            });
-
+            const randomValue = Math.floor(Math.random() * 10000000000);
+            const randomUid = crypto.randomUUID();
             return `jam=${randomUid}abc${randomValue}&type=${randomJamType}`;
         }
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id');
+        async function loadContent() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get("id");
+            if (!id) {
+                document.getElementById("loading").innerText = "No ID provided.";
+                return;
+            }
 
-        if (id) {
-            const memoryJamer = generateMemoryJamer();
-            const fetchUrl = `https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/corporations_page/${id}?${memoryJamer}`;
+            const memoryJammer = generateMemoryJammer();
+            const fetchUrl = `https://raw.githubusercontent.com/DrMineword/databasd_and_randomthings_wscd/refs/heads/main/corporations_page/${id}?${memoryJammer}`;
+            console.log("Fetching:", fetchUrl);
 
-            console.log("corpslasturl:", fetchUrl);
-            localStorage.setItem('corpslasturl', fetchUrl);
-
-            document.getElementById('loading').innerText = "Fetching content, please wait...";
-
-            fetch(fetchUrl, {
-                method: 'GET',
-                headers: {}
-            })
-            .then(response => response.json()) 
-            .then(data => {
-                if (data.html) {
-                    const decodedHtml = atob(data.html); // Decode Base64
-
-                    document.body.innerHTML = decodedHtml;
-
-                    // Execute scripts
-                    const scripts = Array.from(document.body.getElementsByTagName('script'));
-                    scripts.forEach(script => {
-                        const newScript = document.createElement('script');
-                        newScript.type = 'text/javascript';
-                        if (script.src) {
-                            newScript.src = script.src;
-                        } else {
-                            newScript.innerHTML = script.innerHTML;
-                        }
+            try {
+                document.getElementById("loading").innerText = "Fetching content, please wait...";
+                const response = await fetch(fetchUrl);
+                const data = await response.json();
+                
+                if (!data.html) throw new Error("Invalid JSON: Missing 'html' key");
+                const decodedHtml = atob(data.html);
+                
+                document.body.innerHTML = decodedHtml;
+                document.querySelectorAll("script").forEach(script => {
+                    if (script.src) {
+                        let newScript = document.createElement("script");
+                        newScript.src = script.src;
                         document.body.appendChild(newScript);
-                    });
-                } else {
-                    throw new Error("Invalid JSON format: Missing 'html' key");
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching the page:', error);
-                document.getElementById('loading').innerText = "Failed to load content. Please try again.";
-            });
-        } else {
-            document.getElementById('loading').innerText = "No ID provided in the URL.";
+                    } else {
+                        eval(script.innerText);
+                    }
+                });
+            } catch (error) {
+                console.error("Error fetching content:", error);
+                document.getElementById("loading").innerText = "Failed to load content.";
+            }
         }
+
+        loadContent();
     </script>
 
 </body>
